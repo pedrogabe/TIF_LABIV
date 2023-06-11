@@ -19,7 +19,8 @@ public class PacienteDaoImpl implements PacienteDao {
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.pacientes SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.pacientes SET Nombre = ?, Apellido = ?, Sexo = ?, Nacionalidad = ?, "
 			+ "FechaNacimiento = ?, Direccion = ?, Localidad = ?, Provincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
-	private static final String READALL = "SELECT * FROM clinica_medica.pacientes";
+	private static final String READALL = "SELECT * FROM "SELECT Dni, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, "
+			+ "Direccion, Localidad, Provincia, CorreoElectronico, Telefono, Estado FROM clinica_medica.pacientes";
 
 	@Override
 	public boolean insert(Paciente paciente) {
@@ -98,7 +99,7 @@ public class PacienteDaoImpl implements PacienteDao {
 		String apellido = resultSet.getString("Apellido");
 		String sexo = resultSet.getString("Sexo");
 		String nacionalidad = resultSet.getString("Nacionalidad");
-		String fechaNac = resultSet.getString("FechaNaciemiento");
+		String fechaNac = resultSet.getString("FechaNacimiento");
 		String direccion = resultSet.getString("Direccion");
 		String localidad = resultSet.getString("Localidad");
 		String provincia = resultSet.getString("Provincia");
