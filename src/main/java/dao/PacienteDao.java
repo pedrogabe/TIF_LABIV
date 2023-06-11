@@ -2,7 +2,7 @@ package dao;
 
 import java.util.List;
 
-import dominio.Paciente;
+import entidad.Paciente;
 
 public interface PacienteDao {
 	public boolean insert(Paciente paciente);
