@@ -65,7 +65,6 @@ Localidad VARCHAR(50) NULL,
 Provincia VARCHAR(50) NULL,
 CorreoElectronico VARCHAR(50) NULL,
 Telefono VARCHAR(50) NULL,
-IdJornada INT NOT NULL,
 Estado BIT NOT NULL
 );
 
