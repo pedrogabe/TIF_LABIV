@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.PacienteDao;
-import dominio.Paciente;
+import entidad.Paciente;
 
 public class PacienteDaoImpl implements PacienteDao {
 
