@@ -1,5 +1,6 @@
 
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="entidad.Paciente" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,6 +13,28 @@
 <body>
 	<%@include file="Nav.html"%>
 	
+	<%
+		//TODO -> Validar error / success
+		String op = request.getAttribute("op").toString();
+		int maxId = 0;
+		Paciente paciente;
+		if(op.equals("add")){
+			try{
+				maxId = (int)request.getAttribute("maxIdPaciente");
+			}catch(Exception e){
+				request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+			}
+		}else{
+			try{
+				paciente = (Paciente)request.getAttribute("paciente");
+				maxId = paciente.getDni();
+			}catch(Exception e){
+				request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+			}
+		}
+			
+	%>
+	
 	<form action="servletPaciente" method="post">
 		
 		<h2>Alta y Modificación de Pacientes</h2>
@@ -19,21 +42,8 @@
 		<table>
 			<tr>
 				<td><label>Id Paciente</label></td>
-				<%
-				String numId = "0";
-				if (request.getAttribute("MaxIdPaciente") != null) {
-					numId = request.getAttribute("MaxIdPaciente").toString();
-				%>
-				<td><input disabled type="number" value="<%=numId%>"
+				<td><input disabled type="number" value="<%=maxId%>"
 					name="txtIdPaciente"></td>
-				<%
-				} else {
-				%>
-				<td><input disabled type="number" value="<%=numId%>"
-					name="txtIdPaciente"></td>
-				<%
-				}
-				%>
 			</tr>
 			<tr>
 				<td><label>DNI</label></td>
@@ -84,8 +94,6 @@
 				<td><input type="text" name="txtTelefono" value="" required></td>
 			</tr>
 			<tr>
-				<td></td>
-				<td><input type="submit" name="btnBuscar" value="Buscar"></td>
 				<td><input type="submit" name="btnGrabar" value="Grabar"></td>
 			</tr>
 		</table>

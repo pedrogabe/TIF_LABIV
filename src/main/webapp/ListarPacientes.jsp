@@ -8,19 +8,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Listado de Pacientes</title>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-	
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#table_id').DataTable();
-	});
-
-</script>
+<%@include file="Datatable_init.html" %>
 
 </head>
 <body>
@@ -28,12 +19,11 @@
 
 	<h1>Listado de pacientes</h1>
 	
-	<a href="ABMLPaciente.jsp"><input type="submit" name="btnAgregarPaciente" value="Agregar Paciente"></a>
+	<a href="Pacientes?op=add"><input type="button" name="btnAgregarPaciente" value="Agregar Paciente"></a>
 	
 	<br><br><br>
-	
-	
-	<table border="1" id="table_id">
+
+	<table border="1" id="table_id" datatable="true">
 	
 	<thead>	
 		<tr>
@@ -69,7 +59,7 @@
                 <td>2011-07-25</td>
                 <td>mail@email.com</td>
                 <td>Avenida 432</td> 
-                <td><i class="fa fa-trash"></i></td>                     
+                <td><button class="fa fa-edit"></button><button class="fa fa-trash"></button></td>                     
             </tr>
 	</tbody>
 
