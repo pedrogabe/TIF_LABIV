@@ -17,19 +17,20 @@
 	
 	<%
 		//TODO -> Validar error / success
-		String op = request.getAttribute("op").toString();
+		String op = request.getAttribute("op") != null ? request.getAttribute("op").toString() : "add";
 		String apellido, nombre, dni, eMail, fechaNacimiento, localidad, nacionalidad, provincia, telefono, direccion;
 		apellido = nombre = dni = eMail = fechaNacimiento = localidad = nacionalidad = provincia = telefono = direccion = "";
 		int maxId = 0, sexo = 0;
 		Paciente paciente = null;
-		if(op.equals("add")){
+		if(op.equals("add") && request.getAttribute("maxIdPaciente")!=null){
 			try{
 				maxId = (int)request.getAttribute("maxIdPaciente");
 				maxId++;
 			}catch(Exception e){
-				request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+				request.setAttribute("error", "400"); //TODO -> Cambiar mensaje
 			}
-		}else{
+		}
+		if(request.getAttribute("paciente") != null || !op.equals("add")){
 			try{
 				paciente = (Paciente)request.getAttribute("paciente");
 				maxId = paciente.getId();
@@ -51,7 +52,7 @@
 			
 	%>
 	
-	<form action="servletPaciente" method="post">
+	<form action="Pacientes?op=<%= op %>" method="post">
 		
 		<h2>Alta y Modificación de Pacientes</h2>
 		<br>
@@ -72,10 +73,10 @@
 			<tr>
 				<td><label>Apellido</label></td>
 				<td><input type="text" name="txtApellido" value="<%= apellido %>" required></td>
-			</tr>			
+			</tr>
 			<tr>
-				<td><label>Nacionalidad</label></td>
-				<td><input type="text" name="txtNacionalidad" value="<%= nacionalidad %>" required></td>
+				<td><label>Fecha Nacimiento</label></td>
+				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Sexo</label></td>
@@ -86,20 +87,20 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td><label>Fecha Nacimiento</label></td>
-				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento %>" required></td>
-			</tr>
-			<tr>
 				<td><label>Direccion</label></td>
 				<td><input type="text" name="txtDireccion" value="<%= direccion %>" required></td>
-			</tr>
+			</tr>	
 			<tr>
-				<td><label>Localidad</label></td>
-				<td><input type="text" name="txtLocalidad" value="<%= localidad%>" required></td>
+				<td><label>Nacionalidad</label></td>
+				<td><input type="text" name="txtNacionalidad" value="<%= nacionalidad %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Provincia</label></td>
 				<td><input type="text" name="txtProvincia" value="<%= provincia %>" required></td>
+			</tr>
+			<tr>
+				<td><label>Localidad</label></td>
+				<td><input type="text" name="txtLocalidad" value="<%= localidad%>" required></td>
 			</tr>
 			<tr>
 				<td><label>Corro Electronico</label></td>

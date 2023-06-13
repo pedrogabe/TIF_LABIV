@@ -19,7 +19,7 @@ public class PacienteDaoImpl implements PacienteDao {
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.pacientes SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.pacientes SET Nombre = ?, Apellido = ?, Sexo = ?, Nacionalidad = ?, "
 			+ "FechaNacimiento = ?, Direccion = ?, Localidad = ?, Provincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
-	private static final String READALL = "SELECT * FROM "SELECT Dni, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, "
+	private static final String READALL = "SELECT Dni, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, "
 			+ "Direccion, Localidad, Provincia, CorreoElectronico, Telefono, Estado FROM clinica_medica.pacientes";
 
 	@Override
@@ -94,6 +94,7 @@ public class PacienteDaoImpl implements PacienteDao {
 	}
 
 	private Paciente getPaciente(ResultSet resultSet) throws SQLException {
+		int id = resultSet.getInt("id");
 		int dni = resultSet.getInt("Dni");
 		String nombre = resultSet.getString("Nombre");
 		String apellido = resultSet.getString("Apellido");
@@ -106,7 +107,7 @@ public class PacienteDaoImpl implements PacienteDao {
 		String correoElec = resultSet.getString("CorreoElectronico");
 		String telefono = resultSet.getString("Telefono");
 		int estado = resultSet.getInt("Estado");
-		return new Paciente(dni, nombre, apellido, sexo, nacionalidad, fechaNac, direccion, localidad, provincia,
+		return new Paciente(id, dni, nombre, apellido, sexo, nacionalidad, fechaNac, direccion, localidad, provincia,
 				correoElec, telefono, estado);
 	}
 
