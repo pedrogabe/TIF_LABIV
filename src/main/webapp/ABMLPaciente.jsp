@@ -103,7 +103,7 @@
 				<td><input type="text" name="txtLocalidad" value="<%= localidad%>" required></td>
 			</tr>
 			<tr>
-				<td><label>Corro Electronico</label></td>
+				<td><label>Correo Electrónico</label></td>
 				<td><input type="email" name="txtEmail" value="<%= eMail %>" required></td>
 			</tr>
 			<tr>
