@@ -69,18 +69,20 @@ public class ABMPacientes extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.removeAttribute("error");
 		request.removeAttribute("success");
-		Paciente paciente = null;
+		Paciente paciente = new Paciente();
 		if(fillPaciente(request, paciente)) {
 			if(true) { //TODO -> call negocio para guardar
-				 request.setAttribute("success", "Éxito");//TODO -> cambiar mensaje
+				 request.setAttribute("success", 
+						 String.format("Se agregó el paciente %s (Dni %s)", paciente.getId(), paciente.getDni()));
+				//TODO -> return max id + 1
+				request.setAttribute("maxIdPaciente", 1001);
 			}
 		}
 		else{
 			request.setAttribute("error", "Datos"); //TODO -> cambiar mensaje
-			
+			request.setAttribute("paciente", paciente);			
 		}
 		
-		request.setAttribute("paciente", paciente);
 		RequestDispatcher rd = request.getRequestDispatcher("ABMLPaciente.jsp?1");
 		rd.forward(request, response);
 	}
