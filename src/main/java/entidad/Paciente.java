@@ -116,7 +116,7 @@ public class Paciente {
 	@Override
 	public String toString() {
 		String est = this.estado == 0 ? "Inactivo" : "Activo"; 
-		String sexo = this.estado == 0 ? "No indica" : (this.estado == 1 ? "Femenino" : "Masculino"); //TODO -> Sacar de otro lado 
+		String sexo = this.sexo == 0 ? "No indica" : (this.sexo == 1 ? "Femenino" : "Masculino"); //TODO -> Sacar de otro lado 
 		return "Pacciente "+ id + ": Dni=" + dni + ", Nombre=" + nombre + ", Apellido=" + apellido + ", Sexo=" + sexo
 				+ ", Nacionalidad=" + nacionalidad + ", FechaNacimiento=" + fechaNacimiento + ", Direccion=" + direccion
 				+ ", Localidad=" + localidad + ", Provincia=" + provincia + ", eMail=" + eMail + ", Telefono=" + telefono + ", Estado=" + est;
