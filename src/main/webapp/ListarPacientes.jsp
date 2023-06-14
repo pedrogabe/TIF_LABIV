@@ -66,7 +66,7 @@
                 <td><%= paciente.getFechaNacimiento() %></td>
                 <td><%= paciente.geteMail() %></td>
                 <td><%= paciente.getDireccion() %></td>
-                <td><a href="/Pacientes?op=delete&id=<%= paciente.getId() %>"><i class="fa fa-trash"></i></a></td>            
+                <td><a href="Pacientes?op=delete&id=<%= paciente.getId() %>"><i class="fa fa-trash"></i></a></td>            
             </tr>
           <%} %>
 	</tbody>
