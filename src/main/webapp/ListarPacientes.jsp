@@ -1,11 +1,15 @@
 <%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="entidad.Paciente"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style>
+	<%@include file="estilo.css" %>
+</style>
 <title>Listado de Pacientes</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,6 +20,19 @@
 </head>
 <body>
 	<%@include file="Nav.html"%>
+	
+	<%
+		String error = (String)request.getAttribute("error");
+		List<Paciente> pacientes;
+		if(request.getAttribute("pacientes") == null){
+			pacientes = new ArrayList<Paciente>();
+			if(error==null)
+				error = "Error al cargar el listado de pacientes"; //TODO -> Revisar mensaje
+		}
+		else{
+			pacientes = (List<Paciente>)request.getAttribute("pacientes");
+		}
+	%>
 
 	<h1>Listado de pacientes</h1>
 	
@@ -39,31 +56,29 @@
 		</tr>
 	</thead>	
 	<tbody>
+		<% for(Paciente paciente : pacientes) { %>
 	         <tr>
-	            <td>61</td>
-	            <td>32.080.023</td>
-                <td>Prescott</td>
-                <td>Bartlett</td>
-              	<td>F</td>
-                <td>2011-04-25</td>
-                <td>mail@email.com</td>
-                <td>Calle 234</td>
-                <td><i class="fa fa-trash"></i></td>            
+	            <td><%= paciente.getId() %></td>
+	            <td><%= paciente.getDni() %></td>
+                <td><%= paciente.getNombre() %></td>
+                <td><%= paciente.getApellido() %></td>
+              	<td><%= paciente.getSexo() == 0 ? "No indica" : (paciente.getSexo() == 1 ? "Femenino" : "Masculino")/*TODO -> Sacar string de otra manera*/ %></td>
+                <td><%= paciente.getFechaNacimiento() %></td>
+                <td><%= paciente.geteMail() %></td>
+                <td><%= paciente.getDireccion() %></td>
+                <td><a href="/Pacientes?op=delete&id=<%= paciente.getId() %>"><i class="fa fa-trash"></i></a></td>            
             </tr>
-            <tr>
-                <td>443</td>
-                <td>17.075.320</td>
-                <td>Olivia </td>
-                <td>Lang</td>
-                <td>M</td>
-                <td>2011-07-25</td>
-                <td>mail@email.com</td>
-                <td>Avenida 432</td> 
-                <td><button class="fa fa-edit"></button><button class="fa fa-trash"></button></td>                     
-            </tr>
+          <%} %>
 	</tbody>
 
 	</table>
+	
+			<% if(request.getAttribute("success")!=null) {%>
+			<div class="success"><%= request.getAttribute("success") %></div>
+		<% } %>
+		<% if(request.getAttribute("error")!=null) {%>
+			<div class="error"><%= request.getAttribute("error") %></div>
+		<% } %>
 
 </body>
 </html>
