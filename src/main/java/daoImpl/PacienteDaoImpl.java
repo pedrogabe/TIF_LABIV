@@ -19,7 +19,7 @@ public class PacienteDaoImpl implements PacienteDao {
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.pacientes SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.pacientes SET Nombre = ?, Apellido = ?, Sexo = ?, Nacionalidad = ?, "
 			+ "FechaNacimiento = ?, Direccion = ?, Localidad = ?, Provincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
-	private static final String READALL = "SELECT * FROM "SELECT Dni, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, "
+	private static final String READALL = "SELECT Dni, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, "
 			+ "Direccion, Localidad, Provincia, CorreoElectronico, Telefono, Estado FROM clinica_medica.pacientes";
 
 	@Override
