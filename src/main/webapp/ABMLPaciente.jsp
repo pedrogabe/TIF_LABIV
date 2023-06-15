@@ -52,8 +52,8 @@
 			
 	%>
 	
-	<form action="Pacientes?op=<%= op %>" method="post">
-		
+	<form action="Pacientes" method="post">
+		<input type="hidden" name="hfId" value="<%=maxId%>"/>
 		<h2>Alta y Modificación de Pacientes</h2>
 		<br>
 		<table>
@@ -111,7 +111,12 @@
 				<td><input type="text" name="txtTelefono" value="<%= telefono %>" required></td>
 			</tr>
 			<tr>
-				<td><input type="submit" name="btnGrabar" value="Grabar"></td>
+				<% if(op.equals("add")) {%>
+					<td><input type="submit" name="btnGrabar" value="Grabar"></td>
+				<% } else { %>
+					<td><input type="submit" name="btnActualizar" value="Grabar"></td>
+					<td><input type="submit" name="btnEliminar" value="Eliminar"></td>
+				<% } %>
 			</tr>
 		</table>
 		
