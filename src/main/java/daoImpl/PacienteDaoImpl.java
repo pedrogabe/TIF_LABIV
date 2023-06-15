@@ -94,7 +94,6 @@ public class PacienteDaoImpl implements PacienteDao {
 	}
 
 	private Paciente getPaciente(ResultSet resultSet) throws SQLException {
-		int id = resultSet.getInt("id");
 		int dni = resultSet.getInt("Dni");
 		String nombre = resultSet.getString("Nombre");
 		String apellido = resultSet.getString("Apellido");
@@ -107,7 +106,7 @@ public class PacienteDaoImpl implements PacienteDao {
 		String correoElec = resultSet.getString("CorreoElectronico");
 		String telefono = resultSet.getString("Telefono");
 		int estado = resultSet.getInt("Estado");
-		return new Paciente(id, dni, nombre, apellido, sexo, nacionalidad, fechaNac, direccion, localidad, provincia,
+		return new Paciente(dni, nombre, apellido, sexo, nacionalidad, fechaNac, direccion, localidad, provincia,
 				correoElec, telefono, estado);
 	}
 
