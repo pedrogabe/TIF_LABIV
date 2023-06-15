@@ -1,26 +1,25 @@
 package entidad;
 
 public class Paciente {	
-	//TODO -> Agregar composición
-	private int id;
+		
 	private int dni;
 	private String nombre;
 	private String apellido;
-	private int sexo;
-	private String nacionalidad;
+	private String sexo;
+	private Nacionalidad nacionalidad;
 	private String fechaNacimiento;
 	private String direccion;
-	private String localidad;
-	private String provincia;
+	private Localidad localidad;
+	private Provincia provincia;
 	private String eMail;
 	private String telefono;	
 	private int estado;
 	
+	public Paciente(){		
+	}
 	
-	public Paciente(int id, int dni, String nombre, String apellido, int sexo, String nacionalidad, String fechaNacimiento,
-			String direccion, String localidad, String provincia, String eMail, String telefono, int estado) {
-		super();
-		this.id = id;
+	public Paciente(int dni, String nombre, String apellido, String sexo, Nacionalidad nacionalidad, String fechaNacimiento,
+			String direccion, Localidad localidad, Provincia provincia, String eMail, String telefono, int estado) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -34,16 +33,7 @@ public class Paciente {
 		this.telefono = telefono;
 		this.estado = estado;
 	}	
-	
-	public Paciente() {super();}
-	
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getDni() {
 		return dni;
 	}
@@ -62,16 +52,16 @@ public class Paciente {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public int getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
-	public void setSexo(int sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public String getNacionalidad() {
+	public Nacionalidad getNacionalidad() {
 		return nacionalidad;
 	}
-	public void setNacionalidad(String nacionalidad) {
+	public void setNacionalidad(Nacionalidad nacionalidad) {
 		this.nacionalidad = nacionalidad;
 	}
 	public String getFechaNacimiento() {
@@ -86,16 +76,16 @@ public class Paciente {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	public String getLocalidad() {
+	public Localidad getLocalidad() {
 		return localidad;
 	}
-	public void setLocalidad(String localidad) {
+	public void setLocalidad(Localidad localidad) {
 		this.localidad = localidad;
 	}
-	public String getProvincia() {
+	public Provincia getProvincia() {
 		return provincia;
 	}
-	public void setProvincia(String provincia) {
+	public void setProvincia(Provincia provincia) {
 		this.provincia = provincia;
 	}
 	public String geteMail() {
@@ -119,11 +109,10 @@ public class Paciente {
 	
 	@Override
 	public String toString() {
-		String est = this.estado == 0 ? "Inactivo" : "Activo"; 
-		String sexo = this.sexo == 0 ? "No indica" : (this.sexo == 1 ? "Femenino" : "Masculino"); //TODO -> Sacar de otro lado 
-		return "Pacciente "+ id + ": Dni=" + dni + ", Nombre=" + nombre + ", Apellido=" + apellido + ", Sexo=" + sexo
-				+ ", Nacionalidad=" + nacionalidad + ", FechaNacimiento=" + fechaNacimiento + ", Direccion=" + direccion
-				+ ", Localidad=" + localidad + ", Provincia=" + provincia + ", eMail=" + eMail + ", Telefono=" + telefono + ", Estado=" + est;
+		String est = this.estado == 0 ? "Incativo" : "Activo"; 
+		return "Persona Dni=" + dni + ", Nombre=" + nombre + ", Apellido=" + apellido + ", Sexo=" + sexo
+				+ ", Nacionalidad=" + nacionalidad.getNacionalidad() + ", FechaNacimiento=" + fechaNacimiento + ", Direccion=" + direccion
+				+ ", Localidad=" + localidad.getLocalidad() + ", Provincia=" + provincia.getProvincia() + ", eMail=" + eMail + ", Telefono=" + telefono + ", Estado=" + est;
 	}	
 
 }
