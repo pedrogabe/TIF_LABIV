@@ -4,16 +4,25 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>LOGON</title>
+<title>LOGIN</title>
+
 </head>
 <body>
+<div align=left>
 	<h1>Iniciar sesion</h1>
-	<form method="post" action="Login.jsp">
-		<label for="username">Nombre de usuario:</label><br>
-		<input type="text" id="username" name="username"><br>
-		<label for="password">Contrase�a:</label><br>
-		<input type="password" id="password" name="password"><br><br>
-		<input type="submit" value="Iniciar sesion">
+</div>
+	<form action=servletLogin method=post>
+		
+		<table>
+			<tr><td>Usuario: </td><td><input type=text name= txtUsuario></td></tr>
+		    <tr><td>Contraseña: </td><td><input type=password name= txtContraseña></td></tr>
+		    <tr><td><input type=submit value=Login></td><td><input type=reset></td></tr>
+		</table>
+	
+	
 	</form>
+	
+	
+	
 </body>
 </html>
