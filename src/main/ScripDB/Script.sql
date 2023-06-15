@@ -61,7 +61,6 @@ CREATE TABLE Jornadas (
 
 CREATE TABLE Pacientes (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    IdPerfil INT NULL,
     Dni VARCHAR(10) NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     Apellido VARCHAR(50) NOT NULL,
@@ -69,10 +68,10 @@ CREATE TABLE Pacientes (
     IdNacionalidad INT NOT NULL,
     FechaNacimiento DATETIME NOT NULL,
     Direccion VARCHAR(50) NOT NULL,
+    IdProvincia INT NOT NULL,
     IdLocalidad INT NOT NULL,
     CorreoElectronico VARCHAR(50) NOT NULL,
     Telefono VARCHAR(50) NOT NULL,
-    IdJornada INT NOT NULL,
     Estado BIT NOT NULL,
     CONSTRAINT FK_PacientePerfil FOREIGN KEY (IdPerfil) REFERENCES Perfiles(IdPerfil),
     CONSTRAINT FK_PacienteNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidades(IdNacionalidad),
