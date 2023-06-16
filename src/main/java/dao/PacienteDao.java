@@ -8,5 +8,6 @@ public interface PacienteDao {
 	public boolean insert(Paciente paciente);
 	public boolean update(Paciente paciente, boolean esBaja);
 	public List<Paciente> readAll();
+	public Paciente searachPaciente(int dni);
 	public int selectCount(Paciente paciente);
 }
