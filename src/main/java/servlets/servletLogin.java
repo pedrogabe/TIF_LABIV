@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.LoginDao;
-import daoImpl.LoginDaoImpl;
 import entidad.Usuario;
+import negocio.LoginNegocio;
+import negocioImpl.LoginNegocioImpl;
 
 
 
@@ -34,16 +34,15 @@ public class servletLogin extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	
-// TODO: Se Debe llamar al negocio...
-		
+				
 		if (request.getParameter("txtUsuario") != null && request.getParameter("txtContraseña") != null) {
 				
-				String UserLogin= (request.getParameter("txtUsuario").toString());
-				String Password= (request.getParameter("txtContraseña").toString());
+				String userLogin= (request.getParameter("txtUsuario").toString());
+				String password= (request.getParameter("txtContraseña").toString());
 				
-				Usuario usuario = ValidarUsuario(request,UserLogin,Password);
+				LoginNegocio lg = new LoginNegocioImpl();
+				
+				Usuario usuario = lg.ValidarUsuario(userLogin,password);
 				if(usuario != null) {
 					
 			
@@ -63,12 +62,5 @@ public class servletLogin extends HttpServlet {
 
 	}
 	
-	// TODO: Debe estar en la capa de negocio... lo genere para prueba 
-	
-	protected Usuario ValidarUsuario(HttpServletRequest request, String UserLogin,String Password) {
-		LoginDao s = new LoginDaoImpl();
-		
-		return s.readUser(UserLogin,Password);
-	}
 
 }
