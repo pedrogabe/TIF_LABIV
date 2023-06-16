@@ -16,7 +16,7 @@ public class LocalidadDaoImpl implements LocalidadDao {
 			+ "FROM clinica_medica.localidades l INNER JOIN clinica_medica.provincias n ON n.IdProvincia = l.IdProvincia";
 
 	@Override
-	public List<Localidad> readAll() {
+	public ArrayList<Localidad> readAll() {
 		PreparedStatement statement;
 		ResultSet resultSet;
 		ArrayList<Localidad> localidades = new ArrayList<Localidad>();
@@ -36,8 +36,8 @@ public class LocalidadDaoImpl implements LocalidadDao {
 	private Localidad getLocalidad(ResultSet resultSet) throws SQLException {
 		int idLocalidad = resultSet.getInt("IdLocalidad");
 		String localidad = resultSet.getString("Localidad");
-		int idProvincia = resultSet.getInt("IdNacionalidad");
-		String provincia = resultSet.getString("Nacionalidad");
+		int idProvincia = resultSet.getInt("IdProvincia");
+		String provincia = resultSet.getString("Provincia");
 
 		return new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia));
 	}
