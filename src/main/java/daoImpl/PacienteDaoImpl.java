@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.PacienteDao;
+import entidad.Localidad;
+import entidad.Nacionalidad;
 import entidad.Paciente;
+import entidad.Provincia;
 
 public class PacienteDaoImpl implements PacienteDao {
 
@@ -19,8 +22,15 @@ public class PacienteDaoImpl implements PacienteDao {
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.pacientes SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.pacientes SET Nombre = ?, Apellido = ?, Sexo = ?, Nacionalidad = ?, "
 			+ "FechaNacimiento = ?, Direccion = ?, Localidad = ?, Provincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
-	private static final String READALL = "SELECT Dni, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, "
-			+ "Direccion, Localidad, Provincia, CorreoElectronico, Telefono, Estado FROM clinica_medica.pacientes";
+	private static final String READALL = "SELECT p.Id, p.Dni, p.Nombre, p.Apellido, p.Sexo, p.IdNacionalidad, n.Nacionalidad, p.FechaNacimiento, p.Direccion, "
+			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, CorreoElectronico, Telefono, Estado "
+			+ "FROM clinica_medica.pacientes p "
+			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = p.IdNacionalidad "
+			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = p.IdProvincia "
+			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = p.IdLocalidad";
+	private static final String SEARCH = "SELECT p.Id, p.Dni, p.Nombre, p.Apellido, p.Sexo, p.IdNacionalidad, n.Nacionalidad, p.FechaNacimiento, p.Direccion, "
+			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, CorreoElectronico, Telefono, Estado "
+			+ "FROM clinica_medica.pacientes WHERE Dni = ?";
 
 	@Override
 	public boolean insert(Paciente paciente) {
@@ -33,11 +43,11 @@ public class PacienteDaoImpl implements PacienteDao {
 			statement.setString(2, paciente.getNombre());
 			statement.setString(3, paciente.getApellido());
 			statement.setString(4, paciente.getSexo());
-			statement.setString(5, paciente.getNacionalidad());
+			statement.setInt(5, paciente.getNacionalidad().getIdNacionalidad());
 			statement.setString(6, paciente.getFechaNacimiento());
 			statement.setString(7, paciente.getDireccion());
-			statement.setString(8, paciente.getLocalidad());
-			statement.setString(9, paciente.getProvincia());
+			statement.setInt(8, paciente.getLocalidad().getIdLocalidad());
+			statement.setInt(9, paciente.getProvincia().getIdProvincia());
 			statement.setString(10, paciente.geteMail());
 			statement.setString(11, paciente.getTelefono());
 			statement.setInt(12, paciente.getEstado());
@@ -98,16 +108,21 @@ public class PacienteDaoImpl implements PacienteDao {
 		String nombre = resultSet.getString("Nombre");
 		String apellido = resultSet.getString("Apellido");
 		String sexo = resultSet.getString("Sexo");
+		int idNacionalidad = resultSet.getInt("IdNacionalidad");
 		String nacionalidad = resultSet.getString("Nacionalidad");
 		String fechaNac = resultSet.getString("FechaNacimiento");
 		String direccion = resultSet.getString("Direccion");
+		int idLocalidad = resultSet.getInt("IdLocalidad");
 		String localidad = resultSet.getString("Localidad");
+		int idProvincia = resultSet.getInt("IdProvincia");
 		String provincia = resultSet.getString("Provincia");
 		String correoElec = resultSet.getString("CorreoElectronico");
 		String telefono = resultSet.getString("Telefono");
 		int estado = resultSet.getInt("Estado");
-		return new Paciente(dni, nombre, apellido, sexo, nacionalidad, fechaNac, direccion, localidad, provincia,
-				correoElec, telefono, estado);
+				
+		
+		return new Paciente(dni, nombre, apellido, sexo, new Nacionalidad(idNacionalidad,nacionalidad), fechaNac, direccion, 
+				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado);
 	}
 
 	@Override
@@ -144,11 +159,11 @@ public class PacienteDaoImpl implements PacienteDao {
 			statement.setString(1, paciente.getNombre());
 			statement.setString(2, paciente.getApellido());
 			statement.setString(3, paciente.getSexo());
-			statement.setString(4, paciente.getNacionalidad());
+			statement.setInt(4, paciente.getNacionalidad().getIdNacionalidad());
 			statement.setString(5, paciente.getFechaNacimiento());
 			statement.setString(6, paciente.getDireccion());
-			statement.setString(7, paciente.getLocalidad());
-			statement.setString(8, paciente.getProvincia());
+			statement.setInt(7, paciente.getLocalidad().getIdLocalidad());
+			statement.setInt(8, paciente.getProvincia().getIdProvincia());
 			statement.setString(9, paciente.geteMail());
 			statement.setString(10, paciente.getTelefono());
 			statement.setInt(11, paciente.getEstado());
@@ -160,6 +175,25 @@ public class PacienteDaoImpl implements PacienteDao {
 		} catch (SQLException e) {
 		}
 		return actualizado;
+	}
+
+	@Override
+	public Paciente searachPaciente(int dni) {
+		PreparedStatement statement;
+		ResultSet resultSet;
+		Paciente paciente = null;
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(SEARCH);
+			statement.setInt(1, dni);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				paciente = getPaciente(resultSet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return paciente;
 	}
 
 }
