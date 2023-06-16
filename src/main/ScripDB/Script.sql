@@ -40,11 +40,9 @@ CREATE TABLE Localidades (
 );
 
 CREATE TABLE Jornadas (
-    IdJornada INT IDENTITY(1,1) PRIMARY KEY, 
-
+    IdJornada INT AUTO_INCREMENT PRIMARY KEY,
     Descripcion VARCHAR(50) NOT NULL,
     Estado BIT NOT NULL,
-
     Lunes BIT NOT NULL,
     Martes BIT NOT NULL,
     Miercoles BIT NOT NULL,
@@ -52,16 +50,14 @@ CREATE TABLE Jornadas (
     Viernes BIT NOT NULL,
     Sabado BIT NOT NULL,
     Domingo BIT NOT NULL,
-
     Inicio INT NOT NULL,
     Fin INT NOT NULL,
-
-    CONSTRAINT UK_JornadaInicioFin UNIQUE (IdJornada, Inicio, Fin, Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo)
+    CONSTRAINT UK_JornadaInicioFin UNIQUE (IdJornada, Inicio, Fin, Lunes, Martes, Miercoles, Jueves, Viernes, Sabado, Domingo)
 );
+
 
 CREATE TABLE Pacientes (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    IdPerfil INT NULL,
     Dni VARCHAR(10) NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     Apellido VARCHAR(50) NOT NULL,
@@ -69,12 +65,11 @@ CREATE TABLE Pacientes (
     IdNacionalidad INT NOT NULL,
     FechaNacimiento DATETIME NOT NULL,
     Direccion VARCHAR(50) NOT NULL,
+    IdProvincia INT NOT NULL,
     IdLocalidad INT NOT NULL,
     CorreoElectronico VARCHAR(50) NOT NULL,
     Telefono VARCHAR(50) NOT NULL,
-    IdJornada INT NOT NULL,
     Estado BIT NOT NULL,
-    CONSTRAINT FK_PacientePerfil FOREIGN KEY (IdPerfil) REFERENCES Perfiles(IdPerfil),
     CONSTRAINT FK_PacienteNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidades(IdNacionalidad),
     CONSTRAINT FK_PacienteLocalidad FOREIGN KEY (IdLocalidad) REFERENCES Localidades(IdLocalidad)
 );
@@ -93,8 +88,7 @@ CREATE TABLE Medicos (
     CorreoElectronico VARCHAR(50) NOT NULL,
     Telefono VARCHAR(50) NOT NULL,
     IdJornada INT NOT NULL,
-    Estado BIT NOT NULL,
-    CONSTRAINT FK_MedicoPerfil FOREIGN KEY (IdPerfil) REFERENCES Perfiles(IdPerfil),
+    Estado BIT NOT NULL,   
     CONSTRAINT FK_MedicoJornada FOREIGN KEY (IdJornada) REFERENCES Jornadas(IdJornada),
     CONSTRAINT FK_MedicoLocalidad FOREIGN KEY (IdLocalidad) REFERENCES Localidades(IdLocalidad),
     CONSTRAINT FK_MedicoNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidades(IdNacionalidad),
@@ -142,3 +136,46 @@ VALUES ('admin', 'admin', 1);
 -- Insertar usuario médico
 INSERT INTO Usuarios (UserLogin, Password, IdPerfil)
 VALUES ('medico', 'medico', 2);
+
+-- Insertar nacionalidad
+INSERT INTO Nacionalidades (Nacionalidad) VALUES   
+    ('Argentina');
+
+---Insertar 4 provincias 
+INSERT INTO Provincias (Provincia) VALUES
+    ('Buenos Aires'),
+    ('Córdoba'),
+    ('Santa Fe'),
+    ('Mendoza');
+    
+---insertar 5 localidades para cada provincia
+
+-- Insertar localidades para la provincia de Buenos Aires
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+    ('La Plata', 1),
+    ('Mar del Plata', 1),
+    ('Bahía Blanca', 1),
+    ('Quilmes', 1);
+
+-- Insertar localidades para la provincia de Córdoba
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+    ('Córdoba', 2),
+    ('Villa María', 2),
+    ('Río Cuarto', 2),
+    ('Alta Gracia', 2);
+
+-- Insertar localidades para la provincia de Santa Fe
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+    ('Rosario', 3),
+    ('Santa Fe', 3),
+    ('Rafaela', 3),
+    ('Venado Tuerto', 3);
+
+-- Insertar localidades para la provincia de Mendoza
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+    ('Mendoza', 4),
+    ('San Rafael', 4),
+    ('Godoy Cruz', 4),
+    ('Luján de Cuyo', 4);
+
+ 
