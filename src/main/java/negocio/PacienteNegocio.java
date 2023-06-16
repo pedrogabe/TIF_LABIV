@@ -12,8 +12,3 @@ public interface PacienteNegocio {
 	public boolean exists(Paciente paciente);
 }
 
-
-
-
-
-

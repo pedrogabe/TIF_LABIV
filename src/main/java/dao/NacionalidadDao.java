@@ -1,9 +1,9 @@
 package dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import entidad.Nacionalidad;
 
 public interface NacionalidadDao {
-	public List<Nacionalidad> readAll();
+	public ArrayList<Nacionalidad> readAll();
 }

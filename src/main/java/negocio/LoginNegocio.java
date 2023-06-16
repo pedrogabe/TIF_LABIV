@@ -1,5 +1,6 @@
 package negocio;
 
+
 import entidad.Usuario;
 
 public interface LoginNegocio {

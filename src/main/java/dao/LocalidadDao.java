@@ -1,10 +1,10 @@
 package dao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import entidad.Localidad;
 
 public interface LocalidadDao {
 
-	public List<Localidad> readAll();
+	public ArrayList<Localidad> readAll();
 }

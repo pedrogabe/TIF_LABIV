@@ -1,9 +1,10 @@
 package dao;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 import entidad.Provincia;
 
 public interface ProvinciaDao {
-	public List<Provincia> readAll();
+	public ArrayList<Provincia> readAll();
 }

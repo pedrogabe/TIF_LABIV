@@ -15,8 +15,8 @@ import entidad.Provincia;
 
 public class PacienteDaoImpl implements PacienteDao {
 
-	private static final String INSERT = "INSERT INTO clinica_medica.pacientes (Dni, Nombre, Apellido, Sexo, Nacionalidad, FechaNacimiento, "
-			+ "Direccion, Localidad, Provincia, CorreoElectronico, Telefono, Estado) "
+	private static final String INSERT = "INSERT INTO clinica_medica.pacientes (Dni, Nombre, Apellido, Sexo, idNacionalidad, FechaNacimiento, "
+			+ "Direccion, idLocalidad, idProvincia, CorreoElectronico, Telefono, Estado) "
 			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.pacientes WHERE Dni = ?";
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.pacientes SET Estado = ? WHERE Dni = ?";
@@ -30,7 +30,10 @@ public class PacienteDaoImpl implements PacienteDao {
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = p.IdLocalidad";
 	private static final String SEARCH = "SELECT p.Id, p.Dni, p.Nombre, p.Apellido, p.Sexo, p.IdNacionalidad, n.Nacionalidad, p.FechaNacimiento, p.Direccion, "
 			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, CorreoElectronico, Telefono, Estado "
-			+ "FROM clinica_medica.pacientes WHERE Dni = ?";
+			+ "FROM clinica_medica.pacientes p "
+			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = p.IdNacionalidad "
+			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = p.IdProvincia "
+			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = p.IdLocalidad WHERE p.Dni = ?";
 
 	@Override
 	public boolean insert(Paciente paciente) {
@@ -50,7 +53,7 @@ public class PacienteDaoImpl implements PacienteDao {
 			statement.setInt(9, paciente.getProvincia().getIdProvincia());
 			statement.setString(10, paciente.geteMail());
 			statement.setString(11, paciente.getTelefono());
-			statement.setInt(12, paciente.getEstado());
+			statement.setInt(12, 1);
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;

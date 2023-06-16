@@ -7,5 +7,3 @@ public interface LoginDao {
 
 	public Usuario readUser(String usuario,String password);
 }
-
-

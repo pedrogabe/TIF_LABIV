@@ -42,7 +42,9 @@ public class PacienteNegocioImpl implements PacienteNegocio{
 		boolean estado=false;
 		if(paciente.getDni() > 0)
 		{
-			estado = true;
+		  Paciente p =	pdao.searachPaciente(paciente.getDni());
+		  if (p != null)
+			  estado = true;
 		}
 		return estado;
 	}

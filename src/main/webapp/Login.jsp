@@ -15,7 +15,7 @@
 		
 		<table>
 			<tr><td>Usuario: </td><td><input type=text name= txtUsuario></td></tr>
-		    <tr><td>ContraseÃ±a: </td><td><input type=password name= txtContraseÃ±a></td></tr>
+		    <tr><td>Contraseña: </td><td><input type=password name= txtContraseña></td></tr>
 		    <tr><td><input type=submit value=Login></td><td><input type=reset></td></tr>
 		</table>
 	

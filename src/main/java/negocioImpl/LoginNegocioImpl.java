@@ -1,5 +1,6 @@
 package negocioImpl;
 
+
 import dao.LoginDao;
 import daoImpl.LoginDaoImpl;
 import entidad.Usuario;

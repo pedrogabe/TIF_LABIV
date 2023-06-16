@@ -4,18 +4,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 import dao.ProvinciaDao;
 import entidad.Provincia;
 
 public class ProvinciaDaoImpl implements ProvinciaDao {
-
-	private static final String READALL = "SELECT n.IdProvincia, n.Provincia"
-			+ "FROM clinica_medica.provincias n";
-
+	private static final String READALL = "SELECT * FROM clinica_medica.provincias";
+	
 	@Override
-	public List<Provincia> readAll() {
+	public ArrayList<Provincia> readAll() {
 		PreparedStatement statement;
 		ResultSet resultSet;
 		ArrayList<Provincia> provincias = new ArrayList<Provincia>();
@@ -33,8 +31,8 @@ public class ProvinciaDaoImpl implements ProvinciaDao {
 	}
 
 	private Provincia getProvincia(ResultSet resultSet) throws SQLException {
-		int idProvincia = resultSet.getInt("IdNacionalidad");
-		String provincia = resultSet.getString("Nacionalidad");
+		int idProvincia = resultSet.getInt("idProvincia");
+		String provincia = resultSet.getString("provincia");
 
 		return new Provincia(idProvincia, provincia);
 	}

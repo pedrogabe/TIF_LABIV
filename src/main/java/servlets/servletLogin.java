@@ -34,7 +34,8 @@ public class servletLogin extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				
+		
+		
 		if (request.getParameter("txtUsuario") != null && request.getParameter("txtContraseña") != null) {
 				
 				String userLogin= (request.getParameter("txtUsuario").toString());
