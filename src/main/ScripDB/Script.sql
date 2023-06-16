@@ -40,11 +40,9 @@ CREATE TABLE Localidades (
 );
 
 CREATE TABLE Jornadas (
-    IdJornada INT IDENTITY(1,1) PRIMARY KEY, 
-
+    IdJornada INT AUTO_INCREMENT PRIMARY KEY,
     Descripcion VARCHAR(50) NOT NULL,
     Estado BIT NOT NULL,
-
     Lunes BIT NOT NULL,
     Martes BIT NOT NULL,
     Miercoles BIT NOT NULL,
@@ -52,12 +50,11 @@ CREATE TABLE Jornadas (
     Viernes BIT NOT NULL,
     Sabado BIT NOT NULL,
     Domingo BIT NOT NULL,
-
     Inicio INT NOT NULL,
     Fin INT NOT NULL,
-
-    CONSTRAINT UK_JornadaInicioFin UNIQUE (IdJornada, Inicio, Fin, Lunes,Martes,Miercoles,Jueves,Viernes,Sabado,Domingo)
+    CONSTRAINT UK_JornadaInicioFin UNIQUE (IdJornada, Inicio, Fin, Lunes, Martes, Miercoles, Jueves, Viernes, Sabado, Domingo)
 );
+
 
 CREATE TABLE Pacientes (
     Id INT AUTO_INCREMENT PRIMARY KEY,
