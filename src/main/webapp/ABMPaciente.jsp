@@ -5,8 +5,8 @@
 
 
 <%@page import="entidad.Provincia"%>
-<%@page import="dao.ProvinciaDao"%>
-<%@page import="daoImpl.ProvinciaDaoImpl"%>
+<%@page import="entidad.Paciente"%>
+<%@page import="entidad.Localidad"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -19,34 +19,46 @@
 </head>
 <body>
 	<%@include file="Nav.html"%>
+<%
+        //TODO -> Validar error / success
+        String op = request.getAttribute("op") != null ? request.getAttribute("op").toString() : "add";
+        String apellido, nombre, dni, eMail, fechaNacimiento,  telefono, direccion, sexo;
+        apellido = nombre = dni = eMail = fechaNacimiento = telefono = direccion = sexo = "";
 
+        int maxId , loc, nacion, prov;
+        maxId = loc = nacion = prov = 0;
+
+        Paciente paciente = null;
+
+        if(request.getAttribute("paciente") != null || !op.equals("add")){
+            try{
+                paciente = (Paciente)request.getAttribute("paciente");                
+                apellido = paciente.getApellido();
+                nombre = paciente.getNombre();
+                dni = String.format("%s", paciente.getDni());
+                eMail = paciente.geteMail();
+                fechaNacimiento = paciente.getFechaNacimiento().toString();
+                loc = paciente.getLocalidad().getIdLocalidad();
+                nacion = paciente.getNacionalidad().getIdNacionalidad();
+                prov = paciente.getProvincia().getIdProvincia();
+                sexo = paciente.getSexo();
+                telefono = paciente.getTelefono();
+                direccion = paciente.getDireccion();
+            }catch(Exception e){
+                request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+            }
+        }
+
+    %>
 	<form action="ServletPaciente" method="post">
 
 		<h2>Alta y Modificación de Pacientes</h2>
 		<br>
 		<table>
 			<tr>
-				<td><label>Id Paciente</label></td>
-				<%
-				String numId = "0";
-				if (request.getAttribute("MaxIdPaciente") != null) {
-					numId = request.getAttribute("MaxIdPaciente").toString();
-				%>
-				<td><input disabled type="number" value="<%=numId%>"
-					name="txtIdPaciente"></td>
-				<%
-				} else {
-				%>
-				<td><input disabled type="number" value="<%=numId%>"
-					name="txtIdPaciente"></td>
-				<%
-				}
-				%>
-			</tr>
-			<tr>
-				<td><label>DNI</label></td>
-				<td><input type="text" name="txtApellido" value="" required></td>
-			</tr>
+                <td><label>DNI</label></td>
+                <td><input type="text" name="txtDni" value="<%= dni %>" required <%= op.equals("add") ? "" : "disabled" %>></td>
+            </tr>			
 			<tr>
 				<td><label>Nombre</label></td>
 				<td><input type="text" name="txtNombre" value="" required></td>
@@ -75,7 +87,7 @@
 
 			<tr>
 				<td><label>Provincia</label></td>
-				<td><select name="selProvincia">
+				<td><select name="selProvincia" Id="selProvincia">
 						<%
 						ArrayList<Provincia> provincias = null;
 
@@ -85,7 +97,7 @@
 						for (Provincia provincia : provincias) {
 						%>
 						<option value="<%=provincia.getIdProvincia()%>"><%=provincia.getProvincia()%></option>
-
+						
 						<%
 						}}
 						%>
@@ -93,9 +105,23 @@
 			</tr>
 
 			<tr>
-				<td><label>Localidad</label></td>
-				<td><input type="text" name="txtLocalidad" value="" required></td>
-			</tr>
+                <td><label>Localidad</label></td>
+                <td><select name="selLocalidad" Id="selLocalidad">
+                        <%
+                        ArrayList<Localidad> localidades = null;
+
+                        if (request.getAttribute("localidades") != null) {
+                            localidades = (ArrayList<Localidad>) request.getAttribute("localidades");
+
+                        for (Localidad localidad : localidades) {
+                        %>
+                        <option value="<%=localidad.getIdLocalidad()%>" provincias="<%=localidad.getProvincia().getIdProvincia() %>"><%=localidad.getLocalidad()%></option>
+						
+                        <%
+                        }}
+                        %>
+                </select></td>
+            </tr>
 			<tr>
 				<td><label>Direccion</label></td>
 				<td><input type="text" name="txtDireccion" value="" required></td>
@@ -130,5 +156,26 @@
 		}
 		%>
 	</form>
+	<script type="text/javascript">
+	
+	const desplegableA = document.getElementById('selProvincia');
+	desplegableA.addEventListener('change', filtrarDesplegableB);
+	
+	function filtrarDesplegableB() {
+	 
+	  const valorSeleccionado = desplegableA.value;
+
+	  const desplegableB = document.getElementById('selLocalidad');
+	  Array.from(desplegableB.options).forEach(option => {
+	    if (option.getAttribute('provincias') === valorSeleccionado) {
+	      option.style.display = 'block';
+	      option.setAttribute('selected',true);
+	    } else {
+	      option.style.display = 'none';
+	    }
+	  });
+	}
+	
+	</script>
 </body>
 </html>
