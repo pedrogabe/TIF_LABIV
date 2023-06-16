@@ -26,14 +26,7 @@
 		maxId = localidad = nacionalidad = provincia = 0;
 		
 		Paciente paciente = null;
-		if(op.equals("add") && request.getAttribute("maxIdPaciente")!=null){
-			try{
-				maxId = (int)request.getAttribute("maxIdPaciente");
-				maxId++;
-			}catch(Exception e){
-				request.setAttribute("error", "400"); //TODO -> Cambiar mensaje
-			}
-		}
+		
 		if(request.getAttribute("paciente") != null || !op.equals("add")){
 			try{
 				paciente = (Paciente)request.getAttribute("paciente");
@@ -45,7 +38,7 @@
 				fechaNacimiento = paciente.getFechaNacimiento().toString();
 				localidad = paciente.getLocalidad().getIdLocalidad();
 				nacionalidad = paciente.getNacionalidad().getIdNacionalidad();
-				provincia = paciente.getProvincia();
+				provincia = paciente.getProvincia().getIdProvincia();
 				sexo = paciente.getSexo();
 				telefono = paciente.getTelefono();
 				direccion = paciente.getDireccion();
@@ -57,6 +50,7 @@
 	%>
 	
 	<form action="Pacientes" method="post">
+		<% if (maxId!=0) %>
 		<input type="hidden" name="hfId" value="<%= maxId %>"/>
 		<h2>Alta y Modificación de Pacientes</h2>
 		<br>
@@ -87,11 +81,11 @@
 			</tr>
 			<tr>
 				<td><label>Direccion</label></td>
-				<td><input type="text" name="txtDireccion" value="<%= paciente.getDireccion() %>" required></td>
+				<td><input type="text" name="txtDireccion" value="<%= direccion %>" required></td>
 			</tr>	
 			<tr>
 				<td><label>Nacionalidad</label></td>
-				<td><select name="txtNacionalidad" required>
+				<td><select name="selNacionalidad" required>
 				<% if(request.getAttribute("nacionalidades")!=null) for(Nacionalidad nac : (List<Nacionalidad>)request.getAttribute("nacionalidades")) { %>
 						<option value="<%= nac.getIdNacionalidad() %>" <%= nacionalidad == nac.getIdNacionalidad() ? "selected" : "" %>>
 							<%= nac.getNacionalidad() %>
@@ -101,9 +95,9 @@
 			</tr>
 			<tr>
 				<td><label>Provincia</label></td>
-				<td><select name="txtProvincia" required>
+				<td><select name="selProvincia" required>
 				<% if(request.getAttribute("provincias")!=null) for(Provincia prov : (List<Provincia>)request.getAttribute("provincias")) { %>
-						<option value="<%= prov.getIdProvincia()() %>" <%= provincia == prov.getIdProvincia() ? "selected" : "" %>>
+						<option value="<%= prov.getIdProvincia() %>" <%= provincia == prov.getIdProvincia() ? "selected" : "" %>>
 							<%= prov.getProvincia() %>
 						</option>
 				<% } %>
@@ -111,9 +105,9 @@
 			</tr>
 			<tr>
 				<td><label>Localidad</label></td>
-				<td><select name="txtLocalidad" required>
+				<td><select name="selLocalidad" required>
 				<% if(request.getAttribute("localidades")!=null) for(Localidad loc : (List<Localidad>)request.getAttribute("localidades")) { %>
-						<option value="<%= loc.getIdNacionalidad() %>" <%= localidad == loc.getIdLocalidad() ? "selected" : "" %>>
+						<option value="<%= loc.getIdLocalidad() %>" <%= localidad == loc.getIdLocalidad() ? "selected" : "" %>>
 							<%= loc.getLocalidad() %>
 						</option>
 				<% } %>

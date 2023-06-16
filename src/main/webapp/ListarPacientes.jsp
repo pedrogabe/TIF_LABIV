@@ -30,7 +30,7 @@
 				error = "Error al cargar el listado de pacientes"; //TODO -> Revisar mensaje
 		}
 		else{
-			pacientes = (List<Paciente>)request.getAttribute("pacientes");
+			pacientes = (List<Paciente>)session.getAttribute("pacientes");
 		}
 	%>
 

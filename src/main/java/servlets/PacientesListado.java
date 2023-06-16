@@ -37,7 +37,7 @@ public class PacientesListado extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		try {
-			request.setAttribute("pacientes", obtenerPacientes());
+			request.getSession().setAttribute("pacientes", negocio.readAll());
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -55,9 +55,5 @@ public class PacientesListado extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	protected List<Paciente> obtenerPacientes(){
-		return negocio.readAll();
-		
-	}
 
 }

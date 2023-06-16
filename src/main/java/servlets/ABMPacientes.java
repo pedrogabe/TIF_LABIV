@@ -10,9 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
 
-import entidad.Paciente;
+import entidad.*;
 import negocio.PacienteNegocio;
 import negocioImpl.PacienteNegocioImpl;
+import dao.LocalidadDao;
+import dao.ProvinciaDao;
+import dao.NacionalidadDao;//TODO -> Cambiar por negocio?
+import daoImpl.LocalidadDaoImpl;
+import daoImpl.ProvinciaDaoImpl;
+import daoImpl.NacionalidadDaoImpl;//TODO -> Cambiar por negocio?
+
 
 /**
  * Servlet implementation class Pacientes
@@ -20,7 +27,11 @@ import negocioImpl.PacienteNegocioImpl;
 @WebServlet("/Pacientes")
 public class ABMPacientes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	PacienteNegocio negPac = new PacienteNegocioImpl();
+	private static PacienteNegocio negPac = new PacienteNegocioImpl();
+	private static LocalidadDao daoLoc = new LocalidadDaoImpl();
+	private static ProvinciaDao daoProv = new ProvinciaDaoImpl();
+	private static NacionalidadDao daoNac = new NacionalidadDaoImpl();
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,13 +52,11 @@ public class ABMPacientes extends HttpServlet {
 			return;
 		}
 		
-		//TODO-> llenar nacionalidades,provincias,localidades
+		request.setAttribute("nacionalidades", daoNac.readAll());
+		request.setAttribute("provincias", daoProv.readAll());
+		request.setAttribute("localidades", daoLoc.readAll());
 		
-		if(op.equals("add")) {
-			//TODO -> return max id
-			request.setAttribute("maxIdPaciente", 1001);
-		}
-		else {
+		if(!op.equals("add")) {
 			int id;
 			try{
 				id = Integer.parseInt(request.getParameter("id"));
@@ -105,10 +114,13 @@ public class ABMPacientes extends HttpServlet {
 	protected void addPaciente(HttpServletRequest request) {
 		Paciente paciente = new Paciente();
 		if(fillPaciente(request, paciente)) {
-			if(true) { //TODO -> call negocio para guardar
+			if(negPac.insert(paciente)) {
 				 request.setAttribute("success", 
 						 String.format("Se agregó el paciente %s (Dni %s)", paciente.getId(), paciente.getDni()));
-				request.setAttribute("maxIdPaciente", 1001);//TODO -> return max id
+			}
+			else {
+				request.setAttribute("error", "Hubo un problema al grabar en la base"); //TODO -> cambiar mensaje
+				request.setAttribute("paciente", paciente);	
 			}
 		}
 		else{
@@ -124,6 +136,10 @@ public class ABMPacientes extends HttpServlet {
 				 request.setAttribute("success", 
 						 String.format("Se actualizó el paciente %s (Dni %s)", paciente.getId(), paciente.getDni()));
 				request.setAttribute("maxIdPaciente", 1001);//TODO -> return max id
+			}
+			else {
+				request.setAttribute("error", "Hubo un problema al grabar en la base"); //TODO -> cambiar mensaje
+				request.setAttribute("paciente", paciente);	
 			}
 		}
 		else{
@@ -142,10 +158,10 @@ public class ABMPacientes extends HttpServlet {
 			return;			
 		}
 		
-		if(true) { //TODO -> call negocio para eliminar
+		Paciente paciente = new Paciente(id);
+		if(negPac.delete(paciente)) {
 			request.setAttribute("success", 
 					 String.format("Se eliminó el paciente %s", id));
-			request.setAttribute("maxIdPaciente", 1001);//TODO -> return max id
 		}else {
 			request.setAttribute("error", "Datos"); //TODO -> cambiar mensaje
 		}
@@ -169,7 +185,7 @@ public class ABMPacientes extends HttpServlet {
 	
 	protected boolean fillPaciente(HttpServletRequest request, Paciente paciente) {
 		boolean valid = true;
-		int id = 0, dni, estado = 1;
+		int dni, estado = 1;
 		
 		try {
 			dni = Integer.parseInt(request.getParameter("txtDni"));
@@ -180,7 +196,7 @@ public class ABMPacientes extends HttpServlet {
 		paciente.setDni(dni);
 		
 		
-		String apellido, nombre, eMail, fechaNacimiento, localidad, nacionalidad, provincia, telefono, direccion, sexo;
+		String apellido, nombre, eMail, fechaNacimiento, telefono, direccion, sexo;
 		nombre = request.getParameter("txtNombre");
 		if(nombre == null || nombre.equals("")) {
 			valid = false;
@@ -209,26 +225,6 @@ public class ABMPacientes extends HttpServlet {
 		}
 		paciente.setFechaNacimiento(fechaNacimiento);
 		
-		localidad = request.getParameter("txtLocalidad");
-		if(localidad == null || localidad.equals("")) {
-			valid = false;
-			localidad = "";
-		}
-		paciente.setLocalidad(new Localidad(0, localidad));
-		
-		nacionalidad = request.getParameter("txtNacionalidad");
-		if(nacionalidad == null || nacionalidad.equals("")) {
-			valid = false;
-			nacionalidad = "";
-		}
-		paciente.setNacionalidad(nacionalidad);
-		
-		provincia = request.getParameter("txtProvincia");
-		if(provincia == null || provincia.equals("")) {
-			valid = false;
-			provincia = "";
-		}
-		paciente.setProvincia(provincia);
 		
 		telefono = request.getParameter("txtTelefono");
 		if(telefono == null || telefono.equals("")) {
@@ -250,6 +246,25 @@ public class ABMPacientes extends HttpServlet {
 			sexo = "";
 		}
 		paciente.setSexo(sexo);
+		
+		try {
+			Nacionalidad nacionalidad = new Nacionalidad(Integer.parseInt(request.getParameter("selNacionalidad")), null);
+			paciente.setNacionalidad(nacionalidad);
+		}catch(Exception e) {
+			valid=false;
+		}
+		
+		try {
+			Provincia provincia = new Provincia(Integer.parseInt(request.getParameter("selProvincia")), null);
+			paciente.setProvincia(provincia);
+			
+			Localidad localidad = new Localidad(Integer.parseInt(request.getParameter("selLocalidad")), null, provincia);
+			paciente.setLocalidad(localidad);
+		}catch(Exception e) {
+			valid=false;
+		}
+		
+		
 		
 		return valid;
 	}
