@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import entidad.Paciente;
+import negocio.PacienteNegocio;
+import negocioImpl.PacienteNegocioImpl;
 
 /**
  * Servlet implementation class PacientesListado
@@ -18,6 +20,7 @@ import entidad.Paciente;
 @WebServlet("/PacientesListado")
 public class PacientesListado extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static PacienteNegocio negocio = new PacienteNegocioImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -53,10 +56,7 @@ public class PacientesListado extends HttpServlet {
 	}
 	
 	protected List<Paciente> obtenerPacientes(){
-		ArrayList<Paciente> x = new ArrayList<Paciente>();
-		x.add(new Paciente(1, 1, "Pepe", "Juarez", 2, "argentino", "2000-04-03", "Sarmiento 1234", "JJL", "Buenos Aires", "ppja@email.com", "1112345678", 1));
-		x.add(new Paciente(2, 2, "Juana", "Martínez", 2, "argentino", "2023-04-03", "OHuiggins 1234", "JJL", "Buenos Aires", "jjmm@e-mail-e.com", "1112399998", 1));
-		return x;
+		return negocio.readAll();
 		
 	}
 

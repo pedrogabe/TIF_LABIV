@@ -1,14 +1,18 @@
 package servlets;
 
 import java.io.IOException;
-
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
+
 import entidad.Paciente;
+import negocio.PacienteNegocio;
+import negocioImpl.PacienteNegocioImpl;
 
 /**
  * Servlet implementation class Pacientes
@@ -16,6 +20,7 @@ import entidad.Paciente;
 @WebServlet("/Pacientes")
 public class ABMPacientes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	PacienteNegocio negPac = new PacienteNegocioImpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,6 +41,8 @@ public class ABMPacientes extends HttpServlet {
 			return;
 		}
 		
+		//TODO-> llenar nacionalidades,provincias,localidades
+		
 		if(op.equals("add")) {
 			//TODO -> return max id
 			request.setAttribute("maxIdPaciente", 1001);
@@ -50,7 +57,7 @@ public class ABMPacientes extends HttpServlet {
 			}
 			
 			try {
-				request.setAttribute("paciente", getPaciente(id));
+				request.setAttribute("paciente", getPaciente(request, id));
 			}catch(Exception e) {
 				response.sendError(500);
 				return;
@@ -144,21 +151,25 @@ public class ABMPacientes extends HttpServlet {
 		}
 	}
 	
-	protected Paciente getPaciente(int id) {
+	protected Paciente getPaciente(HttpServletRequest request, int id) {
+		Object ps = request.getSession().getAttribute("pacientes");
+		if(ps != null) {
+			List<Paciente> pacientes = (List<Paciente>)request.getSession().getAttribute("pacientes");
+			for(Paciente paciente : pacientes) {
+				if(paciente.getId() == id)
+					return paciente;
+			}
+			
+			request.setAttribute("error", "No se encontró el paciente solicitado");
+			//TODO -> Excepcion personalizada?
+		}
 		//TODO ->  call negocio
-		return new Paciente(id, id, "Pepe", "Juarez", 2, "argentino", "2000-04-03", "Sarmiento 1234", "JJL", "Buenos Aires", "ppja@email.com", "1112345678", 1);
+		return null;
 	}
 	
 	protected boolean fillPaciente(HttpServletRequest request, Paciente paciente) {
 		boolean valid = true;
-		int id = 0, dni, sexo, estado = 1;
-		try {
-			id = Integer.parseInt(request.getParameter("hfId"));
-		}catch(Exception e) {
-			id = 0;
-			valid = false;
-		}
-		paciente.setId(id);
+		int id = 0, dni, estado = 1;
 		
 		try {
 			dni = Integer.parseInt(request.getParameter("txtDni"));
@@ -168,15 +179,8 @@ public class ABMPacientes extends HttpServlet {
 		}
 		paciente.setDni(dni);
 		
-		try {
-			sexo = Integer.parseInt(request.getParameter("selSexo"));
-		}catch(Exception e) {
-			sexo = 0;
-			valid = false;
-		}
-		paciente.setSexo(sexo);
 		
-		String apellido, nombre, eMail, fechaNacimiento, localidad, nacionalidad, provincia, telefono, direccion;
+		String apellido, nombre, eMail, fechaNacimiento, localidad, nacionalidad, provincia, telefono, direccion, sexo;
 		nombre = request.getParameter("txtNombre");
 		if(nombre == null || nombre.equals("")) {
 			valid = false;
@@ -210,7 +214,7 @@ public class ABMPacientes extends HttpServlet {
 			valid = false;
 			localidad = "";
 		}
-		paciente.setLocalidad(localidad);
+		paciente.setLocalidad(new Localidad(0, localidad));
 		
 		nacionalidad = request.getParameter("txtNacionalidad");
 		if(nacionalidad == null || nacionalidad.equals("")) {
@@ -240,19 +244,15 @@ public class ABMPacientes extends HttpServlet {
 		}
 		paciente.setDireccion(direccion);
 		
+		sexo = request.getParameter("selSexo");
+		if(sexo == null || sexo.equals("")) {
+			valid = false;
+			sexo = "";
+		}
+		paciente.setSexo(sexo);
+		
 		return valid;
 	}
-	
-	/*protected boolean validString(String param, String target) {
-		target = param;
-		if(target == null) {
-			target = "";
-			return false;
-		}
-		if(target.equals(""))
-			return false;
-		return true;
-	}*/
 	
 
 }

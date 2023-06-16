@@ -2,6 +2,7 @@ package entidad;
 
 public class Paciente {	
 		
+	private int id;
 	private int dni;
 	private String nombre;
 	private String apellido;
@@ -34,6 +35,10 @@ public class Paciente {
 		this.estado = estado;
 	}	
 
+	public int getId() {
+		return id;
+	}
+	
 	public int getDni() {
 		return dni;
 	}

@@ -24,7 +24,7 @@
 	<%
 		String error = (String)request.getAttribute("error");
 		List<Paciente> pacientes;
-		if(request.getAttribute("pacientes") == null){
+		if(session.getAttribute("pacientes") == null){
 			pacientes = new ArrayList<Paciente>();
 			if(error==null)
 				error = "Error al cargar el listado de pacientes"; //TODO -> Revisar mensaje
@@ -44,7 +44,6 @@
 	
 	<thead>	
 		<tr>
-			<td><b>Id</b></td>
 			<td><b>DNI</b></td>
 			<td><b>Nombre</b></td>
 			<td><b>Apellido</b></td>
@@ -58,15 +57,14 @@
 	<tbody>
 		<% for(Paciente paciente : pacientes) { %>
 	         <tr>
-	            <td><%= paciente.getId() %></td>
 	            <td><%= paciente.getDni() %></td>
                 <td><%= paciente.getNombre() %></td>
                 <td><%= paciente.getApellido() %></td>
-              	<td><%= paciente.getSexo() == 0 ? "No indica" : (paciente.getSexo() == 1 ? "Femenino" : "Masculino")/*TODO -> Sacar string de otra manera*/ %></td>
+              	<td><%= paciente.getSexo() %></td>
                 <td><%= paciente.getFechaNacimiento() %></td>
                 <td><%= paciente.geteMail() %></td>
                 <td><%= paciente.getDireccion() %></td>
-                <td><a href="Pacientes?op=delete&id=<%= paciente.getId() %>"><i class="fa fa-trash"></i></a></td>            
+                <td><a href="Pacientes?op=edit&id=<%= paciente.getId() %>"><i class="fa fa-edit"></i></a></td>            
             </tr>
           <%} %>
 	</tbody>
