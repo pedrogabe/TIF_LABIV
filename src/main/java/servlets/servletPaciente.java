@@ -19,6 +19,8 @@ import negocio.ProvinciaNegocio;
 import negocioImpl.ProvinciaNegocioImpl;
 import entidad.Provincia;
 
+import negocio.LocalidadNegocio;
+import negocioImpl.LocalidadNegocioImpl;
 import entidad.Localidad;
 
 
@@ -55,11 +57,14 @@ public class servletPaciente extends HttpServlet {
 		ProvinciaNegocio negProv = new ProvinciaNegocioImpl();
 		ArrayList<Provincia> provincias= negProv.readAll();
 		
-				
+		LocalidadNegocio negLoc = new LocalidadNegocioImpl();
+		ArrayList<Localidad> localidades= negLoc.readAll();
+		request.setAttribute("provincias", provincias);
+		request.setAttribute("localidades", localidades);
 		if (op.equals("add")) {
 			// TODO -> return max id
 			request.setAttribute("maxIdPaciente", 1001);
-			request.setAttribute("provincias", provincias);
+			
 		} else {
 			int id;
 			try {
