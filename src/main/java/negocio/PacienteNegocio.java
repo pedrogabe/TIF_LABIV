@@ -1,6 +1,6 @@
 package negocio;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import entidad.Paciente;
 
@@ -8,7 +8,8 @@ import entidad.Paciente;
 public interface PacienteNegocio {
 	public boolean insert(Paciente paciente);
 	public boolean delete(Paciente paciente);
-	public List<Paciente> readAll();
+	public boolean update(Paciente paciente);
+	public ArrayList<Paciente> readAll(int estado);
 	public boolean exists(Paciente paciente);
 }
 

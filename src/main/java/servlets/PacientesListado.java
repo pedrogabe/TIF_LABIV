@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import negocioImpl.PacienteNegocioImpl;
 @WebServlet("/PacientesListado")
 public class PacientesListado extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static PacienteNegocio negocio = new PacienteNegocioImpl();
+	private static PacienteNegocio negocio = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -28,6 +29,7 @@ public class PacientesListado extends HttpServlet {
     public PacientesListado() {
         super();
         // TODO Auto-generated constructor stub
+        negocio =  new PacienteNegocioImpl();
     }
 
 	/**
@@ -35,9 +37,10 @@ public class PacientesListado extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		if(request.getSession().getAttribute("Usuario")!=null) {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		try {
-			request.getSession().setAttribute("pacientes", negocio.readAll());
+			request.getSession().setAttribute("pacientes", negocio.readAll(1)); //Por default solo los pacientes activos 
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -45,6 +48,13 @@ public class PacientesListado extends HttpServlet {
 		}
 		RequestDispatcher rd = request.getRequestDispatcher("ListarPacientes.jsp");
 		rd.forward(request, response);
+		}
+		else {
+		    PrintWriter out=response.getWriter();
+		    response.setContentType("text/html");
+		     out.println("<font color=red size18>No tiene autorizacion, debe ingresar con usuario!<br>");
+		     out.println("<a href=Login.jsp>Ir al Login!</a>");
+		}
 	}
 
 	/**

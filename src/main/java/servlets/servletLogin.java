@@ -47,7 +47,7 @@ public class servletLogin extends HttpServlet {
 				if(usuario != null) {
 					
 			
-				request.setAttribute("Usuario", usuario);
+				request.getSession().setAttribute("Usuario", usuario);
 			
 				RequestDispatcher rd=request.getRequestDispatcher("Inicio.jsp");
 				rd.forward(request, response); 

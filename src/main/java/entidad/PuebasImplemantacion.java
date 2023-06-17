@@ -17,7 +17,7 @@ public class PuebasImplemantacion {
 		 * System.out.println("Paciente no ingresado");
 		 */
 
-		List<Paciente> pacientes = pacienteDao.readAll();
+		List<Paciente> pacientes = pacienteDao.readAll(-1);
 		for (Paciente p : pacientes) {
 			System.out.println(p.toString());
 		}

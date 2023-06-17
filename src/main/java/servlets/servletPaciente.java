@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,57 +48,64 @@ public class servletPaciente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String op = request.getParameter("op");
-		if (op == null && request.getAttribute("op") != null ) 
-			op = request.getAttribute("op").toString();
-		if (op == null || !(op.equals("add") || op.equals("edit") || op.equals("delete"))) {
-			response.sendError(400);
-			System.out.println("op catch");
-			return;
-		}
-
-		// TODO-> llenar nacionalidades,provincias,localidades
-		NacionalidadNegocio negNac = new NacionalidadNegocioImpl();
-		ArrayList<Nacionalidad> nacionalidades = negNac.readAll();
-
-		ProvinciaNegocio negProv = new ProvinciaNegocioImpl();
-		ArrayList<Provincia> provincias = negProv.readAll();
-
-		LocalidadNegocio negLoc = new LocalidadNegocioImpl();
-		ArrayList<Localidad> localidades = negLoc.readAll();
-		request.setAttribute("nacionalidades", nacionalidades);
-		request.setAttribute("provincias", provincias);
-		request.setAttribute("localidades", localidades);
-		if (op.equals("add")) {
-			// TODO -> return max id
-			request.setAttribute("maxIdPaciente", 1001);
-
-		} else {
-			int dni;
-			try {
-				if(request.getParameter("dni")!=null)
-					dni = Integer.parseInt(request.getParameter("dni"));
-				else
-					dni = Integer.parseInt(request.getAttribute("dni").toString());
-			} catch (Exception e) {
+		
+		if (request.getSession().getAttribute("Usuario") != null) {
+			String op = request.getParameter("op");
+			if (op == null && request.getAttribute("op") != null)
+				op = request.getAttribute("op").toString();
+			if (op == null || !(op.equals("add") || op.equals("edit") || op.equals("delete"))) {
 				response.sendError(400);
-				System.out.println("dni catch");
+				System.out.println("op catch");
 				return;
 			}
 
-			try {
-				Paciente paciente = getPaciente(request, dni);
-				request.setAttribute("paciente", paciente);
-			} catch (Exception e) {
-				response.sendError(500);
-				return;
+			// TODO-> llenar nacionalidades,provincias,localidades
+			NacionalidadNegocio negNac = new NacionalidadNegocioImpl();
+			ArrayList<Nacionalidad> nacionalidades = negNac.readAll();
+
+			ProvinciaNegocio negProv = new ProvinciaNegocioImpl();
+			ArrayList<Provincia> provincias = negProv.readAll();
+
+			LocalidadNegocio negLoc = new LocalidadNegocioImpl();
+			ArrayList<Localidad> localidades = negLoc.readAll();
+			request.setAttribute("nacionalidades", nacionalidades);
+			request.setAttribute("provincias", provincias);
+			request.setAttribute("localidades", localidades);
+			if (op.equals("add")) {
+				// TODO -> return max id
+				request.setAttribute("maxIdPaciente", 1001);
+
+			} else {
+				int dni;
+				try {
+					if (request.getParameter("dni") != null)
+						dni = Integer.parseInt(request.getParameter("dni"));
+					else
+						dni = Integer.parseInt(request.getAttribute("dni").toString());
+				} catch (Exception e) {
+					response.sendError(400);
+					System.out.println("dni catch");
+					return;
+				}
+
+				try {
+					Paciente paciente = getPaciente(request, dni);
+					request.setAttribute("paciente", paciente);
+				} catch (Exception e) {
+					response.sendError(500);
+					return;
+				}
 			}
+
+			RequestDispatcher rd = request.getRequestDispatcher("ABMPaciente.jsp");
+			request.setAttribute("op", op);
+			rd.forward(request, response);
+		} else {
+			PrintWriter out = response.getWriter();
+			response.setContentType("text/html");
+			out.println("<font color=red size18>No tiene autorizacion, debe ingresar con usuario!<br>");
+			out.println("<a href=Login.jsp>Ir al Login!</a>");
 		}
-
-		RequestDispatcher rd = request.getRequestDispatcher("ABMPaciente.jsp");
-		request.setAttribute("op", op);
-		rd.forward(request, response);
-
 	}
 
 	/**
@@ -110,6 +118,13 @@ public class servletPaciente extends HttpServlet {
 		request.removeAttribute("success");
 
 		postOp(request);
+
+		if (request.getAttribute("op") != null && request.getAttribute("op").toString() == "edit") {
+			PacienteNegocio negocio = new PacienteNegocioImpl();
+			request.getSession().setAttribute("pacientes", negocio.readAll(1)); //Por default solo pacientes activos
+			RequestDispatcher rd = request.getRequestDispatcher("ListarPacientes.jsp");
+			rd.forward(request, response);
+		}
 
 		doGet(request, response);
 		/*
@@ -146,9 +161,9 @@ public class servletPaciente extends HttpServlet {
 				if (!pacienteNeg.exists(paciente)) {
 					pacienteNeg.insert(paciente);
 					request.setAttribute("success", String.format("Se agregó el paciente (Dni %s)", paciente.getDni()));
-				}
-				else
-					request.setAttribute("error", String.format("Ya existe el paciente con el (Dni %s)", paciente.getDni()));				
+				} else
+					request.setAttribute("error",
+							String.format("Ya existe el paciente con el (Dni %s)", paciente.getDni()));
 			}
 		} else {
 			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
@@ -161,31 +176,38 @@ public class servletPaciente extends HttpServlet {
 		request.setAttribute("op", "edit");
 		if (fillPaciente(request, paciente)) {
 			if (true) { // TODO -> call negocio para guardar
-				request.setAttribute("success", String.format("Se actualizó el paciente (Dni %s)", paciente.getDni()));
-				request.setAttribute("maxIdPaciente", 1001);// TODO -> return max id
+				PacienteNegocio pacienteNeg = new PacienteNegocioImpl();
+				if (pacienteNeg.update(paciente)) {
+					request.setAttribute("success",
+							String.format("Se actualizó el paciente (Dni %s)", paciente.getDni()));
+				} else {
+					request.setAttribute("error",
+							String.format("No se actualizó el paciente con el (Dni %s)", paciente.getDni()));
+				}
 			}
 		} else {
 			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
 			request.setAttribute("paciente", paciente);
 		}
 	}
-
-	@SuppressWarnings("unused")
+	
 	protected void deletePaciente(HttpServletRequest request) {
-		int id;
-		try {
-			id = Integer.parseInt(request.getParameter("hfId"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("error", "400 delete");// TODO -> cambiar mensaje
-			return;
-		}
-
-		if (true) { // TODO -> call negocio para eliminar
-			request.setAttribute("success", String.format("Se eliminó el paciente %s", id));
-			request.setAttribute("maxIdPaciente", 1001);// TODO -> return max id
+		Paciente paciente = new Paciente();
+		request.setAttribute("op", "edit");
+		if (fillPaciente(request, paciente)) {
+			if (true) { // TODO -> call negocio para guardar
+				PacienteNegocio pacienteNeg = new PacienteNegocioImpl();
+				if (pacienteNeg.delete(paciente)) {
+					request.setAttribute("success",
+							String.format("Se hizo la baja del paciente (Dni %s)", paciente.getDni()));
+				} else {
+					request.setAttribute("error",
+							String.format("No se hizo la baja del paciente (Dni %s)", paciente.getDni()));
+				}
+			}
 		} else {
 			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
+			request.setAttribute("paciente", paciente);
 		}
 	}
 
@@ -211,7 +233,7 @@ public class servletPaciente extends HttpServlet {
 		int id = 0, dni, estado = 1, idNac = 0;
 
 		try {
-			if(request.getParameter("txtDni")!=null)
+			if (request.getParameter("txtDni") != null)
 				dni = Integer.parseInt(request.getParameter("txtDni"));
 			else
 				dni = Integer.parseInt(request.getParameter("txtDniHide"));// txtDniHide

@@ -1,6 +1,6 @@
 package negocioImpl;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import dao.PacienteDao;
 import daoImpl.PacienteDaoImpl;
@@ -22,19 +22,9 @@ public class PacienteNegocioImpl implements PacienteNegocio{
 		return estado;
 	}
 	
-	public boolean delete(Paciente paciente_a_eliminar) {
-		
-		boolean estado=false;
-		if(paciente_a_eliminar.getDni() >0)
-		{
-			estado=pdao.update(paciente_a_eliminar, true);
-		}
-		return estado;
-	}
-	
 	@Override
-	public List<Paciente> readAll() {		
-		return pdao.readAll();
+	public ArrayList<Paciente> readAll(int estado) {		
+		return pdao.readAll(estado);
 	}
 
 	@Override
@@ -42,11 +32,27 @@ public class PacienteNegocioImpl implements PacienteNegocio{
 		boolean estado=false;
 		if(paciente.getDni() > 0)
 		{
-		  Paciente p =	pdao.searachPaciente(paciente.getDni());
+		  Paciente p =	pdao.searchPaciente(paciente.getDni());
 		  if (p != null)
 			  estado = true;
 		}
 		return estado;
+	}
+
+	@Override
+	public boolean update(Paciente paciente) {
+		boolean update = false;
+		if (paciente != null)
+			update = pdao.update(paciente, false);
+		return update;
+	}
+
+	@Override
+	public boolean delete(Paciente paciente) {
+		boolean update = false;
+		if (paciente != null)
+			update = pdao.update(paciente, true);
+		return update;
 	}
 
 }

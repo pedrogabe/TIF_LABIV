@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 import dao.PacienteDao;
 import entidad.Localidad;
@@ -20,16 +20,16 @@ public class PacienteDaoImpl implements PacienteDao {
 			+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.pacientes WHERE Dni = ?";
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.pacientes SET Estado = ? WHERE Dni = ?";
-	private static final String UPDATE = "UPDATE clinica_medica.pacientes SET Nombre = ?, Apellido = ?, Sexo = ?, Nacionalidad = ?, "
-			+ "FechaNacimiento = ?, Direccion = ?, Localidad = ?, Provincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
+	private static final String UPDATE = "UPDATE clinica_medica.pacientes SET Nombre = ?, Apellido = ?, Sexo = ?, IdNacionalidad = ?, "
+			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
 	private static final String READALL = "SELECT p.Id, p.Dni, p.Nombre, p.Apellido, p.Sexo, p.IdNacionalidad, n.Nacionalidad, p.FechaNacimiento, p.Direccion, "
-			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, CorreoElectronico, Telefono, Estado "
+			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, p.CorreoElectronico, p.Telefono, p.Estado "
 			+ "FROM clinica_medica.pacientes p "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = p.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = p.IdProvincia "
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = p.IdLocalidad";
 	private static final String SEARCH = "SELECT p.Id, p.Dni, p.Nombre, p.Apellido, p.Sexo, p.IdNacionalidad, n.Nacionalidad, p.FechaNacimiento, p.Direccion, "
-			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, CorreoElectronico, Telefono, Estado "
+			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, p.CorreoElectronico, p.Telefono, p.Estado "
 			+ "FROM clinica_medica.pacientes p "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = p.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = p.IdProvincia "
@@ -89,13 +89,20 @@ public class PacienteDaoImpl implements PacienteDao {
 	}
 
 	@Override
-	public List<Paciente> readAll() {
+	public ArrayList<Paciente> readAll(int estado) {
 		PreparedStatement statement;
 		ResultSet resultSet;
 		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
 		Conexion conexion = Conexion.getConexion();
 		try {
-			statement = conexion.getSQLConexion().prepareStatement(READALL);
+			String query = READALL;
+			
+			if (estado == 0)
+				query += " WHERE p.estado = 0";
+			else if (estado > 0)
+				query += " WHERE p.estado = 1";			
+			
+			statement = conexion.getSQLConexion().prepareStatement(query);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				pacientes.add(getPaciente(resultSet));
@@ -142,7 +149,7 @@ public class PacienteDaoImpl implements PacienteDao {
 		boolean estadoCambiado = false;
 		try {
 			statement = conexion.prepareStatement(CAMBIA_ESTADO);
-			statement.setInt(1, paciente.getEstado());
+			statement.setInt(1, 0);
 			statement.setInt(2, paciente.getDni());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
@@ -181,7 +188,7 @@ public class PacienteDaoImpl implements PacienteDao {
 	}
 
 	@Override
-	public Paciente searachPaciente(int dni) {
+	public Paciente searchPaciente(int dni) {
 		PreparedStatement statement;
 		ResultSet resultSet;
 		Paciente paciente = null;
