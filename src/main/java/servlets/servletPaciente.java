@@ -211,7 +211,10 @@ public class servletPaciente extends HttpServlet {
 		int id = 0, dni, estado = 1, idNac = 0;
 
 		try {
-			dni = Integer.parseInt(request.getParameter("txtDni"));// txtDniHide
+			if(request.getParameter("txtDni")!=null)
+				dni = Integer.parseInt(request.getParameter("txtDni"));
+			else
+				dni = Integer.parseInt(request.getParameter("txtDniHide"));// txtDniHide
 		} catch (Exception e) {
 			dni = 0;
 			valid = false;
