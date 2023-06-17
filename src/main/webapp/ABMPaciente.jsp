@@ -37,7 +37,7 @@
                 nombre = paciente.getNombre();
                 dni = String.format("%s", paciente.getDni());
                 eMail = paciente.geteMail();
-                fechaNacimiento = paciente.getFechaNacimiento().toString();
+                fechaNacimiento = paciente.getFechaNacimiento().toString().substring(0,10);
                 loc = paciente.getLocalidad().getIdLocalidad();
                 nacion = paciente.getNacionalidad().getIdNacionalidad();
                 prov = paciente.getProvincia().getIdProvincia();
@@ -98,7 +98,7 @@
 			</tr>
 			<tr>
 				<td><label>Fecha Nacimiento</label></td>
-				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento.substring(0, 10) %>"
+				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento %>"
 					required></td>
 			</tr>
 

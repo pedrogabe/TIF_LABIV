@@ -52,6 +52,7 @@ public class servletPaciente extends HttpServlet {
 			op = request.getAttribute("op").toString();
 		if (op == null || !(op.equals("add") || op.equals("edit") || op.equals("delete"))) {
 			response.sendError(400);
+			System.out.println("op catch");
 			return;
 		}
 
@@ -74,9 +75,13 @@ public class servletPaciente extends HttpServlet {
 		} else {
 			int dni;
 			try {
-				dni = Integer.parseInt(request.getParameter("dni"));
+				if(request.getParameter("dni")!=null)
+					dni = Integer.parseInt(request.getParameter("dni"));
+				else
+					dni = Integer.parseInt(request.getAttribute("dni").toString());
 			} catch (Exception e) {
 				response.sendError(400);
+				System.out.println("dni catch");
 				return;
 			}
 
@@ -153,6 +158,7 @@ public class servletPaciente extends HttpServlet {
 
 	protected void updatePaciente(HttpServletRequest request) {
 		Paciente paciente = new Paciente();
+		request.setAttribute("op", "edit");
 		if (fillPaciente(request, paciente)) {
 			if (true) { // TODO -> call negocio para guardar
 				request.setAttribute("success", String.format("Se actualizó el paciente (Dni %s)", paciente.getDni()));
@@ -211,6 +217,7 @@ public class servletPaciente extends HttpServlet {
 			valid = false;
 		}
 		paciente.setDni(dni);
+		request.setAttribute("dni", dni);
 
 		String apellido, nombre, eMail, fechaNacimiento, localidad, nacionalidad, provincia, telefono, direccion, sexo;
 		nombre = request.getParameter("txtNombre");
