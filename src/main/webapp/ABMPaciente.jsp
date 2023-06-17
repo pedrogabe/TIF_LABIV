@@ -183,7 +183,7 @@
 	
 	const desplegableA = document.getElementById('selProvincia');
 	desplegableA.addEventListener('change', filtrarDesplegableB);
-	
+
 	function filtrarDesplegableB() {
 	 
 	  const valorSeleccionado = desplegableA.value;
@@ -198,7 +198,9 @@
 	    }
 	  });
 	}
+
 	
+	filtrarDesplegableB();
 	</script>
 </body>
 </html>
