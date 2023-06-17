@@ -45,7 +45,8 @@
                 telefono = paciente.getTelefono();
                 direccion = paciente.getDireccion();
             }catch(Exception e){
-                request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+            	if(request.getAttribute("error")==null)
+                	request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
             }
         }
 
@@ -61,11 +62,11 @@
             </tr>			
 			<tr>
 				<td><label>Nombre</label></td>
-				<td><input type="text" name="txtNombre" value="" required></td>
+				<td><input type="text" name="txtNombre" value="<%= nombre %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Apellido</label></td>
-				<td><input type="text" name="txtApellido" value="" required></td>
+				<td><input type="text" name="txtApellido" value="<%= apellido %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Nacionalidad</label></td>
@@ -78,7 +79,9 @@
 						
 						for (Nacionalidad nacionalidad : nacionalidades) {
 						%>
-						<option value="<%=nacionalidad.getIdNacionalidad()%>"><%=nacionalidad.getNacionalidad()%></option>
+						<option  value="<%=nacionalidad.getIdNacionalidad()%>"  <%= nacion == nacionalidad.getIdNacionalidad() ? "selected" : "" %>>
+							<%=nacionalidad.getNacionalidad()%>
+						</option>
 						
 						<%
 						}}
@@ -88,14 +91,14 @@
 			<tr>
 				<td><label>Sexo</label></td>
 				<td><select name="selSexo">
-						<option value="0">No indica</option>
-						<option value="1">Femenino</option>
-						<option value="2">Masculino</option>
+						<option value="No indica" <%= sexo == "No indica" ? "selected" : "" %>>No indica</option>
+						<option value="Femenino" <%= sexo == "Femenino" ? "selected" : "" %>>Femenino</option>
+						<option value="Masculino" <%= sexo == "Masculino" ? "selected" : "" %>>Masculino</option>
 				</select></td>
 			</tr>
 			<tr>
 				<td><label>Fecha Nacimiento</label></td>
-				<td><input type="date" name="txtFecNacimiento" value=""
+				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento.substring(0, 10) %>"
 					required></td>
 			</tr>
 
@@ -110,8 +113,9 @@
 						
 						for (Provincia provincia : provincias) {
 						%>
-						<option value="<%=provincia.getIdProvincia()%>"><%=provincia.getProvincia()%></option>
-						
+							<option value="<%=provincia.getIdProvincia()%>" <%= prov == provincia.getIdProvincia() ? "selected" : "" %>>
+								<%=provincia.getProvincia()%>
+							</option>
 						<%
 						}}
 						%>
@@ -129,7 +133,9 @@
 
                         for (Localidad localidad : localidades) {
                         %>
-                        <option value="<%=localidad.getIdLocalidad()%>" provincias="<%=localidad.getProvincia().getIdProvincia() %>"><%=localidad.getLocalidad()%></option>
+                        <option value="<%=localidad.getIdLocalidad()%>" provincias="<%=localidad.getProvincia().getIdProvincia() %>" <%= loc == localidad.getIdLocalidad() ? "selected" : "" %>>
+                        	<%=localidad.getLocalidad()%>
+                        </option>
 						
                         <%
                         }}
@@ -138,20 +144,23 @@
             </tr>
 			<tr>
 				<td><label>Direccion</label></td>
-				<td><input type="text" name="txtDireccion" value="" required></td>
+				<td><input type="text" name="txtDireccion" value="<%= direccion %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Correo Electronico</label></td>
-				<td><input type="email" name="txtEmail" value="" required></td>
+				<td><input type="email" name="txtEmail" value="<%= eMail %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Telefono</label></td>
-				<td><input type="text" name="txtTelefono" value="" required></td>
+				<td><input type="text" name="txtTelefono" value="<%= telefono %>" required></td>
 			</tr>
 			<tr>
-				<td></td>
-				<td><input type="submit" name="btnBuscar" value="Buscar"></td>
-				<td><input type="submit" name="btnGrabar" value="Grabar"></td>
+				<% if(op.equals("add")) {%>
+					<td><input type="submit" name="btnGrabar" value="Grabar"></td>
+				<% } else { %>
+					<td><input type="submit" name="btnActualizar" value="Grabar"></td>
+					<td><input type="submit" name="btnEliminar" value="Eliminar"></td>
+				<% } %>
 			</tr>
 		</table>
 

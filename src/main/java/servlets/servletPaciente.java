@@ -72,16 +72,17 @@ public class servletPaciente extends HttpServlet {
 			request.setAttribute("maxIdPaciente", 1001);
 
 		} else {
-			int id;
+			int dni;
 			try {
-				id = Integer.parseInt(request.getParameter("id"));
+				dni = Integer.parseInt(request.getParameter("dni"));
 			} catch (Exception e) {
 				response.sendError(400);
 				return;
 			}
 
 			try {
-				request.setAttribute("paciente", getPaciente(request, id));
+				Paciente paciente = getPaciente(request, dni);
+				request.setAttribute("paciente", paciente);
 			} catch (Exception e) {
 				response.sendError(500);
 				return;
