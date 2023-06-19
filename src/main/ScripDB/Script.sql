@@ -70,28 +70,27 @@ CREATE TABLE Pacientes (
     CONSTRAINT FK_PacienteLocalidad FOREIGN KEY (IdLocalidad) REFERENCES Localidades(IdLocalidad)
 );
 
-CREATE TABLE Medicos (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
-    IdUsuario INT NOT NULL,
-    IdPerfil INT NOT NULL,
-    Dni VARCHAR(10) NOT NULL,
-    Nombre VARCHAR(50) NOT NULL,
-    Apellido VARCHAR(50) NOT NULL,
-    Sexo VARCHAR(20) NOT NULL,
-    IdNacionalidad INT NOT NULL,
-    FechaNacimiento DATETIME NOT NULL,
-    Direccion VARCHAR(50) NOT NULL,
-    IdLocalidad INT NOT NULL,
-    CorreoElectronico VARCHAR(50) NOT NULL,
-    Telefono VARCHAR(50) NOT NULL,
-    IdJornada INT NOT NULL,
-    Estado BIT NOT NULL,
-    CONSTRAINT FK_MedicoPerfil FOREIGN KEY (IdPerfil) REFERENCES Perfiles(IdPerfil),
-    CONSTRAINT FK_MedicoJornada FOREIGN KEY (IdJornada) REFERENCES Jornadas(IdJornada),
-    CONSTRAINT FK_MedicoLocalidad FOREIGN KEY (IdLocalidad) REFERENCES Localidades(IdLocalidad),
-    CONSTRAINT FK_MedicoNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidades(IdNacionalidad),
-    CONSTRAINT FK_MedicoUsuario FOREIGN KEY (IdUsuario) REFERENCES Usuarios(IdUsuario)
-);
+CREATE TABLE medicos (
+  Id int NOT NULL AUTO_INCREMENT,
+  IdUsuario int DEFAULT NULL,
+  Dni varchar(10) DEFAULT NULL,
+  Nombre varchar(50) NOT NULL,
+  Apellido varchar(50) NOT NULL,
+  Sexo varchar(20) DEFAULT NULL,
+  IdNacionalidad int DEFAULT NULL,
+  FechaNacimiento datetime NOT NULL,
+  Direccion varchar(50) DEFAULT NULL,
+  IdProvincia int DEFAULT NULL,
+  IdLocalidad int DEFAULT NULL,  
+  CorreoElectronico varchar(50) DEFAULT NULL,
+  Telefono varchar(50) DEFAULT NULL,
+  Estado bit(1) NOT NULL,
+  PRIMARY KEY (Id),
+  CONSTRAINT FK_MedicoUsuario FOREIGN KEY (IdUsuario) REFERENCES usuarios (IdUsuario),
+  CONSTRAINT FK_MedicoLocalidad FOREIGN KEY (IdLocalidad) REFERENCES localidades (IdLocalidad),
+  CONSTRAINT FK_MedicoNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES nacionalidades (IdNacionalidad),
+  CONSTRAINT FK_MedicoProvincia FOREIGN KEY (IdProvincia) REFERENCES provincias (IdProvincia)
+); 
 
 CREATE TABLE MedicosEspecialidades (
     IdMedico INT NOT NULL,
