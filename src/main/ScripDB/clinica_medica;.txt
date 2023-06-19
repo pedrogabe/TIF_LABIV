@@ -96,11 +96,11 @@ CREATE TABLE `medicos` (
   `Nombre` varchar(50) NOT NULL,
   `Apellido` varchar(50) NOT NULL,
   `Sexo` varchar(20) DEFAULT NULL,
-  `Nacionalidad` varchar(50) DEFAULT NULL,
+  `IdNacionalidad` varchar(50) DEFAULT NULL,
   `FechaNacimiento` datetime NOT NULL,
   `Direccion` varchar(50) DEFAULT NULL,
-  `Localidad` varchar(50) DEFAULT NULL,
-  `Provincia` varchar(50) DEFAULT NULL,
+  `IdLocalidad` varchar(50) DEFAULT NULL,
+  `IdProvincia` varchar(50) DEFAULT NULL,
   `CorreoElectronico` varchar(50) DEFAULT NULL,
   `Telefono` varchar(50) DEFAULT NULL,
   `IdJornada` int NOT NULL,
@@ -110,6 +110,8 @@ CREATE TABLE `medicos` (
   KEY `FK_MedicoIdJornada` (`IdJornada`),
   CONSTRAINT `FK_MedicoIdJornada` FOREIGN KEY (`IdJornada`) REFERENCES `jornadas` (`IdJornada`),
   CONSTRAINT `FK_MedicoPerfil` FOREIGN KEY (`IdPerfil`) REFERENCES `perfiles` (`IdPerfil`)
+  CONSTRAINT `FK_MedicoLocalidad` FOREIGN KEY (`IdLocalidad`) REFERENCES `localidades` (`IdLocalidad`),
+  CONSTRAINT `FK_MedicoNacionalidad` FOREIGN KEY (`IdNacionalidad`) REFERENCES `nacionalidades` (`IdNacionalidad`)
 );
 
 
