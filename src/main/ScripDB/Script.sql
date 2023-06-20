@@ -18,8 +18,7 @@ CREATE TABLE Usuarios (
 
 CREATE TABLE Especialidades (
     IdEspecialidad INT AUTO_INCREMENT PRIMARY KEY,
-    Descripcion VARCHAR(50) NOT NULL,
-    Estado BIT NOT NULL
+    Descripcion VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Nacionalidades (
@@ -79,6 +78,7 @@ CREATE TABLE medicos (
   Direccion varchar(50) DEFAULT NULL,
   IdProvincia int DEFAULT NULL,
   IdLocalidad int DEFAULT NULL,  
+  IdEspecialidad int DEFAULT NULL,  
   CorreoElectronico varchar(50) DEFAULT NULL,
   Telefono varchar(50) DEFAULT NULL,
   Estado bit(1) NOT NULL,
@@ -86,18 +86,9 @@ CREATE TABLE medicos (
   CONSTRAINT FK_MedicoUsuario FOREIGN KEY (IdUsuario) REFERENCES usuarios (IdUsuario),
   CONSTRAINT FK_MedicoLocalidad FOREIGN KEY (IdLocalidad) REFERENCES localidades (IdLocalidad),
   CONSTRAINT FK_MedicoNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES nacionalidades (IdNacionalidad),
-  CONSTRAINT FK_MedicoProvincia FOREIGN KEY (IdProvincia) REFERENCES provincias (IdProvincia)
+  CONSTRAINT FK_MedicoProvincia FOREIGN KEY (IdProvincia) REFERENCES provincias (IdProvincia),
+  CONSTRAINT FK_MedicoEspecialidad FOREIGN KEY (IdEspecialidad) REFERENCES especialidades (IdEspecialidad)  
 ); 
-
-CREATE TABLE MedicosEspecialidades (
-    IdMedico INT NOT NULL,
-    IdEspecialidad INT NOT NULL,
-    Estado BIT NULL,
-    PRIMARY KEY (IdMedico, IdEspecialidad),
-    CONSTRAINT FK_MedicoEspecialidadMedico FOREIGN KEY (IdMedico) REFERENCES Medicos(Id),
-    CONSTRAINT FK_MedicoEspecialidadEspecialidad FOREIGN KEY (IdEspecialidad) REFERENCES Especialidades(IdEspecialidad)
-);
-
 
 
 CREATE TABLE Turnos (
