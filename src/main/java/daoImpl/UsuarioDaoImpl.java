@@ -11,7 +11,7 @@ import entidad.Usuario;
 
 public class UsuarioDaoImpl implements UsuarioDao {
 
-	private static final String INSERT = "INSERT INTO clinica_medica.usuarios (UserLogin, Password, IdPerfil) VALUES (?,?,?,)";
+	private static final String INSERT = "INSERT INTO clinica_medica.usuarios (UserLogin, Password, IdPerfil) VALUES (?,?,?)";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.usuarios";
 	private static final String UPDATE = "UPDATE clinica_medica.usuarios SET UserLogin = ? Password = ? WHERE IdUsuario = ?";
 	 // se deben buscar los perfiles a la DB
