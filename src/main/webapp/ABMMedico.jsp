@@ -4,6 +4,7 @@
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Medico"%>
 <%@page import="entidad.Usuario"%>
+
 <%@page import="entidad.Localidad"%>
 
 
