@@ -133,3 +133,83 @@ VALUES ('admin', 'admin', 1);
 -- Insertar usuario médico
 INSERT INTO Usuarios (UserLogin, Password, IdPerfil)
 VALUES ('medico', 'medico', 2);
+
+-- Insertar nacionalidad
+
+INSERT INTO Nacionalidades (Nacionalidad) VALUES   
+
+    ('Argentina');
+
+
+
+---Insertar 4 provincias 
+
+INSERT INTO Provincias (Provincia) VALUES
+
+    ('Buenos Aires'),
+
+    ('Córdoba'),
+
+    ('Santa Fe'),
+
+    ('Mendoza');
+
+    
+
+---insertar 5 localidades para cada provincia
+
+
+
+-- Insertar localidades para la provincia de Buenos Aires
+
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+
+    ('La Plata', 1),
+
+    ('Mar del Plata', 1),
+
+    ('Bahía Blanca', 1),
+
+    ('Quilmes', 1);
+
+
+
+-- Insertar localidades para la provincia de Córdoba
+
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+
+    ('Córdoba', 2),
+
+    ('Villa María', 2),
+
+    ('Río Cuarto', 2),
+
+    ('Alta Gracia', 2);
+
+
+
+-- Insertar localidades para la provincia de Santa Fe
+
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+
+    ('Rosario', 3),
+
+    ('Santa Fe', 3),
+
+    ('Rafaela', 3),
+
+    ('Venado Tuerto', 3);
+
+
+
+-- Insertar localidades para la provincia de Mendoza
+
+INSERT INTO Localidades (Localidad, IdProvincia) VALUES
+
+    ('Mendoza', 4),
+
+    ('San Rafael', 4),
+
+    ('Godoy Cruz', 4),
+
+    ('Luján de Cuyo', 4);
