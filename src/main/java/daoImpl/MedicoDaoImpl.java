@@ -27,7 +27,7 @@ public class MedicoDaoImpl implements MedicoDao {
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad";
-	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, p.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion, "
+	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion, "
 			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
