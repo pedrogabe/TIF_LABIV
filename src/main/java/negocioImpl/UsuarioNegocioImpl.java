@@ -46,4 +46,11 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 		return false;
 	}
 
+	@Override
+	public int maxId() {
+		usuarioDaoImp = new UsuarioDaoImpl();
+		
+		return usuarioDaoImp.selectMaxId();
+	}
+
 }

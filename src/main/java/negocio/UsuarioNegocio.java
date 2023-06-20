@@ -10,4 +10,5 @@ public interface UsuarioNegocio {
 	public boolean update(Usuario usuario);
 	public ArrayList<Usuario> readAll(int estado);
 	public boolean exists(Usuario usuario);
+	public int maxId();
 }

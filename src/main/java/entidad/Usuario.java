@@ -39,13 +39,11 @@ public class Usuario {
 	}
 	public void setIdPerfil(int idPerfil) {
 		IdPerfil = idPerfil;
-	}
-	
+	}	
 
 	@Override
 	public String toString() {
 		return "Usuario [IdUsuario=" + IdUsuario + ", UserLogin=" + UserLogin + ", Password=" + Password + ", IdPerfil="
 				+ IdPerfil + "]";
 	}
-
 }

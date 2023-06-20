@@ -2,10 +2,11 @@ package negocioImpl;
 
 import java.util.ArrayList;
 
-import dao.MedicoDao;
-import daoImpl.MedicoDaoImpl;
+import dao.*;
+import daoImpl.*;
 import entidad.Medico;
-import negocio.MedicoNegocio;
+import entidad.Usuario;
+import negocio.*;
 
 public class MedicoNegocioImpl implements MedicoNegocio {
 
@@ -20,6 +21,27 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 			insertado = medicoDaoImpl.insert(medico);
 		}
 		return insertado;
+	}
+
+	@Override
+	public boolean insert(Medico medico, Usuario usuario) {
+		boolean insertOk = false;
+		UsuarioDao usuarioDaoImpl = new UsuarioDaoImpl();
+		try {
+			insertOk = usuarioDaoImpl.insert(usuario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		if (insertOk) {
+			usuario.setIdUsuario(usuarioDaoImpl.selectMaxId());
+			medico.setIdUsuario(usuario.getIdUsuario());
+			insertOk = insert(medico);
+			if (!insertOk) {
+				usuarioDaoImpl.update(usuario, true);
+			}			
+		}
+		return insertOk;
 	}
 
 	@Override

@@ -1,14 +1,15 @@
 package entidad;
 
-
+import java.util.ArrayList;
 
 public class Medico {
 	
 	private static final int DIAS = 7;
 	private static final int HORAS = 24;
-	private Especialidad especialidad;
+	private ArrayList<Especialidad> especialidades;
 	private int[][] jorandas = new int[DIAS][HORAS];	
 	
+	private int idUsuario;
 	private int dni;
 	private String nombre;
 	private String apellido;
@@ -23,9 +24,10 @@ public class Medico {
 	private int estado;	
 	
 	
-	public Medico(int dni, String nombre, String apellido, String sexo, Nacionalidad nacionalidad, String fechaNacimiento,
-			String direccion, Localidad localidad, Provincia provincia, String eMail, String telefono, Especialidad especialidad, int estado, int[][] jorandas) {
+	public Medico(int idUsuario, int dni, String nombre, String apellido, String sexo, Nacionalidad nacionalidad, String fechaNacimiento,
+			String direccion, Localidad localidad, Provincia provincia, String eMail, String telefono, int estado) {
 		
+		this.idUsuario = idUsuario;
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -39,10 +41,14 @@ public class Medico {
 		this.telefono = telefono;
 		this.estado = estado;
 		
-		this.especialidad = especialidad;
-		this.jorandas = jorandas;
 	}
-
+	
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
 	public int getDni() {
 		return dni;
 	}
@@ -116,11 +122,11 @@ public class Medico {
 		this.estado = estado;
 	}
 
-	public Especialidad getEspecialidad() {
-		return especialidad;
+	public ArrayList<Especialidad> getEspecialidades() {
+		return especialidades;
 	}
-	public void setEspecialidad(Especialidad especialidad) {
-		this.especialidad = especialidad;
+	public void setEspecialidades(ArrayList<Especialidad> especialidades) {
+		this.especialidades = especialidades;
 	}
 
 
@@ -133,7 +139,7 @@ public class Medico {
 
 	@Override
 	public String toString() {
-		return "Medico [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", sexo=" + sexo
+		return "Medico [idUsuario=" + idUsuario + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", sexo=" + sexo
 				+ ", nacionalidad=" + nacionalidad + ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion
 				+ ", localidad=" + localidad + ", provincia=" + provincia + ", eMail=" + eMail + ", telefono="
 				+ telefono + ", estado=" + estado + "]";

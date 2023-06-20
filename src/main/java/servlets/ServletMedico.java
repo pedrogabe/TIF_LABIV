@@ -111,10 +111,10 @@ public class ServletMedico extends HttpServlet {
 
 		postOp(request);
 
-		if (request.getAttribute("op") != null && request.getAttribute("op").toString() == "edit") {
-			PacienteNegocio negocio = new PacienteNegocioImpl();
-			request.getSession().setAttribute("pacientes", negocio.readAll(1)); // Por default solo pacientes activos
-			RequestDispatcher rd = request.getRequestDispatcher("ListarPacientes.jsp");
+		if (request.getAttribute("op") != null && (request.getAttribute("op").toString() == "edit" || request.getAttribute("op").toString() == "add")) {
+			MedicoNegocio medicoNeg = new MedicoNegocioImpl();
+			request.getSession().setAttribute("medicos", medicoNeg.readAll(1)); // Por default solo pacientes activos
+			RequestDispatcher rd = request.getRequestDispatcher("ListarMedicos.jsp");
 			rd.forward(request, response);
 		}
 		doGet(request, response);
@@ -146,10 +146,13 @@ public class ServletMedico extends HttpServlet {
 
 		if (medico != null && usuario != null) {
 			MedicoNegocio medicoNegImpl = new MedicoNegocioImpl();
-			UsuarioNegocio usuarioNegImpl = new UsuarioNegocioImpl();
-			if (!medicoNegImpl.exists(medico) && usuarioNegImpl.insert(usuario)) {
-				medicoNegImpl.insert(medico);
-				request.setAttribute("success", String.format("Se agregó el médico con el (Dni %s)", medico.getDni()));
+			if (!medicoNegImpl.exists(medico)) {
+				if (medicoNegImpl.insert(medico, usuario)) {
+					request.setAttribute("success",
+							String.format("Se agregó el médico con el (Dni %s)", medico.getDni()));
+				} else
+					request.setAttribute("error",
+							String.format("No agregó el médico con el (Dni %s)", medico.getDni()));
 			} else
 				request.setAttribute("error", String.format("Ya existe el médico con el (Dni %s)", medico.getDni()));
 
@@ -246,7 +249,6 @@ public class ServletMedico extends HttpServlet {
 			medico = new Medico(idUsuario, dni, nombre, apellido, sexo, new Nacionalidad(idNac, ""), fechaNacimiento,
 					direccion, new Localidad(idLoc, "", new Provincia(idProv, "")), new Provincia(idProv, ""), eMail,
 					telefono, estado);
-			//
 		}
 		return medico;
 	}
