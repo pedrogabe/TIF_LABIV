@@ -177,3 +177,9 @@ INSERT INTO Localidades (Localidad, IdProvincia) VALUES
     ('San Rafael', 4),
     ('Godoy Cruz', 4),
     ('Luján de Cuyo', 4);
+
+INSERT INTO especialidades (Descripcion,Estado)
+VALUES
+  ('Cardiología', 1),
+  ('Dermatología',1),
+  ('Neurología',1);
