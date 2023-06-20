@@ -13,8 +13,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 	private static final String INSERT = "INSERT INTO clinica_medica.usuarios (UserLogin, Password, IdPerfil) VALUES (?,?,?)";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.usuarios";
+	private static final String SELECT_MAXID = "SELECT MAX(IdUsuario) maxId FROM clinica_medica.usuarios";
 	private static final String UPDATE = "UPDATE clinica_medica.usuarios SET UserLogin = ? Password = ? WHERE IdUsuario = ?";
-	 // se deben buscar los perfiles a la DB
+	private static final String DELETE = "DELETE FROM clinica_medica.usuarios WHERE IdUsuario = ?";
+	// se deben buscar los perfiles a la DB
 	private static final String SEARCH = "SELECT u.IdUsuario, u.UserLogin, u.Password, u.IdPerfil FROM clinica_medica.usuarios u";
 
 	@Override
@@ -67,15 +69,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		return actualizado;
 	}
 
-	//TODO Ver como implementar
+	// TODO Ver como implementar
 	private boolean bajaUsuario(Usuario usuario) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean estadoCambiado = false;
 		try {
-			statement = conexion.prepareStatement("");
-			statement.setInt(1, 0);
-			statement.setInt(2, usuario.getIdUsuario());
+			statement = conexion.prepareStatement(DELETE);
+			statement.setInt(1, usuario.getIdUsuario());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				estadoCambiado = true;
@@ -84,7 +85,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		}
 		return estadoCambiado;
 	}
-	
+
 	@Override
 	public ArrayList<Usuario> readAll(int estado) {
 		PreparedStatement statement;
@@ -93,12 +94,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		Conexion conexion = Conexion.getConexion();
 		try {
 			String query = SEARCH;
-			
+
 			if (estado == 0)
 				query += " WHERE p.estado = 0";
 			else if (estado > 0)
-				query += " WHERE p.estado = 1";			
-			
+				query += " WHERE p.estado = 1";
+
 			statement = conexion.getSQLConexion().prepareStatement(query);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -111,14 +112,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	private Usuario getUsuario(ResultSet resultSet) throws SQLException {
-		int idUsuario = resultSet.getInt("IdUsuario");		
+		int idUsuario = resultSet.getInt("IdUsuario");
 		String userLogin = resultSet.getString("UserLogin");
 		String password = resultSet.getString("Password");
-		int idPerfil = resultSet.getInt("IdPerfil");				
-		
+		int idPerfil = resultSet.getInt("IdPerfil");
+
 		return new Usuario(idUsuario, userLogin, password, idPerfil);
 	}
-	
+
 	@Override
 	public Usuario searchUsuario(int idUsuario) {
 		PreparedStatement statement;
@@ -127,16 +128,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		Conexion conexion = Conexion.getConexion();
 		try {
 			String query = SEARCH;
-			if (idUsuario != 0)
-			{
+			if (idUsuario != 0) {
 				query += " WHERE Userlogin = ?";
 				statement = conexion.getSQLConexion().prepareStatement(query);
 				statement.setInt(1, idUsuario);
+			} else {
+				statement = conexion.getSQLConexion().prepareStatement(query);
 			}
-			else
-			{
-				statement = conexion.getSQLConexion().prepareStatement(query);				
-			}			
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				usuario = getUsuario(resultSet);
@@ -170,6 +168,26 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public int selectMaxId() {
+		// TODO Auto-generated method stub
+		PreparedStatement statement;
+		ResultSet resultSet;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		int maxId = 0;
+		try {
+
+			statement = conexion.prepareStatement(SELECT_MAXID);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				maxId = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return maxId;
 	}
 
 }

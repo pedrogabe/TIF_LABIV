@@ -21,14 +21,14 @@ public class MedicoDaoImpl implements MedicoDao {
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.medicos SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.medicos SET IdUsuario = ?, Nombre = ?, Apellido = ?, Sexo = ?, IdNacionalidad = ?, "
 			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
-	private static final String READALL = "SELECT m.p.Id, m.IdPerfil, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.Nacionalidad, m.FechaNacimiento, m.Direccion, "
-			+ "m.Localidad, m.Provincia, m.CorreoElectronico, m.Telefono, m.IdJornada, m.Estado "
+	private static final String READALL = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, " 
+			+ "m.FechaNacimiento, m.Direccion, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad";
-	private static final String SEARCH = "SELECT p.IdUsuario, p.Dni, p.Nombre, p.Apellido, p.Sexo, p.IdNacionalidad, n.Nacionalidad, p.FechaNacimiento, p.Direccion, "
-			+ "p.IdLocalidad, l.Localidad, p.IdProvincia, pr.Provincia, p.CorreoElectronico, p.Telefono, p.Estado "
+	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, p.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion, "
+			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
@@ -157,9 +157,9 @@ public class MedicoDaoImpl implements MedicoDao {
 			String query = READALL;
 			
 			if (estado == 0)
-				query += " WHERE p.estado = 0";
+				query += " WHERE m.estado = 0";
 			else if (estado > 0)
-				query += " WHERE p.estado = 1";			
+				query += " WHERE m.estado = 1";			
 			
 			statement = conexion.getSQLConexion().prepareStatement(query);
 			resultSet = statement.executeQuery();
