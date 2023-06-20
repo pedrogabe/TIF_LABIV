@@ -3,6 +3,7 @@
 <%@page import="entidad.Nacionalidad"%>
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Medico"%>
+<%@page import="entidad.Usuario"%>
 <%@page import="entidad.Localidad"%>
 
 
@@ -27,10 +28,12 @@
 	maxId = loc = nacion = prov = 0;
 
 	Medico medico = null;
+	Usuario usuario = null;
 
-	if (request.getAttribute("paciente") != null || !op.equals("add")) {
+	if (request.getAttribute("medico") != null && request.getAttribute("usuario") != null && !op.equals("add")) {
 		try {
-			medico = (Medico) request.getAttribute("paciente");
+			medico = (Medico) request.getAttribute("medico");
+			usuario = (Usuario) request.getAttribute("usuario");
 			apellido = medico.getApellido();
 			nombre = medico.getNombre();
 			dni = String.format("%s", medico.getDni());
@@ -42,6 +45,8 @@
 			sexo = medico.getSexo();
 			telefono = medico.getTelefono();
 			direccion = medico.getDireccion();
+			userLogin = usuario.getUserLogin();
+			password = usuario.getPassword();
 		} catch (Exception e) {
 			if (request.getAttribute("error") == null)
 		request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
