@@ -50,7 +50,6 @@ CREATE TABLE Jornadas (
 
 CREATE TABLE Pacientes (
     Id INT AUTO_INCREMENT PRIMARY KEY,
-    IdPerfil INT NULL,
     Dni VARCHAR(10) NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     Apellido VARCHAR(50) NOT NULL,
