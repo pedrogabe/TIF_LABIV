@@ -20,8 +20,8 @@
 	<%
 	//TODO -> Validar error / success
 	String op = request.getAttribute("op") != null ? request.getAttribute("op").toString() : "add";
-	String apellido, nombre, dni, eMail, fechaNacimiento, telefono, direccion, sexo;
-	apellido = nombre = dni = eMail = fechaNacimiento = telefono = direccion = sexo = "";
+	String apellido, nombre, dni, eMail, fechaNacimiento, telefono, direccion, sexo, userLogin, password, confPassword;
+	apellido = nombre = dni = eMail = fechaNacimiento = telefono = direccion = sexo = userLogin = password = confPassword = "";
 
 	int maxId, loc, nacion, prov;
 	maxId = loc = nacion = prov = 0;
@@ -48,7 +48,7 @@
 		}
 	}
 	%>
-	<form action="servletMedico" method="post">
+	<form action="ServletMedico" method="post">
 
 		<h2>Alta y Modificación de Medicos</h2>
 		<br>
@@ -152,6 +152,18 @@
 				<td><input type="text" name="txtTelefono" value="<%= telefono %>" required></td>
 			</tr>
 			<tr>
+				<td><label>UsuarioLogin</label></td>
+				<td><input type="text" name="txtUserLogin" value="<%= userLogin %>" required></td>
+			</tr>
+			<tr>
+				<td><label>Password</label></td>
+				<td><input type="password" name="txtPassword" id="txtPassword" value="<%= password %>" required></td>
+			</tr>
+			<tr>
+				<td><label>Confirmar Password</label></td>
+				<td><input type="password" name="txtConfPassword" id="txtConfPassword" placeholder="Confirmar Password" value="<%= confPassword %>" required></td>
+			</tr>
+			<tr>
 				<% if(op.equals("add")) {%>
 					<td><input type="submit" name="btnGrabar" value="Grabar"></td>
 				<% } else { %>
@@ -177,6 +189,19 @@
 		%>
 	</form>
 	<script type="text/javascript">
+	
+	window.onload = function () {
+        var txtPassword = document.getElementById("txtPassword");
+        var txtConfirmPassword = document.getElementById("txtConfPassword");
+        txtPassword.onchange = ConfirmPassword;
+        txtConfirmPassword.onkeyup = ConfirmPassword;
+        function ConfirmPassword() {
+            txtConfirmPassword.setCustomValidity("");
+            if (txtPassword.value != txtConfirmPassword.value) {
+                txtConfirmPassword.setCustomValidity("Passwords do not match.");
+            }
+        }
+    }
 	
 	const desplegableA = document.getElementById('selProvincia');
 	desplegableA.addEventListener('change', filtrarDesplegableB);
