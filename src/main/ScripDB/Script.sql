@@ -62,7 +62,6 @@ CREATE TABLE Pacientes (
     IdLocalidad INT NOT NULL,
     CorreoElectronico VARCHAR(50) NOT NULL,
     Telefono VARCHAR(50) NOT NULL,
-    IdJornada INT NOT NULL,
     Estado BIT NOT NULL,
     CONSTRAINT FK_PacientePerfil FOREIGN KEY (IdPerfil) REFERENCES Perfiles(IdPerfil),
     CONSTRAINT FK_PacienteNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidades(IdNacionalidad),
