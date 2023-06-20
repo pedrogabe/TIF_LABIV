@@ -66,7 +66,7 @@ CREATE TABLE Pacientes (
     Estado BIT NOT NULL,
     CONSTRAINT FK_PacientePerfil FOREIGN KEY (IdPerfil) REFERENCES Perfiles(IdPerfil),
     CONSTRAINT FK_PacienteNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES Nacionalidades(IdNacionalidad),
-    CONSTRAINT FK_PacienteProvincia FOREIGN KEY (IdProvincia) REFERENCES Provincia(IdProvincia),
+    CONSTRAINT FK_PacienteProvincia FOREIGN KEY (IdProvincia) REFERENCES Provincias(IdProvincia),
     CONSTRAINT FK_PacienteLocalidad FOREIGN KEY (IdLocalidad) REFERENCES Localidades(IdLocalidad)
 );
 
