@@ -129,7 +129,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		try {
 			String query = SEARCH;
 			if (idUsuario != 0) {
-				query += " WHERE Userlogin = ?";
+				query += " WHERE u.IdUsuario = ?";
 				statement = conexion.getSQLConexion().prepareStatement(query);
 				statement.setInt(1, idUsuario);
 			} else {

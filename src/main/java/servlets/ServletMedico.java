@@ -82,7 +82,9 @@ public class ServletMedico extends HttpServlet {
 
 				try {
 					Medico medico = getMedico(request, dni);
+					Usuario usuario = getUsuario(medico.getIdUsuario());
 					request.setAttribute("medico", medico);
+					request.setAttribute("usuario", usuario);
 				} catch (Exception e) {
 					response.sendError(500);
 					return;
@@ -98,6 +100,12 @@ public class ServletMedico extends HttpServlet {
 			out.println("<font color=red size18>No tiene autorizacion, debe ingresar con usuario!<br>");
 			out.println("<a href=Login.jsp>Ir al Login!</a>");
 		}
+	}
+
+	private Usuario getUsuario(int idUsuario) {
+		UsuarioNegocio usuarioNegImpl = new UsuarioNegocioImpl();
+		
+		return usuarioNegImpl.getUsuario(idUsuario);
 	}
 
 	/**

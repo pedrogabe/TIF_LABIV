@@ -53,4 +53,11 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 		return usuarioDaoImp.selectMaxId();
 	}
 
+	@Override
+	public Usuario getUsuario(int idUsuario) {
+		usuarioDaoImp = new UsuarioDaoImpl();
+		
+		return usuarioDaoImp.searchUsuario(idUsuario);
+	}
+
 }

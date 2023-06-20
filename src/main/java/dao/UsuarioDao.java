@@ -11,5 +11,5 @@ public interface UsuarioDao {
 	public Usuario searchUsuario(int idUsuario);
 	public int selectCount(Usuario usuario);
 	public int selectMaxId();
-
+	
 }
