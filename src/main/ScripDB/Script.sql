@@ -181,7 +181,7 @@ VALUES
   ('Dermatología'),
   ('Neurología');
 
-INSERT INTO EstadosTurno (IdTurno, Descripcion) VALUES
+INSERT INTO EstadosTurno (IdEstadoTurno, Descripcion) VALUES
   (1, 'Ocupado'),
   (2, 'Libre'),
   (3, 'Ausente'),
