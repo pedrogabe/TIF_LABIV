@@ -7,16 +7,16 @@ public class Turno {
 	private Paciente paciente;
 	private String fechaReserva;
 	private String observacion;
-	private int idEstadoTurno;
+	private EstadoTurno estadoTurno;
 	
 	public Turno(int idTurno, Medico medico, Paciente paciente, String fechaReserva, String observacion,
-			int idEstadoTurno) {
+			EstadoTurno estadoTurno) {
 		this.idTurno = idTurno;
 		this.medico = medico;
 		this.paciente = paciente;
 		this.fechaReserva = fechaReserva;
 		this.observacion = observacion;
-		this.idEstadoTurno = idEstadoTurno;
+		this.estadoTurno = estadoTurno;
 	}
 	
 	public int getIdTurno() {
@@ -49,17 +49,17 @@ public class Turno {
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
-	public int getIdEstadoTurno() {
-		return idEstadoTurno;
+	public EstadoTurno getEstadoTurno() {
+		return estadoTurno;
 	}
-	public void setIdEstadoTurno(int idEstadoTurno) {
-		this.idEstadoTurno = idEstadoTurno;
+	public void setIdEstadoTurno(EstadoTurno estadoTurno) {
+		this.estadoTurno = estadoTurno;
 	}
 	
 	@Override
 	public String toString() {
 		return "Turno [idTurno=" + idTurno + ", medico=" + medico.getApellido() + ", paciente=" + paciente.getApellido() + ", fechaReserva="
-				+ fechaReserva + ", observacion=" + observacion + ", idEstadoTurno=" + idEstadoTurno + "]";
+				+ fechaReserva + ", observacion=" + observacion + ", EstadoTurno=" + estadoTurno.getDescripcion() + "]";
 	}
 	
 }
