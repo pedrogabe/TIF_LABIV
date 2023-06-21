@@ -32,7 +32,7 @@ public class MedicoDaoImpl implements MedicoDao {
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
-			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad WHERE p.Dni = ?";
+			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad WHERE m.Dni = ?";
 
 	@Override
 	public boolean insert(Medico medico) {
