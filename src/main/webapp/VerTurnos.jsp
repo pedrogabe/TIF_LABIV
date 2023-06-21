@@ -26,11 +26,12 @@
 <body>
 	<%@include file="Nav.html"%>
 
-	<h1>Turnos otorgados</h1>
+	<h1 class="title">Turnos otorgados</h1>
 	
-	<a href="ABMLTurno.jsp"><input type="submit" name="btnAgregarTurno" value="Agregar Turno"></a>
-	
-	
+	<a href="ABMLTurno.jsp" class="p-2 bd-highlight">
+		<input class="btn btn-outline-dark" type="submit" name="btnAgregarTurno" value="Agregar Turno">
+	</a>
+	    
 	<br><br><br>
 	
 	<table border="1" id="table_id">

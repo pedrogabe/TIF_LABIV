@@ -56,8 +56,12 @@
 	%>
 	<form action="ServletMedico" method="post">
 
-		<h2>Alta y Modificación de Medicos</h2>
+		<h2 class="title">Alta y Modificación de Medicos</h2>
 		<br>
+		
+		<div class="formulario">
+		
+		<div>
 		<table>
 			<tr>
                 <td><label>DNI</label></td>
@@ -169,15 +173,19 @@
 				<td><label>Confirmar Password</label></td>
 				<td><input type="password" name="txtConfPassword" id="txtConfPassword" placeholder="Confirmar Password" value="<%= confPassword %>" required></td>
 			</tr>
-			<tr>
-				<% if(op.equals("add")) {%>
-					<td><input type="submit" name="btnGrabar" value="Grabar"></td>
-				<% } else { %>
-					<td><input type="submit" name="btnActualizar" value="Grabar"></td>
-					<td><input type="submit" name="btnEliminar" value="Eliminar"></td>
-				<% } %>
-			</tr>
 		</table>
+		</div>
+		
+		<div  class="pt-4 w-25 d-flex justify-content-around" >
+
+				<% if(op.equals("add")) {%>
+					<input class="btn btn-outline-success" type="submit" name="btnGrabar" value="Grabar">
+				<% } else { %>
+					<input class="btn btn-outline-primary" type="submit" name="btnActualizar" value="Grabar">
+					<input class="btn btn-outline-danger" type="submit" name="btnEliminar" value="Eliminar">
+				<% } %>
+
+		</div>
 
 		<%
 		if (request.getAttribute("success") != null) {
@@ -193,6 +201,7 @@
 		<%
 		}
 		%>
+		</div>
 	</form>
 	<script type="text/javascript">
 	

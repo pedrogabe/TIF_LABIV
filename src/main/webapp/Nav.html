@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Navegacion</title>
+	<meta charset="ISO-8859-1">
+	<!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	<link href="estilo.css" rel="stylesheet">
+	<title>Navegacion</title>
 </head>
 <body>
-<style>
-	.navBar{
-		display: flex;
-		justify-content: space-between
-	}
-</style>
-<div class="navBar">
-	<div>
-		<a href="Inicio.jsp">Inicio</a> 
-		<a href="ServletListarMedicos">Medicos</a> 
-		<a href="PacientesListado">Pacientes</a>
-		<a href="VerTurnos.jsp">Turnos</a>
-		<a href="Login.jsp">Login</a>
-	</div>
-	<div>
-		<label>Admin1</label>
-	</div>
-</div>
+
+	<nav class="navbar navbar-dark bg-mynav">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="Inicio.jsp">Inicio</a> 
+		<a class="navbar-brand" href="ServletListarMedicos">Medicos</a> 
+		<a class="navbar-brand" href="PacientesListado">Pacientes</a>
+		<a class="navbar-brand" href="VerTurnos.jsp">Turnos</a>
+		<a class="navbar-brand" href="Login.jsp">Login</a>
+		<label class="user-name">Admin1</label>
+      </div>
+    </nav>
+    
 </body>
 </html>

@@ -4,25 +4,29 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="estilo.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <title>LOGIN</title>
 
 </head>
 <body>
-<div align=left>
-	<h1>Iniciar sesion</h1>
-</div>
-	<form action=servletLogin method=post>
+	<h1 class="title">Iniciar sesion</h1>
+
+	<div class="inicio">
 		
-		<table>
-			<tr><td>Usuario: </td><td><input type=text name= txtUsuario></td></tr>
-		    <tr><td>Contraseña: </td><td><input type=password name= txtContraseña></td></tr>
-		    <tr><td><input type=submit value=Login></td><td><input type=reset></td></tr>
-		</table>
+		<form action=servletLogin method=post>
+		
+			<table>
+				<tr><td>Usuario: </td><td><input type=text name= txtUsuario></td></tr>
+			    <tr><td>Contraseña: </td><td><input type=password name= txtContraseña></td></tr>
+			</table>
+			<div class="pt-4 d-flex justify-content-between" >
+				 <input class="btn btn-outline-dark" type=submit value=Login>
+				 <input class="btn btn-outline-dark"type=reset>
+			</div>
+		</form>
+	</div>
 	
-	
-	</form>
-	
-	
-	
+
 </body>
 </html>

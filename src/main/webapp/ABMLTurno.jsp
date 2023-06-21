@@ -17,7 +17,7 @@
 </head>
 <body>
 	<%@include file="Nav.html"%>
-	<h2>Alta y Modificación de Turnos</h2>
+	<h2 class="title" >Alta y Modificación de Turnos</h2>
 	<form id="turno" method="post" action="ABMLTurno.jsp">
 		<label for="paciente">Paciente:</label>
 		<select id="paciente" name="paciente">

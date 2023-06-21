@@ -34,9 +34,11 @@
 		}
 	%>
 
-	<h1>Listado de pacientes</h1>
+	<h1  class="title">Listado de pacientes</h1>
 	
-	<a href="servletPaciente?op=add"><input type="button" name="btnAgregarPaciente" value="Agregar Paciente"></a>
+	<a href="servletPaciente?op=add"class="p-2 bd-highlight">
+		<input class="btn btn-outline-dark" type="submit" name="btnAgregarPaciente" value="Agregar Paciente">
+	</a>
 	
 	<br><br><br>
 

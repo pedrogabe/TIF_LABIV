@@ -44,10 +44,11 @@
 	%>
 
 
-	<h1>Listado de medicos</h1>
+	<h1 class="title">Listado de medicos</h1>
 
-	<a href="ServletMedico?op=add"><input type="submit"
-		name="btnAgregarMedico" value="Agregar Medico"></a>
+	<a href="ServletMedico?op=add" class="p-2 bd-highlight">
+		<input class="btn btn-outline-dark" type="submit" name="btnAgregarMedico" value="Agregar Medico">
+	</a>
 
 	<br>
 	<br>
