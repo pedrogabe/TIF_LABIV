@@ -91,22 +91,25 @@ CREATE TABLE medicos (
 ); 
 
 CREATE TABLE EstadosTurno (
-  IdEstadoTurno INT,
+  IdEstadoTurno INT PRIMARY KEY,
   Descripcion VARCHAR(255)
 );
+
 CREATE TABLE Turnos (
     IdTurno INT AUTO_INCREMENT PRIMARY KEY,
     IdMedico INT NULL,
     IdPaciente INT NULL,   
     FechaReserva DATETIME NOT NULL,
     Observacion TEXT NOT NULL,
-    IdEstadoTurno INT NULL,
+    IdTurnoEstado INT NULL,
     Hora INT NULL,
     Estado BIT NOT NULL,
     CONSTRAINT FK_TurnoMedico FOREIGN KEY (IdMedico) REFERENCES Medicos(Id),
     CONSTRAINT FK_TurnoPaciente FOREIGN KEY (IdPaciente) REFERENCES Pacientes(Id),
-    CONSTRAINT FK_TurnoEstado FOREIGN KEY (IdEstadoTurno) REFERENCES EstadosTurno(IdEstadoTurno)
+    CONSTRAINT FK_TurnoEstado FOREIGN KEY (IdTurnoEstado) REFERENCES EstadosTurno(IdEstadoTurno)
 );
+
+
 
 -- Insertar perfil de ADMIN
 INSERT INTO Perfiles (Descripcion, Estado)
