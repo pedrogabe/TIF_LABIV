@@ -94,9 +94,9 @@
 			<tr>
 				<td><label>Sexo</label></td>
 				<td><select name="selSexo">
-						<option value="No indica" <%= sexo == "No indica" ? "selected" : "" %>>No indica</option>
-						<option value="Femenino" <%= sexo == "Femenino" ? "selected" : "" %>>Femenino</option>
-						<option value="Masculino" <%= sexo == "Masculino" ? "selected" : "" %>>Masculino</option>
+						<option value="No indica" <%= sexo.equals("No indica") ? "selected" : "" %>>No indica</option>
+						<option value="Femenino" <%= sexo.equals("Femenino") ? "selected" : "" %>>Femenino</option>
+						<option value="Masculino" <%= sexo.equals("Masculino") ? "selected" : "" %>>Masculino</option>
 				</select></td>
 			</tr>
 			<tr>

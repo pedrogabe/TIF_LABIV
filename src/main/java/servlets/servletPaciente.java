@@ -324,7 +324,8 @@ public class servletPaciente extends HttpServlet {
 			sexo = "";
 		}
 		paciente.setSexo(sexo);
-
+		paciente.setEstado(estado);
+		
 		return valid;
 	}
 
