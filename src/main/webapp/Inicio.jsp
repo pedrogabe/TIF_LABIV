@@ -7,9 +7,16 @@
 	<title>Inicio</title>
 </head>
 <body>
+<%
+	if(request.getSession().getAttribute("Usuario")!=null){
+%>
 	<%@include file="Nav.html"%>
 	<div class="inicio">
 		<h1 class="inicio-content ">Portal de inicio</h1>
 	</div>
+<%}else{
+	response.sendRedirect("Login.jsp");
+}
+%>
 </body>
 </html>
