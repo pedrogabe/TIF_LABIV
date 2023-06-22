@@ -196,23 +196,28 @@
 	const desplegableA = document.getElementById('selProvincia');
 	desplegableA.addEventListener('change', filtrarDesplegableB);
 
-	function filtrarDesplegableB() {
+	function filtrarDesplegableB(forzarSeleccion = true) {
 	 
 	  const valorSeleccionado = desplegableA.value;
 
 	  const desplegableB = document.getElementById('selLocalidad');
 	  Array.from(desplegableB.options).forEach(option => {
+		  
 	    if (option.getAttribute('provincias') === valorSeleccionado) {
 	      option.style.display = 'block';
-	      option.setAttribute('selected',true);
+	      if(forzarSeleccion)
+	      	option.setAttribute('selected',true);
 	    } else {
 	      option.style.display = 'none';
+	      if(forzarSeleccion)
+	    	  option.removeAttribute('selected');
 	    }
+	    
 	  });
 	}
 
 	
-	filtrarDesplegableB();
+	filtrarDesplegableB(false);
 	</script>
 	
 <%}else{
