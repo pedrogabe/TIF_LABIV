@@ -1,4 +1,3 @@
-
 <%@ page import="java.util.ArrayList"%>
 
 <%@ page import="java.util.List"%>
@@ -18,6 +17,10 @@
 
 </head>
 <body>
+<%
+	if(request.getSession().getAttribute("Usuario")!=null){
+%>
+
 	<%@include file="Nav.html"%>
 <%
         //TODO -> Validar error / success
@@ -53,7 +56,7 @@
     %>
 	<form action="servletPaciente" method="post">
 
-		<h2 class="title">Alta y Modificación de Pacientes</h2>
+		<h2 class="title">Alta y ModificaciÃ³n de Pacientes</h2>
 		<br>
 	
 		<div class="formulario">
@@ -211,5 +214,11 @@
 	
 	filtrarDesplegableB();
 	</script>
+	
+<%}else{
+	response.sendRedirect("Login.jsp");
+}
+%>
+	
 </body>
 </html>
