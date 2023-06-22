@@ -8,15 +8,17 @@ public class Turno {
 	private String fechaReserva;
 	private String observacion;
 	private EstadoTurno estadoTurno;
+	private int hora;
 	
 	public Turno(int idTurno, Medico medico, Paciente paciente, String fechaReserva, String observacion,
-			EstadoTurno estadoTurno) {
+			EstadoTurno estadoTurno, int hora) {
 		this.idTurno = idTurno;
 		this.medico = medico;
 		this.paciente = paciente;
 		this.fechaReserva = fechaReserva;
 		this.observacion = observacion;
 		this.estadoTurno = estadoTurno;
+		this.hora = hora;
 	}
 	
 	public int getIdTurno() {
@@ -54,6 +56,12 @@ public class Turno {
 	}
 	public void setIdEstadoTurno(EstadoTurno estadoTurno) {
 		this.estadoTurno = estadoTurno;
+	}
+	public int getHora() {
+		return hora;
+	}
+	public void setHora(int hora) {
+		this.hora = hora;
 	}
 	
 	@Override
