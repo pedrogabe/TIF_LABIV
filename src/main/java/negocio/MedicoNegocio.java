@@ -10,6 +10,7 @@ public interface MedicoNegocio {
 	public boolean insert(Medico medico, Usuario usuario);
 	public boolean delete(Medico medico);
 	public boolean update(Medico medico);
+	public boolean update(Medico medico, Usuario usuario);
 	public ArrayList<Medico> readAll(int estado);
 	public boolean exists(Medico medico);
 }

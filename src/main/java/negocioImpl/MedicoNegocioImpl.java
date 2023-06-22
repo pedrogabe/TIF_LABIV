@@ -61,7 +61,16 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 			update = medicoDaoImpl.update(medico, false);
 		return update;
 	}
-
+	
+	@Override
+	public boolean update(Medico medico,Usuario usuario) {		
+		boolean updateMedico = update(medico);		
+		if (usuario != null && updateMedico) {		
+			UsuarioDao usuarioDaoImpl = new UsuarioDaoImpl();
+			updateMedico = usuarioDaoImpl.update(usuario, false);
+		}
+		return updateMedico;		
+	}
 	@Override
 	public ArrayList<Medico> readAll(int estado) {
 		medicoDaoImpl = new MedicoDaoImpl();
