@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <%
 	String error = (String)request.getAttribute("error");
 	ArrayList<Turno> turnos = (ArrayList<Turno>)request.getAttribute("turnos");
@@ -15,9 +16,14 @@
 <%@include file="Datatable_init.html" %>
 
 </head>
+
+<%
+	if(request.getSession().getAttribute("Usuario")!=null){
+%>
+
 <body>
 	<%@include file="Nav.html"%>
-	<h2 class="title" >Alta y Modificación de Turnos</h2>
+	<h2 class="title" >Alta y ModificaciÃ³n de Turnos</h2>
 	<form id="turno" method="post" action="ABMLTurno.jsp">
 		<label for="paciente">Paciente:</label>
 		<select id="paciente" name="paciente">
@@ -26,18 +32,18 @@
 			<option value="3">Mariano Benitez</option>
 		</select>
 		
-		<label for="medico">Médico:</label>
+		<label for="medico">MÃ©dico:</label>
 		<select name="medico" id="medico">
-			<option value="1">Andrés Petronella</option>
-			<option value="2">Mariano García</option>
-			<option value="3">Estefanía Torres</option>
+			<option value="1">AndrÃ©s Petronella</option>
+			<option value="2">Mariano GarcÃ­a</option>
+			<option value="3">EstefanÃ­a Torres</option>
 		</select>
 		
 		<label for="especialidad">Especialidad:</label>
 		<select name="especialidad" id="especialidad">
-			<option value="1">Clínico</option>
+			<option value="1">ClÃ­nico</option>
 			<option value="2">Otorrino</option>
-			<option value="3">Cardiólogo</option>
+			<option value="3">CardiÃ³logo</option>
 		</select>
 		
 		<label for="fecha">Fecha:</label>
@@ -59,7 +65,7 @@
 			<tr>
 				<td>Id</td>
 				<td>Especialidad</td>
-				<td>Médico</td>
+				<td>MÃ©dico</td>
 				<td>Paciente</td>
 				<td>Fecha</td>
 				<td>Hora</td>
@@ -70,8 +76,8 @@
 		<tbody>
 			<tr>
 				<td>1</td>
-				<td>Clínico</td>
-				<td>Estefanía Torres</td>
+				<td>ClÃ­nico</td>
+				<td>EstefanÃ­a Torres</td>
 				<td>Mariano Benitez</td>
 				<td>2023-07-10</td>
 				<td>15</td>
@@ -80,8 +86,8 @@
 			</tr>
 			<tr>
 				<td>2</td>
-				<td>Clínico</td>
-				<td>Estefanía Torres</td>
+				<td>ClÃ­nico</td>
+				<td>EstefanÃ­a Torres</td>
 				<td>Lucia Martinez</td>
 				<td>2023-07-08</td>
 				<td>14</td>
@@ -90,8 +96,8 @@
 			</tr>
 			<tr>
 				<td>3</td>
-				<td>Cardiólogo</td>
-				<td>Andrés Petronella</td>
+				<td>CardiÃ³logo</td>
+				<td>AndrÃ©s Petronella</td>
 				<td>Mariano Benitez</td>
 				<td>2023-07-10</td>
 				<td>16</td>
@@ -100,8 +106,8 @@
 			</tr>
 			<tr>
 				<td>3</td>
-				<td>Cardiólogo</td>
-				<td>Andrés Petronella</td>
+				<td>CardiÃ³logo</td>
+				<td>AndrÃ©s Petronella</td>
 				<td>Mariano Benitez</td>
 				<td>2023-06-01</td>
 				<td>16</td>
@@ -110,5 +116,9 @@
 			</tr>
 		</tbody>
 	</table>
+<%}else{
+	response.sendRedirect("Login.jsp");
+}
+%>
 </body>
 </html>
