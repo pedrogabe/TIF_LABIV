@@ -9,15 +9,15 @@ import negocio.UsuarioNegocio;
 
 public class UsuarioNegocioImpl implements UsuarioNegocio{
 
-	UsuarioDao usuarioDaoImp = null;
+	UsuarioDao usuarioDaoImpl = null;
 	
 	@Override
 	public boolean insert(Usuario usuario) {
-		usuarioDaoImp = new UsuarioDaoImpl();
+		usuarioDaoImpl = new UsuarioDaoImpl();
 		boolean insertado = false;
 		if (usuario.getUserLogin().trim() != "" && usuario.getPassword().trim() != ""
 				&& usuario.getIdPerfil() > 0) {
-			insertado = usuarioDaoImp.insert(usuario);
+			insertado = usuarioDaoImpl.insert(usuario);
 		}
 		return insertado;
 	}
@@ -30,8 +30,11 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 
 	@Override
 	public boolean update(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return false;
+		usuarioDaoImpl = new UsuarioDaoImpl();
+		boolean update = false;
+		if (!usuario.getUserLogin().trim().equals("") && !usuario.getPassword().trim().equals(""))
+			update = usuarioDaoImpl.update(usuario, false);		
+		return update;
 	}
 
 	@Override
@@ -48,16 +51,16 @@ public class UsuarioNegocioImpl implements UsuarioNegocio{
 
 	@Override
 	public int maxId() {
-		usuarioDaoImp = new UsuarioDaoImpl();
+		usuarioDaoImpl = new UsuarioDaoImpl();
 		
-		return usuarioDaoImp.selectMaxId();
+		return usuarioDaoImpl.selectMaxId();
 	}
 
 	@Override
 	public Usuario getUsuario(int idUsuario) {
-		usuarioDaoImp = new UsuarioDaoImpl();
+		usuarioDaoImpl = new UsuarioDaoImpl();
 		
-		return usuarioDaoImp.searchUsuario(idUsuario);
+		return usuarioDaoImpl.searchUsuario(idUsuario);
 	}
 
 }
