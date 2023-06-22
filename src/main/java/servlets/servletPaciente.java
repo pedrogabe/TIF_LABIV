@@ -119,7 +119,7 @@ public class servletPaciente extends HttpServlet {
 
 		postOp(request);
 
-		if (request.getAttribute("op") != null && request.getAttribute("op").toString() == "edit") {
+		if (request.getAttribute("op") != null && (request.getAttribute("op").toString() == "edit" || request.getAttribute("op").toString() == "add")) {
 			PacienteNegocio negocio = new PacienteNegocioImpl();
 			request.getSession().setAttribute("pacientes", negocio.readAll(1)); //Por default solo pacientes activos
 			RequestDispatcher rd = request.getRequestDispatcher("ListarPacientes.jsp");
