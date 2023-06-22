@@ -1,4 +1,3 @@
-
 <%@ page import="java.util.ArrayList"%>
 <%@page import="entidad.Nacionalidad"%>
 <%@page import="entidad.Provincia"%>
@@ -18,6 +17,10 @@
 
 </head>
 <body>
+
+<%
+	if(request.getSession().getAttribute("Usuario")!=null){
+%>
 	<%@include file="Nav.html"%>
 	<%
 	//TODO -> Validar error / success
@@ -239,5 +242,11 @@
 	
 	filtrarDesplegableB();
 	</script>
+
+<%}else{
+	response.sendRedirect("Login.jsp");
+}
+%>
+
 </body>
 </html>
