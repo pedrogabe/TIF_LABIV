@@ -24,6 +24,9 @@
 
 </head>
 <body>
+<%
+	if(request.getSession().getAttribute("Usuario")!=null){
+%>
 	<%@include file="Nav.html"%>
 
 	<h1 class="title">Turnos otorgados</h1>
@@ -71,6 +74,9 @@
 	</tbody>
 
 	</table>
-
+<%}else{
+	response.sendRedirect("Login.jsp");
+}
+%>
 </body>
 </html>
