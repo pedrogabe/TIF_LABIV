@@ -12,20 +12,21 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	
 	@Override
 	public boolean insert(Turno turno) {
-		// TODO Auto-generated method stub
+		if(turno.getHora() > 23 || turno.getHora() < 0)
+			return false;
 		return false;
 	}
 
 	@Override
 	public boolean delete(Turno turno) {
-		// TODO Auto-generated method stub
-		return false;
+		return tdao.update(turno, true);
 	}
 
 	@Override
 	public boolean update(Turno turno) {
-		// TODO Auto-generated method stub
-		return false;
+		if(turno.getHora() > 23 || turno.getHora() < 0)
+			return false;
+		return tdao.update(turno, false);
 	}
 
 	@Override
@@ -35,8 +36,8 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 
 	@Override
 	public boolean exists(Turno turno) {
-		// TODO Auto-generated method stub
-		return false;
+		return tdao.searchTurno(turno.getIdTurno()) != null;
 	}
+	
 
 }

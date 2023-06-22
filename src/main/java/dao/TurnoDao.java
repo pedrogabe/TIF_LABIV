@@ -9,5 +9,4 @@ public interface TurnoDao {
 	public boolean update(Turno turno, boolean esBaja);
 	public ArrayList<Turno> readAll(int estado);
 	public Turno searchTurno(int idTurno);
-	public int selectCount(Turno turno);
 }

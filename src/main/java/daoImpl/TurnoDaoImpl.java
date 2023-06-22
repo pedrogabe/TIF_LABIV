@@ -1,5 +1,6 @@
 package daoImpl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,6 +33,26 @@ public class TurnoDaoImpl implements TurnoDao {
 			" INNER JOIN clinica_medica.nacionalidades nm ON nm.IdNacionalidad = m.IdNacionalidad" + 
 			" INNER JOIN clinica_medica.provincias pm ON pm.IdProvincia = m.IdProvincia " + 
 			" INNER JOIN clinica_medica.localidades lm ON lm.IdLocalidad = m.IdLocalidad";
+	private static final String SEARCH = "" + 
+			" SELECT t.IdTurno, t.FechaReserva, t.Observacion, t.IdTurnoEstado, t.Hora, t.Estado, et.IdEstadoTurno as TurnoEstado," + 
+			" p.Id as IdPac, p.Dni as DniPac, p.Nombre as NombrePac, p.Apellido as ApellidoPac, p.Sexo as SexoPac, p.IdNacionalidad as IdNacionalidadPac, np.Nacionalidad as NacionalidadPac, p.FechaNacimiento as FechaNacimientoPac, p.Direccion as DireccionPac, " + 
+			" p.IdLocalidad as IdLocalidadPac, lp.Localidad as LocalidadPac, p.IdProvincia as IdProvinciaPac, pp.Provincia as ProvinciaPac, p.CorreoElectronico as CorreoElectronicoPac, p.Telefono as TelefonoPac, p.Estado as EstadoPac," + 
+			" m.Id as IdMed, m.IdUsuario as IdUsuarioMed, m.Dni as DniMed, m.Nombre as NombreMed, m.Apellido as ApellidoMed, m.Sexo as SexoMed, m.IdNacionalidad as IdNacionalidadMed, nm.Nacionalidad as NacionalidadMed, " + 
+			" m.FechaNacimiento as FechaNacimientoMed, m.Direccion as DireccionMed, m.IdLocalidad as IdLocalidadMed, lm.Localidad as LocalidadMed, m.IdProvincia as IdProvinciaMed, pm.Provincia as ProvinciaMed, m.CorreoElectronico as CorreoElectronicoMed, m.Telefono as TelefonoMed, m.Estado as EstadoMed" + 
+			" FROM clinica_medica.turnos t" + 
+			" INNER JOIN clinica_medica.estadosturno et ON t.IdTurnoEstado = et.IdEstadoTurno" + 
+			" INNER JOIN clinica_medica.pacientes p ON t.IdPaciente = p.Id" + 
+			" INNER JOIN clinica_medica.nacionalidades np ON np.IdNacionalidad = p.IdNacionalidad " + 
+			" INNER JOIN clinica_medica.provincias pp ON pp.IdProvincia = p.IdProvincia " + 
+			" INNER JOIN clinica_medica.localidades lp ON lp.IdLocalidad = p.IdLocalidad" +  
+			" INNER JOIN clinica_medica.medicos m" + 
+			" INNER JOIN clinica_medica.nacionalidades nm ON nm.IdNacionalidad = m.IdNacionalidad" + 
+			" INNER JOIN clinica_medica.provincias pm ON pm.IdProvincia = m.IdProvincia " + 
+			" INNER JOIN clinica_medica.localidades lm ON lm.IdLocalidad = m.IdLocalidad where t.IdTurno = ?";
+	private static final String UPDATE = "UPDATE clinica_medica.turnos SET "
+			+ " IdMedico = (select id from Medicos where dni = ? limit 1), IdPaciente = (select id from Pacientes where dni = ? limit 1), FechaReserva = ?, Observacion = ?, IdTurnoEstado = ?, Hora = ? "
+			+ " WHERE IdTurno = ? ";
+	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.turnos SET Estado = ? WHERE IdTurno = ?";
 
 	@Override
 	public boolean insert(Turno turno) {
@@ -41,8 +62,52 @@ public class TurnoDaoImpl implements TurnoDao {
 
 	@Override
 	public boolean update(Turno turno, boolean esBaja) {
-		// TODO Auto-generated method stub
-		return false;
+		if(esBaja) 
+			return bajaTurno(turno);
+		else
+			return actualizarTurno(turno);
+	}
+	
+	private boolean bajaTurno(Turno turno) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean estadoCambiado = false;
+		try {
+			statement = conexion.prepareStatement(CAMBIA_ESTADO);
+			statement.setInt(1, 0);
+			statement.setInt(2, turno.getIdTurno());
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				estadoCambiado = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return estadoCambiado;
+	}
+	
+	private boolean actualizarTurno(Turno turno) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean actualizado = false;
+		try {
+			statement = conexion.prepareStatement(UPDATE);
+			statement.setInt(1, turno.getMedico().getDni());
+			statement.setInt(2, turno.getPaciente().getDni());
+			statement.setString(3, turno.getFechaReserva());
+			statement.setString(4, turno.getObservacion());
+			statement.setInt(5, turno.getEstadoTurno().getIdEstadoTurno());
+			statement.setInt(6, turno.getHora());
+			statement.setInt(7, turno.getIdTurno());
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				actualizado = true;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return actualizado;
 	}
 
 	@Override
@@ -72,14 +137,21 @@ public class TurnoDaoImpl implements TurnoDao {
 
 	@Override
 	public Turno searchTurno(int idTurno) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int selectCount(Turno turno) {
-		// TODO Auto-generated method stub
-		return 0;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		Turno turno = null;
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(SEARCH);
+			statement.setInt(1, idTurno);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				turno = getTurno(resultSet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return turno;
 	}
 	
 	private Turno getTurno(ResultSet resultSet) throws SQLException {
@@ -89,8 +161,9 @@ public class TurnoDaoImpl implements TurnoDao {
 		String fechaReserva = resultSet.getString("FechaReserva");
 		String observacion = resultSet.getString("observacion");
 		EstadoTurno estadoTurno = new EstadoTurno(resultSet.getInt("IdTurnoEstado"), resultSet.getString("TurnoEstado"));
+		int hora = resultSet.getInt("hora");
 		
-		return new Turno(idTurno, medico, paciente, fechaReserva, observacion, estadoTurno);
+		return new Turno(idTurno, medico, paciente, fechaReserva, observacion, estadoTurno, hora);
 	}
 	
 	private Medico getMedico(ResultSet resultSet) throws SQLException {
