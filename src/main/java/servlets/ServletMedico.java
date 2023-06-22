@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Localidad;
 import entidad.Nacionalidad;
+import entidad.Paciente;
 import entidad.Medico;
 import entidad.Provincia;
 import entidad.Usuario;
@@ -299,5 +300,44 @@ public class ServletMedico extends HttpServlet {
 		// TODO -> call negocio
 		return null;
 	}
-
+	protected void updateMedico(HttpServletRequest request) {
+		Medico medico = fillMedico(request);
+		Usuario usuario = fillUsuario(request);
+		request.setAttribute("op", "edit");
+		 
+			if (true) { // TODO -> call negocio para guardar
+				MedicoNegocio medicoNeg = new MedicoNegocioImpl();
+				if (medicoNeg.update(medico)) {
+					request.setAttribute("success",
+							String.format("Se actualizó el medico (Dni %s)", medico.getDni()));
+				} else {
+					request.setAttribute("error",
+							String.format("No se actualizó el medico con el (Dni %s)", medico.getDni()));
+				}
+			}
+		
+			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
+			request.setAttribute("medico", medico);
+		
+	}
+	
+	protected void deleteMedico(HttpServletRequest request) {
+		Medico medico = fillMedico(request);		
+		request.setAttribute("op", "edit");
+		
+			if (true) { // TODO -> call negocio para guardar
+				MedicoNegocio medicoNeg = new MedicoNegocioImpl();
+				if (medicoNeg.delete(medico)) {
+					request.setAttribute("success",
+							String.format("Se hizo la baja del medico (Dni %s)", medico.getDni()));
+				} else {
+					request.setAttribute("error",
+							String.format("No se hizo la baja del medico (Dni %s)", medico.getDni()));
+				}
+			}
+		
+			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
+			request.setAttribute("medico", medico);
+		
+	}
 }
