@@ -28,6 +28,9 @@
 
 </head>
 <body>
+<%
+	if(request.getSession().getAttribute("Usuario")!=null){
+%>
 	<%@include file="Nav.html"%>
 
 	<%
@@ -104,7 +107,10 @@
 	<%
 	}
 	%>
-
+<%}else{
+	response.sendRedirect("Login.jsp");
+}
+%>
 
 </body>
 </html>
