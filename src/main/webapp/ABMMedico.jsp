@@ -3,7 +3,7 @@
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Medico"%>
 <%@page import="entidad.Usuario"%>
-
+<%@page import="entidad.Especialidad"%>
 <%@page import="entidad.Localidad"%>
 
 
@@ -28,8 +28,8 @@
 	String apellido, nombre, dni, eMail, fechaNacimiento, telefono, direccion, sexo, userLogin, password, confPassword;
 	apellido = nombre = dni = eMail = fechaNacimiento = telefono = direccion = sexo = userLogin = password = confPassword = "";
 
-	int maxId, loc, nacion, prov;
-	maxId = loc = nacion = prov = 0;
+	int maxId, loc, nacion, prov, espe;
+	maxId = loc = nacion = prov = espe = 0;
 
 	Medico medico = null;
 	Usuario usuario = null;
@@ -77,6 +77,26 @@
 			<tr>
 				<td><label>Apellido</label></td>
 				<td><input type="text" name="txtApellido" value="<%= apellido %>" required></td>
+			</tr>
+			<tr>
+				<td><label>Especialidad</label></td>
+				<td><select name="selNacionalidad">
+						<%
+						ArrayList<Especialidad> especialidades = null;
+
+						if (request.getAttribute("especialidadaes") != null) {
+							especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
+						
+						for (Especialidad espec : especialidades) {
+						%>
+						<option  value="<%=espec.getIdEspecialidad()%>"  <%= nacion == espec.getIdEspecialidad() ? "selected" : "" %>>
+							<%=espec.getEspecialidad()%>
+						</option>
+						
+						<%
+						}}
+						%>
+				</select></td>
 			</tr>
 			<tr>
 				<td><label>Nacionalidad</label></td>

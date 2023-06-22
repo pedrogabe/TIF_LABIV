@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Localidad;
 import entidad.Nacionalidad;
-import entidad.Paciente;
 import entidad.Medico;
 import entidad.Provincia;
 import entidad.Usuario;
+import entidad.Especialidad;
 import negocio.*;
 import negocioImpl.*;
 
@@ -61,9 +61,14 @@ public class ServletMedico extends HttpServlet {
 
 			LocalidadNegocio negLoc = new LocalidadNegocioImpl();
 			ArrayList<Localidad> localidades = negLoc.readAll();
+			
+			EspecialidadNegocio negEspe = new EspecialidadNegocioImpl();
+			ArrayList<Especialidad> especialidades = negEspe.readAll();
+			
 			request.setAttribute("nacionalidades", nacionalidades);
 			request.setAttribute("provincias", provincias);
 			request.setAttribute("localidades", localidades);
+			request.setAttribute("especialidades", especialidades);
 			if (op.equals("add")) {
 				// TODO -> return max id
 				request.setAttribute("maxIdPaciente", 1001);
