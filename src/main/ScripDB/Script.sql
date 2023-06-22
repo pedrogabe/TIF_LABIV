@@ -95,19 +95,19 @@ CREATE TABLE EstadosTurno (
   Descripcion VARCHAR(255)
 );
 
-CREATE TABLE `turnos` (
-  `IdTurno` int NOT NULL AUTO_INCREMENT,
-  `IdMedico` int NOT NULL,
-  `IdPaciente` int NOT NULL,
-  `FechaReserva` datetime NOT NULL,
-  `Observacion` text NOT NULL,
-  `IdTurnoEstado` int NOT NULL,
-  `Hora` int NOT NULL,
-  `Estado` bit(1) NOT NULL,
-  PRIMARY KEY (`IdTurno`),
-  KEY `FK_TurnoMedico` (`IdMedico`),
-  KEY `FK_TurnoPaciente` (`IdPaciente`),
-  KEY `FK_TurnoEstado` (`IdTurnoEstado`)
+CREATE TABLE turnos (
+  IdTurno int NOT NULL AUTO_INCREMENT,
+  IdMedico int NOT NULL,
+  IdPaciente int NOT NULL,
+  FechaReserva datetime NOT NULL,
+  Observacion text NOT NULL,
+  IdTurnoEstado int NOT NULL,
+  Hora int NOT NULL,
+  Estado bit(1) NOT NULL,
+  PRIMARY KEY (IdTurno),
+  KEY FK_TurnoMedico (IdMedico),
+  KEY FK_TurnoPaciente (IdPaciente),
+  KEY FK_TurnoEstado (IdTurnoEstado)
 ) ;
 
 
