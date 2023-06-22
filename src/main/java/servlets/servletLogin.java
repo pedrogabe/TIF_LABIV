@@ -30,6 +30,12 @@ public class servletLogin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		//Cierra session.
+		request.getSession().setAttribute("Usuario", null);
+		RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");
+		rd.forward(request, response); 
+	
 	}
 
 
@@ -48,7 +54,8 @@ public class servletLogin extends HttpServlet {
 					
 			
 				request.getSession().setAttribute("Usuario", usuario);
-			
+				request.getSession().setAttribute("UsuarioLogeado", request.getParameter("txtUsuario").toString());
+				
 				RequestDispatcher rd=request.getRequestDispatcher("Inicio.jsp");
 				rd.forward(request, response); 
 				
