@@ -19,6 +19,10 @@
 
 </head>
 <body>
+<%
+	if(request.getSession().getAttribute("Usuario")!=null){
+%>
+
 	<%@include file="Nav.html"%>
 	
 	<%
@@ -79,6 +83,9 @@
 		<% if(request.getAttribute("error")!=null) {%>
 			<div class="error"><%= request.getAttribute("error") %></div>
 		<% } %>
-
+<%}else{
+	response.sendRedirect("Login.jsp");
+}
+%>
 </body>
 </html>
