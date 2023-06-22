@@ -53,11 +53,37 @@ public class TurnoDaoImpl implements TurnoDao {
 			+ " IdMedico = (select id from Medicos where dni = ? limit 1), IdPaciente = (select id from Pacientes where dni = ? limit 1), FechaReserva = ?, Observacion = ?, IdTurnoEstado = ?, Hora = ? "
 			+ " WHERE IdTurno = ? ";
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.turnos SET Estado = ? WHERE IdTurno = ?";
+	private static final String INSERT = "INSERT INTO clinica_medica.turnos  " + 
+			" (IdMedico, IdPaciente, FechaReserva, Observacion, IdTurnoEstado, Hora, Estado)"
+			+ " VALUES ((select id from Medicos where dni = ? limit 1),(select id from Pacientes where dni = ? limit 1,?,?,?,?,1)";
 
 	@Override
 	public boolean insert(Turno turno) {
-		// TODO Auto-generated method stub
-		return false;
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try {
+			statement = conexion.prepareStatement(INSERT);
+			statement.setInt(1,turno.getMedico().getDni());
+			statement.setInt(2, turno.getPaciente().getDni());
+			statement.setString(3, turno.getFechaReserva());
+			statement.setString(4, turno.getObservacion());
+			statement.setInt(5, turno.getEstadoTurno().getIdEstadoTurno());
+			statement.setInt(6, turno.getHora());
+			
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return isInsertExitoso;
 	}
 
 	@Override
@@ -103,9 +129,13 @@ public class TurnoDaoImpl implements TurnoDao {
 				conexion.commit();
 				actualizado = true;
 			}
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 		return actualizado;
 	}

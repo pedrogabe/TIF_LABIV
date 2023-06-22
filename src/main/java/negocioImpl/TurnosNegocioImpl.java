@@ -1,19 +1,27 @@
 package negocioImpl;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 import entidad.Turno;
 import dao.TurnoDao;
 import daoImpl.TurnoDaoImpl;
-import negocio.TurnosNegocio;
+import negocio.*;
 
 public class TurnosNegocioImpl implements TurnosNegocio {
 	private TurnoDao tdao = new TurnoDaoImpl();
+	private MedicoNegocio mneg;
+	private PacienteNegocio pneg; 
+	
+	public TurnosNegocioImpl(MedicoNegocio mneg, PacienteNegocio pneg) {
+		this.mneg = mneg;
+		this.pneg = pneg;
+	}
 	
 	@Override
 	public boolean insert(Turno turno) {
-		if(turno.getHora() > 23 || turno.getHora() < 0)
-			return false;
+		if(turnoValido(turno))
+			return tdao.insert(turno);
 		return false;
 	}
 
@@ -24,9 +32,9 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 
 	@Override
 	public boolean update(Turno turno) {
-		if(turno.getHora() > 23 || turno.getHora() < 0)
-			return false;
-		return tdao.update(turno, false);
+		if(turnoValido(turno))
+			return tdao.update(turno, false);
+		return false;
 	}
 
 	@Override
@@ -37,6 +45,16 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	@Override
 	public boolean exists(Turno turno) {
 		return tdao.searchTurno(turno.getIdTurno()) != null;
+	}
+	
+	public boolean turnoValido(Turno turno) {
+		if(turno.getHora() > 23 || turno.getHora() < 0)
+			return false;
+		if(!mneg.exists(turno.getMedico())) 
+			return false;
+		if(!pneg.exists(turno.getPaciente()))
+			return false;
+		return true;
 	}
 	
 
