@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList"%>
+
 <%@ page import="entidad.Turno"%>
 <%@ page import="entidad.Especialidad"%>
+<%@page import="entidad.Medico"%>
+<%@page import="entidad.Paciente"%>
+<%@page import="entidad.EstadoTurno"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,114 +31,208 @@ if (request.getSession().getAttribute("Usuario") != null) {
 <body>
 	<%@include file="Nav.html"%>
 
-	<%
-	int especia = 0;
-	%>
-	<form action="ServletTurno" method="post">
-		<h2 class="title">Alta y Modificacion de Turnos</h2>
+<%
+        String op = request.getAttribute("op") != null ? request.getAttribute("op").toString() : "add";
 
-		<label for="paciente">Paciente:</label> <select id="paciente"
-			name="paciente">
-			<option value="1">Pepe Zalazar</option>
-			<option value="2">Lucia Martinez</option>
-			<option value="3">Mariano Benitez</option>
+        String dniPaciente, nombrePaciente, apellidoPaciente, fechaReserva, observacion;
+        dniPaciente = nombrePaciente = apellidoPaciente = fechaReserva = observacion = "";
 
-		</select> <label for="medico">Medico:</label> <select name="medico" id="medico">
+        int med, pac, esp, estadoT, hora;
+         med = esp = estadoT = hora = 0;
 
-			<option value="1">Andres Petronella</option>
-			<option value="2">Mariano García</option>
-			<option value="3">Estefanía Torres</option>
+        Turno turno = null;
+        Especialidad especialidad_aux = null;
+        Paciente paciente_aux = null;
 
-		</select> <label>Especialidad</label> <select name="selEspecialidad">
+        if(request.getAttribute("turno") != null || !op.equals("add")){
+            try{
+                turno = (Turno)request.getAttribute("turno");
+                
+                dniPaciente = String.format("%s", turno.getPaciente().getDni());
 
-			<%
-			ArrayList<Especialidad> especialidades = null;
+                nombrePaciente = paciente_aux.getNombre();
+                apellidoPaciente = paciente_aux.getApellido();
+                
+                med = turno.getMedico().getDni();
+                esp = especialidad_aux.getIdEspecialidad();
+                fechaReserva = turno.getFechaReserva().toString().substring(0,10);
+                observacion = turno.getObservacion();
+                estadoT = turno.getEstadoTurno().getIdEstadoTurno();
+                hora = turno.getHora();
+            }catch(Exception e){
+            	if(request.getAttribute("error")==null)
+                	request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+            }
+        }
 
-			if (request.getAttribute("especialidades") != null) {
-				especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
+    %>
+    
+<form action="ServletTurno" method="post">
+	<h2 class="title">Alta y Modificacion de Turnos</h2>
+	
+		<div class="formulario">
+		
+		<div>
+		<table>
+			<tr>
+                <td><label>Dni Paciente</label></td>
+                <td><input type="text" name="txtDniPaciente" value="<%= dniPaciente %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dniPaciente %>" ></td>
+            </tr>
+            
+			<tr>
+                <td><label>Nombre </label></td>
+                <td><input type="text" name="txtNombrePaciente" value="<%= nombrePaciente %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= nombrePaciente %>" ></td>
+            </tr>
+            
+            <tr>
+                <td><label>Apellido </label></td>
+                <td><input type="text" name="txtApellidoPaciente" value="<%= apellidoPaciente %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= apellidoPaciente %>" ></td>
+            </tr>
+			
+			<tr>
+				<td><label>Especialidad</label></td>
+				<td>
+					<select name="selEspecialidad">
+						<%
+						ArrayList<Especialidad> especialidades = null;
 
-				for (Especialidad especialidad : especialidades) {
-			%>
-			<option value="<%=especialidad.getIdEspecialidad()%>">
+						if (request.getAttribute("especialidades") != null) {
+							especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
+						
+						for (Especialidad especialidad : especialidades) {
+						%>
+						<option  value="<%=especialidad.getIdEspecialidad()%>"  <%= esp == especialidad.getIdEspecialidad() ? "selected" : "" %>>
+							<%=especialidad.getIdEspecialidad()%>
+						</option>
+						
+						<%
+						}}
+						%>
+					</select>
+				</td>
+			</tr>
+			
+					
+			<tr>
+				<td><label>Medico</label></td>
+				<td>
+					<select name="selMedico">
+						<%
+						ArrayList<Medico> medicos = null;
 
-				<%=especialidad.getEspecialidad()%>
-			</option>
-			<%
-			}
-			%>
-			<%
-			}
-			%>
-		</select> <label for="fecha">Fecha:</label> <input id="fecha" name="fecha"
-			type="date" value="<%=java.time.LocalDate.now().toString()%>" /> <label
-			for="hora">Hora:</label> <select name="hora" id="hora">
-			<%
-			for (int i = 0; i < 24; i++) {
-			%>
-			<option value="<%=i%>" <%=i == 12 ? "selected" : ""%>><%=i%></option>
-			<%
-			}
-			%>
-		</select> <input type="submit" form="turno" value="Solicitar turno" />
+						if (request.getAttribute("medicos") != null) {
+							medicos = (ArrayList<Medico>) request.getAttribute("medicos");
+						
+						for (Medico medico : medicos) {
+						%>
+						<option  value="<%=medico.getDni()%>"  <%= med == medico.getDni() ? "selected" : "" %>>
+							<%=medico.getDni()%>
+						</option>
+						
+						<%
+						}}
+						%>
+					</select>
+				</td>
+			</tr>
+						
+			<tr>
+				<td><label>Fecha de Reserva</label></td>
+				<td><input type="date" name="txtFechaReserva" value="<%= fechaReserva %>" required></td>
+			</tr>
+			
+			<tr>
+				<td><label>Hora</label></td>
+				<td><input type="int" name="txtHora" value="<%= hora %>" required></td>
+			</tr>
+			
+			<tr>
+				<td><label>Observaciones</label></td>
+				<td><input type="text" name="txtObservacion" value="<%= observacion %>" required></td>
+			</tr>
+
+			<tr>
+				<td><label>Estado</label></td>
+				<td>
+					<select name="selEstadoTurno">
+						<%
+						ArrayList<EstadoTurno> estadoTurnos = null;
+
+						if (request.getAttribute("estadoTurnos") != null) {
+							estadoTurnos = (ArrayList<EstadoTurno>) request.getAttribute("estadoTurnos");
+						
+						for (EstadoTurno estadoTurno : estadoTurnos) {
+						%>
+						<option  value="<%=estadoTurno.getIdEstadoTurno()%>"  <%= estadoT == estadoTurno.getIdEstadoTurno() ? "selected" : "" %>>
+							<%=estadoTurno.getIdEstadoTurno()%>
+						</option>
+						
+						<%
+						}}
+						%>
+					</select>
+				</td>
+			</tr>
+			
+		</table>
+		</div>
+		
+		<div  class="pt-4 w-25 d-flex justify-content-around" >
+
+				<% if(op.equals("add")) {%>
+					<input class="btn btn-outline-success" type="submit" name="btnGrabar" value="Grabar">
+				<% } else { %>
+					<input class="btn btn-outline-primary" type="submit" name="btnActualizar" value="Grabar">
+					<input class="btn btn-outline-danger" type="submit" name="btnEliminar" value="Eliminar">
+				<% } %>
+
+		</div>
+
+		<%
+		if (request.getAttribute("success") != null) {
+		%>
+		<div class="success"><%=request.getAttribute("success")%></div>
+		<%
+		}
+		%>
+		<%
+		if (request.getAttribute("error") != null) {
+		%>
+		<div class="error"><%=request.getAttribute("error")%></div>
+		<%
+		}
+		%>
+		</div>
 	</form>
-	<br>
-	<br>
-	<table datatable="true">
-		<thead>
-			<tr>
-				<td>Id</td>
-				<td>Especialidad</td>
-				<td>Medico</td>
-				<td>Paciente</td>
-				<td>Fecha</td>
-				<td>Hora</td>
-				<td>Estado</td>
-				<td>Editar</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>1</td>
-				<td>Clinico</td>
-				<td>Estefania Torres</td>
-				<td>Mariano Benitez</td>
-				<td>2023-07-10</td>
-				<td>15</td>
-				<td>OCUPADO</td>
-				<td><input type="button" value="Editar" name="editar"></input></td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>Clinico</td>
-				<td>Estefania Torres</td>
-				<td>Lucia Martinez</td>
-				<td>2023-07-08</td>
-				<td>14</td>
-				<td>OCUPADO</td>
-				<td><input type="button" value="Editar" name="editar"></input></td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>Cardiologo</td>
-				<td>Andrés Petronella</td>
-				<td>Mariano Benitez</td>
-				<td>2023-07-10</td>
-				<td>16</td>
-				<td>OCUPADO</td>
-				<td><input type="button" value="Editar" name="editar"></input></td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>Cardiologo</td>
-				<td>Andres Petronella</td>
-				<td>Mariano Benitez</td>
-				<td>2023-06-01</td>
-				<td>16</td>
-				<td>AUSENTE</td>
-				<td><input type="button" value="Editar" name="editar"></input></td>
-			</tr>
-		</tbody>
-	</table>
+	<script type="text/javascript">
+	
+	const desplegableA = document.getElementById('selProvincia');
+	desplegableA.addEventListener('change', filtrarDesplegableB);
+
+	function filtrarDesplegableB(forzarSeleccion = true) {
+	 
+	  const valorSeleccionado = desplegableA.value;
+
+	  const desplegableB = document.getElementById('selLocalidad');
+	  Array.from(desplegableB.options).forEach(option => {
+		  
+	    if (option.getAttribute('provincias') === valorSeleccionado) {
+	      option.style.display = 'block';
+	      if(forzarSeleccion)
+	      	option.setAttribute('selected',true);
+	    } else {
+	      option.style.display = 'none';
+	      if(forzarSeleccion)
+	    	  option.removeAttribute('selected');
+	    }
+	    
+	  });
+	}
+
+	
+	filtrarDesplegableB(false);
+	</script>
+	
 	<%
 	} else {
 	response.sendRedirect("Login.jsp");
