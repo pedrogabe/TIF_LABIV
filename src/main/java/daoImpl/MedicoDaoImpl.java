@@ -17,22 +17,22 @@ public class MedicoDaoImpl implements MedicoDao {
 
 	private static final String INSERT = "INSERT INTO clinica_medica.medicos"
 			+ "(IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, "
-			+ "IdLocalidad,IdEspecialidad, IdProvincia, CorreoElectronico, Telefono, Estado) " + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			+ "IdLocalidad,IdEspecialidad, IdProvincia, CorreoElectronico, Telefono, Estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.medicos";
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.medicos SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.medicos SET IdUsuario = ?, Nombre = ?, Apellido = ?, Sexo = ?, IdNacionalidad = ?, "
-			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?,IdEspecialidad =?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
-	private static final String READALL = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad,"
-			+ "m.FechaNacimiento, m.Direccion, m.IdEspecialidad, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado"
+			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?, IdEspecialidad =?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
+	private static final String READALL = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, "
+			+ "m.FechaNacimiento, m.Direccion, m.IdEspecialidad, e.Descripcion, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad "
-			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad"
-			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia"
+			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
+			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad";
-	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo,m.IdEspecialidad, e.Descripcion, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion,"
-			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado"
-			+ "FROM clinica_medica.medicos m"
-			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad"
+	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdEspecialidad, e.Descripcion, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion, "
+			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
+			+ "FROM clinica_medica.medicos m "
+			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad WHERE m.Dni = ?";
@@ -184,7 +184,7 @@ public class MedicoDaoImpl implements MedicoDao {
 		String apellido = resultSet.getString("Apellido");
 		String sexo = resultSet.getString("Sexo");
 		int idEspecialidad = resultSet.getInt("IdEspecialidad");
-		String especialidad = resultSet.getString("Especialidad");
+		String especialidad = resultSet.getString("Descripcion");
 		int idNacionalidad = resultSet.getInt("IdNacionalidad");
 		String nacionalidad = resultSet.getString("Nacionalidad");
 		String fechaNac = resultSet.getString("FechaNacimiento");
