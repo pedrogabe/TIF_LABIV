@@ -10,7 +10,7 @@ import entidad.Especialidad;
 
 public class EspecialidadDaoImpl implements EspecialidadDao {
 
-	private static final String READALL = "SELECT e.IdEspecialidad, e.Especialidad FROM clinica_medica.especialidades e";
+	private static final String READALL = "SELECT e.IdEspecialidad, e.Descripcion FROM clinica_medica.especialidades e";
 	@Override
 	public ArrayList<Especialidad> readAll() {
 		PreparedStatement statement;
@@ -31,7 +31,7 @@ public class EspecialidadDaoImpl implements EspecialidadDao {
 
 	private Especialidad getEspecialidad(ResultSet resultSet) throws SQLException {
 		int idEspecialidad = resultSet.getInt("IdEspecialidad");
-		String especialidad = resultSet.getString("Especialidad");
+		String especialidad = resultSet.getString("Descripcion");
 
 		return new Especialidad(idEspecialidad, especialidad);
 	}
