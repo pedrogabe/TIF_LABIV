@@ -28,7 +28,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 	<%
 	int especia = 0;
 	%>
-<form action="servletTurnos" method="post">
+<form action="ServletMedico" method="post">
 	<h2 class="title">Alta y Modificacion de Turnos</h2>
 	
 		<label for="paciente">Paciente:</label> <select id="paciente"
@@ -41,8 +41,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
 			<option value="2">Mariano García</option>
 			<option value="3">Estefanía Torres</option>
 
-		</select> <label>Especialidad</label> <select name="selEspecialidad"
-			id="selEspecialidad">
+		</select> <label>Especialidad</label> <select name="selEspecialidad">
+			
 			<%
 			ArrayList<Especialidad> especialidades = null;
 

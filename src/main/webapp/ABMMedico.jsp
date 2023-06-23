@@ -80,7 +80,7 @@
 			</tr>
 			<tr>
 				<td><label>Especialidad</label></td>
-				<td><select name="selNacionalidad">
+				<td><select name="selEspecialidad">
 						<%
 						ArrayList<Especialidad> especialidades = null;
 

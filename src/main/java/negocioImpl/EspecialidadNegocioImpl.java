@@ -11,8 +11,8 @@ public class EspecialidadNegocioImpl implements EspecialidadNegocio{
 
 	@Override
 	public ArrayList<Especialidad> readAll() {
-		EspecialidadDao nacDao = new EspecialidadDaoImpl();
-		return nacDao.readAll();
+		EspecialidadDao espDao = new EspecialidadDaoImpl();
+		return espDao.readAll();
 	}
 
 }

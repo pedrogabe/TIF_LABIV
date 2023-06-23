@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dao.MedicoDao;
+import entidad.Especialidad;
 import entidad.Localidad;
 import entidad.Medico;
 import entidad.Nacionalidad;
@@ -16,20 +17,22 @@ public class MedicoDaoImpl implements MedicoDao {
 
 	private static final String INSERT = "INSERT INTO clinica_medica.medicos"
 			+ "(IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, "
-			+ "IdLocalidad, IdProvincia, CorreoElectronico, Telefono, Estado) " + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			+ "IdLocalidad,IdEspecialidad, IdProvincia, CorreoElectronico, Telefono, Estado) " + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.medicos";
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.medicos SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.medicos SET IdUsuario = ?, Nombre = ?, Apellido = ?, Sexo = ?, IdNacionalidad = ?, "
-			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
-	private static final String READALL = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, " 
-			+ "m.FechaNacimiento, m.Direccion, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
+			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?,IdEspecialidad =?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
+	private static final String READALL = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad,"
+			+ "m.FechaNacimiento, m.Direccion, m.IdEspecialidad, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado"
 			+ "FROM clinica_medica.medicos m "
-			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
-			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
+			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad "
+			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad"
+			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia"
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad";
-	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion, "
-			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
-			+ "FROM clinica_medica.medicos m "
+	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo,m.IdEspecialidad, e.Descripcion, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion,"
+			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado"
+			+ "FROM clinica_medica.medicos m"
+			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad"
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad WHERE m.Dni = ?";
@@ -45,15 +48,16 @@ public class MedicoDaoImpl implements MedicoDao {
 			statement.setInt(2, medico.getDni());
 			statement.setString(3, medico.getNombre());
 			statement.setString(4, medico.getApellido());
-			statement.setString(5, medico.getSexo());
+			statement.setString(5, medico.getSexo());					
 			statement.setInt(6, medico.getNacionalidad().getIdNacionalidad());
 			statement.setString(7, medico.getFechaNacimiento());
 			statement.setString(8, medico.getDireccion());
 			statement.setInt(9, medico.getLocalidad().getIdLocalidad());
-			statement.setInt(10, medico.getProvincia().getIdProvincia());
-			statement.setString(11, medico.geteMail());
-			statement.setString(12, medico.getTelefono());
-			statement.setInt(13, 1);
+			statement.setInt(10, medico.getEspecialidad().getIdEspecialidad());	
+			statement.setInt(11, medico.getProvincia().getIdProvincia());
+			statement.setString(12, medico.geteMail());
+			statement.setString(13, medico.getTelefono());
+			statement.setInt(14, 1);
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
@@ -116,6 +120,7 @@ public class MedicoDaoImpl implements MedicoDao {
 			statement.setString(6, medico.getFechaNacimiento());
 			statement.setString(7, medico.getDireccion());
 			statement.setInt(8, medico.getLocalidad().getIdLocalidad());
+			statement.setInt(10, medico.getEspecialidad().getIdEspecialidad());	
 			statement.setInt(9, medico.getProvincia().getIdProvincia());
 			statement.setString(10, medico.geteMail());
 			statement.setString(11, medico.getTelefono());
@@ -178,10 +183,12 @@ public class MedicoDaoImpl implements MedicoDao {
 		String nombre = resultSet.getString("Nombre");
 		String apellido = resultSet.getString("Apellido");
 		String sexo = resultSet.getString("Sexo");
+		int idEspecialidad = resultSet.getInt("IdEspecialidad");
+		String especialidad = resultSet.getString("Especialidad");
 		int idNacionalidad = resultSet.getInt("IdNacionalidad");
 		String nacionalidad = resultSet.getString("Nacionalidad");
 		String fechaNac = resultSet.getString("FechaNacimiento");
-		String direccion = resultSet.getString("Direccion");
+		String direccion = resultSet.getString("Direccion");		
 		int idLocalidad = resultSet.getInt("IdLocalidad");
 		String localidad = resultSet.getString("Localidad");
 		int idProvincia = resultSet.getInt("IdProvincia");
@@ -190,7 +197,7 @@ public class MedicoDaoImpl implements MedicoDao {
 		String telefono = resultSet.getString("Telefono");
 		int estado = resultSet.getInt("Estado");				
 		
-		return new Medico(idUsuario, dni, nombre, apellido, sexo, new Nacionalidad(idNacionalidad,nacionalidad), fechaNac, direccion, 
+		return new Medico(idUsuario, dni, nombre, apellido, sexo, new Especialidad(idEspecialidad,especialidad),new Nacionalidad(idNacionalidad,nacionalidad), fechaNac, direccion, 
 				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado);
 	}
 	

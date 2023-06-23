@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dao.TurnoDao;
+import entidad.Especialidad;
 import entidad.EstadoTurno;
 import entidad.Localidad;
 import entidad.Medico;
@@ -202,6 +203,8 @@ public class TurnoDaoImpl implements TurnoDao {
 		String nombre = resultSet.getString("NombreMed");
 		String apellido = resultSet.getString("ApellidoMed");
 		String sexo = resultSet.getString("SexoMed");
+		int idEspecialidad = resultSet.getInt("IdEspecialidadMed");
+		String especialidad = resultSet.getString("EspecialidadMed");
 		int idNacionalidad = resultSet.getInt("IdNacionalidadMed");
 		String nacionalidad = resultSet.getString("NacionalidadMed");
 		String fechaNac = resultSet.getString("FechaNacimientoMed");
@@ -213,7 +216,7 @@ public class TurnoDaoImpl implements TurnoDao {
 		String correoElec = resultSet.getString("CorreoElectronicoMed");
 		String telefono = resultSet.getString("TelefonoMed");
 		int estado = resultSet.getInt("EstadoMed");			
-		return new Medico(idUsuario, dni, nombre, apellido, sexo, new Nacionalidad(idNacionalidad,nacionalidad), fechaNac, direccion, 
+		return new Medico(idUsuario, dni, nombre, apellido, sexo, new Especialidad(idEspecialidad,especialidad), new Nacionalidad(idNacionalidad,nacionalidad), fechaNac, direccion, 
 				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado);
 	}
 	

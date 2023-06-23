@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Medico {
 	
 	private static final int DIAS = 7;
-	private static final int HORAS = 24;
-	private ArrayList<Especialidad> especialidades;
+	private static final int HORAS = 24;	
 	private int[][] jorandas = new int[DIAS][HORAS];	
 	
 	private int idUsuario;
@@ -14,6 +13,7 @@ public class Medico {
 	private String nombre;
 	private String apellido;
 	private String sexo;
+	private Especialidad especialidad;
 	private Nacionalidad nacionalidad;
 	private String fechaNacimiento;
 	private String direccion;
@@ -24,7 +24,7 @@ public class Medico {
 	private int estado;	
 	
 	
-	public Medico(int idUsuario, int dni, String nombre, String apellido, String sexo, Nacionalidad nacionalidad, String fechaNacimiento,
+	public Medico(int idUsuario, int dni, String nombre, String apellido, String sexo,Especialidad especialidad, Nacionalidad nacionalidad, String fechaNacimiento,
 			String direccion, Localidad localidad, Provincia provincia, String eMail, String telefono, int estado) {
 		
 		this.idUsuario = idUsuario;
@@ -32,6 +32,7 @@ public class Medico {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.sexo = sexo;
+		this.especialidad = especialidad;
 		this.nacionalidad = nacionalidad;
 		this.fechaNacimiento = fechaNacimiento;
 		this.direccion = direccion;
@@ -72,6 +73,13 @@ public class Medico {
 	}
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
+	}
+	public Especialidad getEspecialidad() {
+		return especialidad;
+	}
+
+	public void setEspecialidad(Especialidad especialidad) {
+		this.especialidad = especialidad;
 	}
 	public Nacionalidad getNacionalidad() {
 		return nacionalidad;
@@ -121,14 +129,7 @@ public class Medico {
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-
-	public ArrayList<Especialidad> getEspecialidades() {
-		return especialidades;
-	}
-	public void setEspecialidades(ArrayList<Especialidad> especialidades) {
-		this.especialidades = especialidades;
-	}
-
+	
 
 	public int[][] getJorandas() {
 		return jorandas;
@@ -140,9 +141,11 @@ public class Medico {
 	@Override
 	public String toString() {
 		return "Medico [idUsuario=" + idUsuario + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", sexo=" + sexo
-				+ ", nacionalidad=" + nacionalidad + ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion
+				+ ", nacionalidad=" + nacionalidad + ", especialidad=" + especialidad + ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion
 				+ ", localidad=" + localidad + ", provincia=" + provincia + ", eMail=" + eMail + ", telefono="
 				+ telefono + ", estado=" + estado + "]";
 	}
+
+	
 	
 }
