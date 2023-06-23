@@ -56,7 +56,7 @@
     %>
 	<form action="servletPaciente" method="post">
 
-		<h2 class="title">Alta y Modificación de Pacientes</h2>
+		<h2 class="title">Alta y Modificacion de Pacientes</h2>
 		<br>
 	
 		<div class="formulario">
