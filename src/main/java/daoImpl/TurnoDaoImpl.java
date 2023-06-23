@@ -1,6 +1,7 @@
 package daoImpl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public class TurnoDaoImpl implements TurnoDao {
 			" p.Id as IdPac, p.Dni as DniPac, p.Nombre as NombrePac, p.Apellido as ApellidoPac, p.Sexo as SexoPac, p.IdNacionalidad as IdNacionalidadPac, np.Nacionalidad as NacionalidadPac, p.FechaNacimiento as FechaNacimientoPac, p.Direccion as DireccionPac, " + 
 			" p.IdLocalidad as IdLocalidadPac, lp.Localidad as LocalidadPac, p.IdProvincia as IdProvinciaPac, pp.Provincia as ProvinciaPac, p.CorreoElectronico as CorreoElectronicoPac, p.Telefono as TelefonoPac, p.Estado as EstadoPac," + 
 			" m.Id as IdMed, m.IdUsuario as IdUsuarioMed, m.Dni as DniMed, m.Nombre as NombreMed, m.Apellido as ApellidoMed, m.Sexo as SexoMed, m.IdNacionalidad as IdNacionalidadMed, nm.Nacionalidad as NacionalidadMed, " + 
-			" m.FechaNacimiento as FechaNacimientoMed, m.Direccion as DireccionMed, m.IdLocalidad as IdLocalidadMed, lm.Localidad as LocalidadMed, m.IdProvincia as IdProvinciaMed, pm.Provincia as ProvinciaMed, m.CorreoElectronico as CorreoElectronicoMed, m.Telefono as TelefonoMed, m.Estado as EstadoMed" + 
+			" m.FechaNacimiento as FechaNacimientoMed, m.Direccion as DireccionMed, m.IdLocalidad as IdLocalidadMed, lm.Localidad as LocalidadMed, m.IdProvincia as IdProvinciaMed, pm.Provincia as ProvinciaMed, m.CorreoElectronico as CorreoElectronicoMed, m.Telefono as TelefonoMed, m.Estado as EstadoMed, m.IdEspecialidad as IdEspecialidadMed, e.Descripcion as EspecialidadMed" + 
 			" FROM clinica_medica.turnos t" + 
 			" INNER JOIN clinica_medica.estadosturno et ON t.IdTurnoEstado = et.IdEstadoTurno" + 
 			" INNER JOIN clinica_medica.pacientes p ON t.IdPaciente = p.Id" + 
@@ -33,23 +34,8 @@ public class TurnoDaoImpl implements TurnoDao {
 			" INNER JOIN clinica_medica.medicos m" + 
 			" INNER JOIN clinica_medica.nacionalidades nm ON nm.IdNacionalidad = m.IdNacionalidad" + 
 			" INNER JOIN clinica_medica.provincias pm ON pm.IdProvincia = m.IdProvincia " + 
-			" INNER JOIN clinica_medica.localidades lm ON lm.IdLocalidad = m.IdLocalidad";
-	private static final String SEARCH = "" + 
-			" SELECT t.IdTurno, t.FechaReserva, t.Observacion, t.IdTurnoEstado, t.Hora, t.Estado, et.IdEstadoTurno as TurnoEstado," + 
-			" p.Id as IdPac, p.Dni as DniPac, p.Nombre as NombrePac, p.Apellido as ApellidoPac, p.Sexo as SexoPac, p.IdNacionalidad as IdNacionalidadPac, np.Nacionalidad as NacionalidadPac, p.FechaNacimiento as FechaNacimientoPac, p.Direccion as DireccionPac, " + 
-			" p.IdLocalidad as IdLocalidadPac, lp.Localidad as LocalidadPac, p.IdProvincia as IdProvinciaPac, pp.Provincia as ProvinciaPac, p.CorreoElectronico as CorreoElectronicoPac, p.Telefono as TelefonoPac, p.Estado as EstadoPac," + 
-			" m.Id as IdMed, m.IdUsuario as IdUsuarioMed, m.Dni as DniMed, m.Nombre as NombreMed, m.Apellido as ApellidoMed, m.Sexo as SexoMed, m.IdNacionalidad as IdNacionalidadMed, nm.Nacionalidad as NacionalidadMed, " + 
-			" m.FechaNacimiento as FechaNacimientoMed, m.Direccion as DireccionMed, m.IdLocalidad as IdLocalidadMed, lm.Localidad as LocalidadMed, m.IdProvincia as IdProvinciaMed, pm.Provincia as ProvinciaMed, m.CorreoElectronico as CorreoElectronicoMed, m.Telefono as TelefonoMed, m.Estado as EstadoMed" + 
-			" FROM clinica_medica.turnos t" + 
-			" INNER JOIN clinica_medica.estadosturno et ON t.IdTurnoEstado = et.IdEstadoTurno" + 
-			" INNER JOIN clinica_medica.pacientes p ON t.IdPaciente = p.Id" + 
-			" INNER JOIN clinica_medica.nacionalidades np ON np.IdNacionalidad = p.IdNacionalidad " + 
-			" INNER JOIN clinica_medica.provincias pp ON pp.IdProvincia = p.IdProvincia " + 
-			" INNER JOIN clinica_medica.localidades lp ON lp.IdLocalidad = p.IdLocalidad" +  
-			" INNER JOIN clinica_medica.medicos m" + 
-			" INNER JOIN clinica_medica.nacionalidades nm ON nm.IdNacionalidad = m.IdNacionalidad" + 
-			" INNER JOIN clinica_medica.provincias pm ON pm.IdProvincia = m.IdProvincia " + 
-			" INNER JOIN clinica_medica.localidades lm ON lm.IdLocalidad = m.IdLocalidad where t.IdTurno = ?";
+			" INNER JOIN clinica_medica.localidades lm ON lm.IdLocalidad = m.IdLocalidad" +
+			" INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad ";
 	private static final String UPDATE = "UPDATE clinica_medica.turnos SET "
 			+ " IdMedico = (select id from Medicos where dni = ? limit 1), IdPaciente = (select id from Pacientes where dni = ? limit 1), FechaReserva = ?, Observacion = ?, IdTurnoEstado = ?, Hora = ? "
 			+ " WHERE IdTurno = ? ";
@@ -57,6 +43,9 @@ public class TurnoDaoImpl implements TurnoDao {
 	private static final String INSERT = "INSERT INTO clinica_medica.turnos  " + 
 			" (IdMedico, IdPaciente, FechaReserva, Observacion, IdTurnoEstado, Hora, Estado)"
 			+ " VALUES ((select id from Medicos where dni = ? limit 1),(select id from Pacientes where dni = ? limit 1,?,?,?,?,1)";
+	private static final String WHERE_SEARCH = " where t.IdTurno = ?";
+	private static final String WHERE_SEARCH_DIA_HORA = " where fechaReserva = ? and hora = ? and estado = 1";
+	private static final String WHERE_SEARCH_MEDICO = " where idMedico = (select id from Medicos where dni = ? limit 1) ";
 
 	@Override
 	public boolean insert(Turno turno) {
@@ -173,7 +162,7 @@ public class TurnoDaoImpl implements TurnoDao {
 		Turno turno = null;
 		Conexion conexion = Conexion.getConexion();
 		try {
-			statement = conexion.getSQLConexion().prepareStatement(SEARCH);
+			statement = conexion.getSQLConexion().prepareStatement(READALL+WHERE_SEARCH);
 			statement.setInt(1, idTurno);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -242,5 +231,43 @@ public class TurnoDaoImpl implements TurnoDao {
 				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado);
 	}
 	
+	@Override
+	public ArrayList<Turno> searchTurnosDiaHorario(Date fecha, int hora){
+		PreparedStatement statement;
+		ResultSet resultSet;
+		ArrayList<Turno> turnos = new ArrayList<Turno>();
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(READALL+WHERE_SEARCH_DIA_HORA);
+			statement.setDate(1, fecha);
+			statement.setInt(2, hora);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				turnos.add(getTurno(resultSet));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return turnos;
+	}
+	
+	@Override
+	public ArrayList<Turno> searchTurnosMedico(int dniMedico){
+		PreparedStatement statement;
+		ResultSet resultSet;
+		ArrayList<Turno> turnos = new ArrayList<Turno>();
+		Conexion conexion = Conexion.getConexion();
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(READALL+WHERE_SEARCH_MEDICO);
+			statement.setInt(1, dniMedico);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				turnos.add(getTurno(resultSet));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return turnos;
+	}
 
 }

@@ -1,12 +1,9 @@
 package negocioImpl;
 
-import java.text.DateFormat;
 import java.time.DayOfWeek;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-
+import java.sql.Date;
+import entidad.Medico;
 import entidad.Turno;
 import dao.TurnoDao;
 import daoImpl.TurnoDaoImpl;
@@ -64,21 +61,39 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	private boolean fechaYHoraValida(Turno turno) {
 		if(turno.getHora() > 23 || turno.getHora() < 0)
 			return false;
-		if(turnoTomado())
-			return false;
 		if(!medicoAtiende(turno))
+			return false;
+		if(turnoTomado(turno))
 			return false;
 		return true;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean medicoAtiende(Turno turno) {
-		LocalDate fecha = null;//LocalDate fecha = turno.getFechaReserva();
-        DayOfWeek diaSemana = fecha.getDayOfWeek();
-        return mneg.medicoAtiende(turno.getMedico(), diaSemana, turno.getHora());
+		Date fecha = Date.valueOf(turno.getFechaReserva());
+		int d = fecha.getDay();
+        DayOfWeek dia = DayOfWeek.of(d == 0 ? 7 : d);
+        return mneg.medicoAtiende(turno.getMedico(), DayOfWeek.SATURDAY, turno.getHora());
 	}
 	
-	private boolean turnoTomado() {
+	private boolean turnoTomado(Turno turno) {
+		int dniMed = turno.getMedico().getDni();
+		int dniPac = turno.getPaciente().getDni();
+		Date fecha = Date.valueOf(turno.getFechaReserva());
+		
+		ArrayList<Turno> tsDiaHorario = tdao.searchTurnosDiaHorario(fecha, turno.getHora());
+		for(Turno tomado : tsDiaHorario) {
+			if(dniMed == tomado.getMedico().getDni())
+				return true;
+			if(dniPac == tomado.getPaciente().getDni())
+				return true;
+		}
+		
 		return false;
+	}
+	
+	public ArrayList<Turno> readTurnosMedico(Medico medico) {
+		return tdao.searchTurnosMedico(medico.getDni());
 	}
 	
 
