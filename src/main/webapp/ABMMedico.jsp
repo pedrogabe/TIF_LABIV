@@ -44,6 +44,7 @@
 			eMail = medico.geteMail();
 			fechaNacimiento = medico.getFechaNacimiento().toString().substring(0, 10);
 			loc = medico.getLocalidad().getIdLocalidad();
+			espe = medico.getEspecialidad().getIdEspecialidad();
 			nacion = medico.getNacionalidad().getIdNacionalidad();
 			prov = medico.getProvincia().getIdProvincia();
 			sexo = medico.getSexo();
@@ -89,7 +90,7 @@
 						
 						for (Especialidad espec : especialidades) {
 						%>
-						<option  value="<%=espec.getIdEspecialidad()%>"  <%= nacion == espec.getIdEspecialidad() ? "selected" : "" %>>
+						<option  value="<%=espec.getIdEspecialidad()%>"  <%= espe == espec.getIdEspecialidad() ? "selected" : "" %>>
 							<%=espec.getEspecialidad()%>
 						</option>
 						

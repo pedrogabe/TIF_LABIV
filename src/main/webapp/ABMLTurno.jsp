@@ -28,21 +28,23 @@ if (request.getSession().getAttribute("Usuario") != null) {
 	<%
 	int especia = 0;
 	%>
-<form action="ServletMedico" method="post">
-	<h2 class="title">Alta y Modificacion de Turnos</h2>
-	
+	<form action="ServletTurno" method="post">
+		<h2 class="title">Alta y Modificacion de Turnos</h2>
+
 		<label for="paciente">Paciente:</label> <select id="paciente"
 			name="paciente">
 			<option value="1">Pepe Zalazar</option>
 			<option value="2">Lucia Martinez</option>
 			<option value="3">Mariano Benitez</option>
+
 		</select> <label for="medico">Medico:</label> <select name="medico" id="medico">
+
 			<option value="1">Andres Petronella</option>
 			<option value="2">Mariano García</option>
 			<option value="3">Estefanía Torres</option>
 
 		</select> <label>Especialidad</label> <select name="selEspecialidad">
-			
+
 			<%
 			ArrayList<Especialidad> especialidades = null;
 
@@ -51,8 +53,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
 
 				for (Especialidad especialidad : especialidades) {
 			%>
-			<option value="<%=especialidad.getIdEspecialidad()%>"
-				<%=especia == especialidad.getIdEspecialidad() ? "selected" : ""%>>
+			<option value="<%=especialidad.getIdEspecialidad()%>">
+
 				<%=especialidad.getEspecialidad()%>
 			</option>
 			<%
