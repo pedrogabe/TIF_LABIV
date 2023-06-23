@@ -1,65 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="entidad.Turno"%>
+<%@ page import="entidad.Especialidad"%>
 <!DOCTYPE html>
 <html>
 <head>
 
 <%
-	String error = (String)request.getAttribute("error");
-	ArrayList<Turno> turnos = (ArrayList<Turno>)request.getAttribute("turnos");
+String error = (String) request.getAttribute("error");
+ArrayList<Turno> turnos = (ArrayList<Turno>) request.getAttribute("turnos");
 %>
 <meta charset="ISO-8859-1">
 <title>Turnos</title>
 
-<%@include file="Datatable_init.html" %>
+<%@include file="Datatable_init.html"%>
 
 </head>
 
 <%
-	if(request.getSession().getAttribute("Usuario")!=null){
+if (request.getSession().getAttribute("Usuario") != null) {
 %>
 
 <body>
 	<%@include file="Nav.html"%>
-	<h2 class="title" >Alta y Modificacion de Turnos</h2>
-	<form id="turno" method="post" action="ABMLTurno.jsp">
-		<label for="paciente">Paciente:</label>
-		<select id="paciente" name="paciente">
+
+	<%
+	int especia = 0;
+	%>
+<form action="servletTurnos" method="post">
+	<h2 class="title">Alta y Modificacion de Turnos</h2>
+	
+		<label for="paciente">Paciente:</label> <select id="paciente"
+			name="paciente">
 			<option value="1">Pepe Zalazar</option>
 			<option value="2">Lucia Martinez</option>
 			<option value="3">Mariano Benitez</option>
-		</select>
-		
-		<label for="medico">Medico:</label>
-		<select name="medico" id="medico">
+		</select> <label for="medico">Medico:</label> <select name="medico" id="medico">
 			<option value="1">Andres Petronella</option>
 			<option value="2">Mariano García</option>
 			<option value="3">Estefanía Torres</option>
-		</select>
-		
-		<label for="especialidad">Especialidad:</label>
-		<select name="especialidad" id="especialidad">
-			<option value="1">Clinico</option>
-			<option value="2">Otorrino</option>
-			<option value="3">Cardiologo</option>
-		</select>
-		
-		<label for="fecha">Fecha:</label>
-		<input id="fecha" name="fecha" type="date" value="<%= java.time.LocalDate.now().toString() %>"/>
-		
-		<label for="hora">Hora:</label>
-		<select name="hora" id="hora">
-			<%for(int i=0; i<24; i++){ %>
-				<option value="<%=i%>" <%= i==12 ? "selected" : "" %>><%=i%></option>
-			<%} %>
-		</select>
-		
-		
-		<input type="submit" form="turno" value="Solicitar turno"/>
+
+		</select> <label>Especialidad</label> <select name="selEspecialidad"
+			id="selEspecialidad">
+			<%
+			ArrayList<Especialidad> especialidades = null;
+
+			if (request.getAttribute("especialidades") != null) {
+				especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
+
+				for (Especialidad especialidad : especialidades) {
+			%>
+			<option value="<%=especialidad.getIdEspecialidad()%>"
+				<%=especia == especialidad.getIdEspecialidad() ? "selected" : ""%>>
+				<%=especialidad.getEspecialidad()%>
+			</option>
+			<%
+			}
+			%>
+			<%
+			}
+			%>
+		</select> <label for="fecha">Fecha:</label> <input id="fecha" name="fecha"
+			type="date" value="<%=java.time.LocalDate.now().toString()%>" /> <label
+			for="hora">Hora:</label> <select name="hora" id="hora">
+			<%
+			for (int i = 0; i < 24; i++) {
+			%>
+			<option value="<%=i%>" <%=i == 12 ? "selected" : ""%>><%=i%></option>
+			<%
+			}
+			%>
+		</select> <input type="submit" form="turno" value="Solicitar turno" />
 	</form>
-	<br><br>
+	<br>
+	<br>
 	<table datatable="true">
 		<thead>
 			<tr>
@@ -116,9 +131,10 @@
 			</tr>
 		</tbody>
 	</table>
-<%}else{
+	<%
+	} else {
 	response.sendRedirect("Login.jsp");
-}
-%>
+	}
+	%>
 </body>
 </html>
