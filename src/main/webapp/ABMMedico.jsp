@@ -84,7 +84,7 @@
 						<%
 						ArrayList<Especialidad> especialidades = null;
 
-						if (request.getAttribute("especialidadaes") != null) {
+						if (request.getAttribute("especialidades") != null) {
 							especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
 						
 						for (Especialidad espec : especialidades) {
