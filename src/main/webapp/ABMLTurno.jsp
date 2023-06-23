@@ -23,7 +23,7 @@
 
 <body>
 	<%@include file="Nav.html"%>
-	<h2 class="title" >Alta y Modificación de Turnos</h2>
+	<h2 class="title" >Alta y Modificacion de Turnos</h2>
 	<form id="turno" method="post" action="ABMLTurno.jsp">
 		<label for="paciente">Paciente:</label>
 		<select id="paciente" name="paciente">
@@ -32,18 +32,18 @@
 			<option value="3">Mariano Benitez</option>
 		</select>
 		
-		<label for="medico">Médico:</label>
+		<label for="medico">Medico:</label>
 		<select name="medico" id="medico">
-			<option value="1">Andrés Petronella</option>
+			<option value="1">Andres Petronella</option>
 			<option value="2">Mariano García</option>
 			<option value="3">Estefanía Torres</option>
 		</select>
 		
 		<label for="especialidad">Especialidad:</label>
 		<select name="especialidad" id="especialidad">
-			<option value="1">Clínico</option>
+			<option value="1">Clinico</option>
 			<option value="2">Otorrino</option>
-			<option value="3">Cardiólogo</option>
+			<option value="3">Cardiologo</option>
 		</select>
 		
 		<label for="fecha">Fecha:</label>
@@ -65,7 +65,7 @@
 			<tr>
 				<td>Id</td>
 				<td>Especialidad</td>
-				<td>Médico</td>
+				<td>Medico</td>
 				<td>Paciente</td>
 				<td>Fecha</td>
 				<td>Hora</td>
@@ -76,8 +76,8 @@
 		<tbody>
 			<tr>
 				<td>1</td>
-				<td>Clínico</td>
-				<td>Estefanía Torres</td>
+				<td>Clinico</td>
+				<td>Estefania Torres</td>
 				<td>Mariano Benitez</td>
 				<td>2023-07-10</td>
 				<td>15</td>
@@ -86,8 +86,8 @@
 			</tr>
 			<tr>
 				<td>2</td>
-				<td>Clínico</td>
-				<td>Estefanía Torres</td>
+				<td>Clinico</td>
+				<td>Estefania Torres</td>
 				<td>Lucia Martinez</td>
 				<td>2023-07-08</td>
 				<td>14</td>
@@ -96,7 +96,7 @@
 			</tr>
 			<tr>
 				<td>3</td>
-				<td>Cardiólogo</td>
+				<td>Cardiologo</td>
 				<td>Andrés Petronella</td>
 				<td>Mariano Benitez</td>
 				<td>2023-07-10</td>
@@ -106,8 +106,8 @@
 			</tr>
 			<tr>
 				<td>3</td>
-				<td>Cardiólogo</td>
-				<td>Andrés Petronella</td>
+				<td>Cardiologo</td>
+				<td>Andres Petronella</td>
 				<td>Mariano Benitez</td>
 				<td>2023-06-01</td>
 				<td>16</td>

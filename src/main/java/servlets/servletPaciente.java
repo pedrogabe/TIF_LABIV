@@ -160,10 +160,10 @@ public class servletPaciente extends HttpServlet {
 				PacienteNegocio pacienteNeg = new PacienteNegocioImpl();
 				if (!pacienteNeg.exists(paciente)) {
 					pacienteNeg.insert(paciente);
-					request.setAttribute("success", String.format("Se agregó el paciente (Dni %s)", paciente.getDni()));
+					request.setAttribute("success", String.format("Se agregó el paciente (Dni %s) en la base de datos", paciente.getDni()));
 				} else
 					request.setAttribute("error",
-							String.format("Ya existe el paciente con el (Dni %s)", paciente.getDni()));
+							String.format("Ya existe el paciente con el (Dni %s) en la base de datos", paciente.getDni()));
 			}
 		} else {
 			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
@@ -179,10 +179,10 @@ public class servletPaciente extends HttpServlet {
 				PacienteNegocio pacienteNeg = new PacienteNegocioImpl();
 				if (pacienteNeg.update(paciente)) {
 					request.setAttribute("success",
-							String.format("Se actualizó el paciente (Dni %s)", paciente.getDni()));
+							String.format("Se actualizó el paciente (Dni %s) en la base de datos.", paciente.getDni()));
 				} else {
 					request.setAttribute("error",
-							String.format("No se actualizó el paciente con el (Dni %s)", paciente.getDni()));
+							String.format("No se actualizó el paciente con el (Dni %s) en la base de datos.", paciente.getDni()));
 				}
 			}
 		} else {
@@ -199,10 +199,10 @@ public class servletPaciente extends HttpServlet {
 				PacienteNegocio pacienteNeg = new PacienteNegocioImpl();
 				if (pacienteNeg.delete(paciente)) {
 					request.setAttribute("success",
-							String.format("Se hizo la baja del paciente (Dni %s)", paciente.getDni()));
+							String.format("Se hizo la baja del paciente (Dni %s) en la base de datos.", paciente.getDni()));
 				} else {
 					request.setAttribute("error",
-							String.format("No se hizo la baja del paciente (Dni %s)", paciente.getDni()));
+							String.format("No se hizo la baja del paciente (Dni %s) en la base de datos.", paciente.getDni()));
 				}
 			}
 		} else {
@@ -221,7 +221,7 @@ public class servletPaciente extends HttpServlet {
 					return paciente;
 			}
 
-			request.setAttribute("error", "No se encontró el paciente solicitado");
+			request.setAttribute("error", "No se encontró el paciente solicitado en la base de datos.");
 			// TODO -> Excepcion personalizada?
 		}
 		// TODO -> call negocio

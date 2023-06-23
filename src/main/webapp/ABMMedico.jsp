@@ -59,7 +59,7 @@
 	%>
 	<form action="ServletMedico" method="post">
 
-		<h2 class="title">Alta y Modificación de Medicos</h2>
+		<h2 class="title">Alta y Modificacion de Medicos</h2>
 		<br>
 		
 		<div class="formulario">

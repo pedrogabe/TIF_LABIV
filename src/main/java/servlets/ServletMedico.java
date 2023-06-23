@@ -168,7 +168,7 @@ public class ServletMedico extends HttpServlet {
 					request.setAttribute("error",
 							String.format("No agregó el médico con el (Dni %s)", medico.getDni()));
 			} else
-				request.setAttribute("error", String.format("Ya existe el médico con el (Dni %s)", medico.getDni()));
+				request.setAttribute("error", String.format("Ya existe el médico con el (Dni %s) en la base de datos.", medico.getDni()));
 
 		} else {
 			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
@@ -299,7 +299,7 @@ public class ServletMedico extends HttpServlet {
 					return medico;
 			}
 
-			request.setAttribute("error", "No se encontró el paciente solicitado");
+			request.setAttribute("error", "No se encontró el paciente solicitado en la base de datos.");
 			// TODO -> Excepcion personalizada?
 		}
 		// TODO -> call negocio
@@ -317,7 +317,7 @@ public class ServletMedico extends HttpServlet {
 							String.format("Se actualizó el medico (Dni %s)", medico.getDni()));
 				} else {
 					request.setAttribute("error",
-							String.format("No se actualizó el medico con el (Dni %s)", medico.getDni()));
+							String.format("No se actualizó el medico con el (Dni %s) en la base de datos.", medico.getDni()));
 				}
 			}
 		
@@ -334,10 +334,10 @@ public class ServletMedico extends HttpServlet {
 				MedicoNegocio medicoNeg = new MedicoNegocioImpl();
 				if (medicoNeg.delete(medico)) {
 					request.setAttribute("success",
-							String.format("Se hizo la baja del medico (Dni %s)", medico.getDni()));
+							String.format("Se hizo la baja del medico (Dni %s) en la base de datos.", medico.getDni()));
 				} else {
 					request.setAttribute("error",
-							String.format("No se hizo la baja del medico (Dni %s)", medico.getDni()));
+							String.format("No se hizo la baja del medico (Dni %s) en la base de datos.", medico.getDni()));
 				}
 			}
 		
