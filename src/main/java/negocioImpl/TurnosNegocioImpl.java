@@ -1,7 +1,11 @@
 package negocioImpl;
 
+import java.text.DateFormat;
 import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import entidad.Turno;
 import dao.TurnoDao;
@@ -48,13 +52,33 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	}
 	
 	public boolean turnoValido(Turno turno) {
-		if(turno.getHora() > 23 || turno.getHora() < 0)
+		if(!fechaYHoraValida(turno))
 			return false;
 		if(!mneg.exists(turno.getMedico())) 
 			return false;
 		if(!pneg.exists(turno.getPaciente()))
 			return false;
 		return true;
+	}
+	
+	private boolean fechaYHoraValida(Turno turno) {
+		if(turno.getHora() > 23 || turno.getHora() < 0)
+			return false;
+		if(turnoTomado())
+			return false;
+		if(!medicoAtiende(turno))
+			return false;
+		return true;
+	}
+	
+	private boolean medicoAtiende(Turno turno) {
+		LocalDate fecha = null;//LocalDate fecha = turno.getFechaReserva();
+        DayOfWeek diaSemana = fecha.getDayOfWeek();
+        return mneg.medicoAtiende(turno.getMedico(), diaSemana, turno.getHora());
+	}
+	
+	private boolean turnoTomado() {
+		return false;
 	}
 	
 

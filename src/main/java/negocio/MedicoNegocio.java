@@ -1,5 +1,6 @@
 package negocio;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 import entidad.Medico;
@@ -13,4 +14,5 @@ public interface MedicoNegocio {
 	public boolean update(Medico medico, Usuario usuario);
 	public ArrayList<Medico> readAll(int estado);
 	public boolean exists(Medico medico);
+	public boolean medicoAtiende(Medico medico, DayOfWeek dia, int hora);
 }

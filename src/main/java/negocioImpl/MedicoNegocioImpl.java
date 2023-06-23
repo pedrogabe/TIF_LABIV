@@ -1,9 +1,11 @@
 package negocioImpl;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 import dao.*;
 import daoImpl.*;
+import entidad.Jornada;
 import entidad.Medico;
 import entidad.Usuario;
 import negocio.*;
@@ -88,5 +90,32 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 		}
 		return estado;
 	}
+
+	@Override
+	public boolean medicoAtiende(Medico medico, DayOfWeek dia, int hora) {
+		Jornada jornada = new Jornada(); //TODO -> Jornada jornada = medico.getJornada();
+		 switch (dia) {
+	         case MONDAY:
+	             return horaEnRango(hora, jornada.getInicioLunes(), jornada.getFinLunes());
+	         case TUESDAY:
+	        	 return horaEnRango(hora, jornada.getInicioMartes(), jornada.getFinMartes());
+	         case WEDNESDAY:
+	        	 return horaEnRango(hora, jornada.getInicioMiercoles(), jornada.getFinMiercoles());
+	         case THURSDAY:
+	        	 return horaEnRango(hora, jornada.getInicioJueves(), jornada.getFinJueves());
+	         case FRIDAY:
+	        	 return horaEnRango(hora, jornada.getInicioViernes(), jornada.getFinViernes());
+	         case SATURDAY:
+	        	 return horaEnRango(hora, jornada.getInicioSabado(), jornada.getFinSabado());
+	         case SUNDAY:
+	        	 return horaEnRango(hora, jornada.getInicioDomingo(), jornada.getFinDomingo());
+	         default:
+	             return false;
+		 }
+	}
+		 
+	 private boolean horaEnRango(int hora, int inicio, int fin) {
+		 return hora > inicio && hora < fin;
+	 }
 
 }

@@ -38,14 +38,29 @@ CREATE TABLE Localidades (
     CONSTRAINT FK_ProvinciasLocalidades FOREIGN KEY (IdProvincia) REFERENCES Provincias(IdProvincia)
 );
 
-CREATE TABLE Jornadas (
-    IdJornada INT AUTO_INCREMENT PRIMARY KEY,
-    Descripcion VARCHAR(50) NOT NULL,
-    Estado BIT NOT NULL,
-    Inicio INT NOT NULL,
-    Fin INT NOT NULL,
-    CONSTRAINT UK_JornadaInicioFin UNIQUE (IdJornada, Inicio, Fin)
-);
+CREATE TABLE jornadas (
+	IdJornada int NOT NULL AUTO_INCREMENT,
+	Descripcion varchar(50) NOT NULL,
+	Estado bit(1) NOT NULL,
+	InicioLunes int NOT NULL,
+	FinLunes int NOT NULL,
+	InicioMartes int NOT NULL,
+	FinMartes int NOT NULL,
+	InicioMiercoles int NOT NULL,
+	FinMiercoles int NOT NULL,
+	InicioJueves int NOT NULL,
+	FinJueves int NOT NULL,
+	InicioViernes int NOT NULL,
+	FinViernes int NOT NULL,
+	InicioSabado int NOT NULL,
+	FinSabado int NOT NULL,
+	InicioDomingo int NOT NULL,
+	FinDomingo int NOT NULL,
+	PRIMARY KEY (IdJornada),
+	UNIQUE KEY UK_InicioFin (InicioLunes , FinLunes, InicioMartes  ,FinMartes  ,InicioMiercoles  ,FinMiercoles  ,
+	InicioJueves  ,FinJueves  ,InicioViernes  ,FinViernes  ,InicioSabado  ,FinSabado  ,InicioDomingo  ,FinDomingo )
+) ;
+
 
 CREATE TABLE Pacientes (
     Id INT AUTO_INCREMENT PRIMARY KEY,
