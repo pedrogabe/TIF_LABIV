@@ -1,6 +1,7 @@
 <%@page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="entidad.Turno"%>
+<%@ page import="entidad.Usuario" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -39,10 +40,17 @@
 	%>
 
 	<h1 class="title">Turnos otorgados</h1>
+ 	<%
+		Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
 	
+			if (usuario.getIdPerfil() != Usuario.ROL_MEDICO) {
+	%>
 	<a href="ServletTurno?op=add" class="p-2 bd-highlight">
 		<input class="btn btn-outline-dark" type="submit" name="btnAgregarTurno" value="Agregar Turno">
 	</a>
+	<%
+		}
+	%>
 	
 	<br><br><br>
 
@@ -68,7 +76,7 @@
                 <td><%= turno.getFechaReserva() %></td>                
                 <td><%= turno.getHora() %>hs</td>
                 <td><%= turno.getEstadoTurno().getDescripcion() %></td>
-                <td><a href="ServletTurno?op=edit&id=<%= turno.getIdTurno() %>"><i class="fa fa-edit"></i></a></td>            
+                <td><a href="Turnos?op=edit&id=<%= turno.getIdTurno() %>"><i class="fa fa-edit"></i></a></td>            
             </tr>
           <%} %>
 	</tbody>
