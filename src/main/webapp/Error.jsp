@@ -11,9 +11,12 @@
 <body>
 	<div class='inicio'>
 			<div class='inicio-content d-flex flex-column justify-content-center align-items-center'>
-				<h3>No tiene autorizacion, debe ingresar con usuario</h3>
+				<h3>No tiene autorizacion, debe ingresar con el usuario correspondiente</h3>
+				
+				<a class="btn btn.outline-dark" href="Inicio.jsp" role="button">Ir al inicio</a>
 				<a class="btn btn-outline-dark" href="Login.jsp" role="button">Ir al Login</a>
 			</div>
+			
 	</div>
 </body>
 </html>
