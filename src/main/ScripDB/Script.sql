@@ -145,7 +145,10 @@ VALUES ('medico', 'medico', 2);
 -- Insertar nacionalidad
 
 INSERT INTO Nacionalidades (Nacionalidad) VALUES   
-    ('Argentina');
+    ('Argentina'),
+	('Brasil'),
+    ('Chile'),
+    ('Venezuela');
 
 -- Insertar 4 provincias 
 
@@ -201,3 +204,42 @@ INSERT INTO EstadosTurno (IdEstadoTurno, Descripcion) VALUES
   (2, 'Libre'),
   (3, 'Ausente'),
   (4, 'Presente');
+  
+-- Generar 5 registros enla tabla usuarios para la tabla medicos
+
+INSERT INTO usuarios (IdUsuario, UserLogin, Password, IdPerfil)
+VALUES
+  (3,'Juan', 'Juan', 2),
+  (4,'Maria', 'Maria', 2),
+  (5,'Pedro', 'Pedro', 2),
+  (6,'Laura', 'Laura', 2),
+  (7,'Carlos', 'Carlos', 2);  
+  
+INSERT INTO medicos (IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdProvincia, IdLocalidad, IdEspecialidad, CorreoElectronico, Telefono, Estado)
+VALUES
+  (3,'12345678', 'Juan', 'Pérez', 'Masculino', 1, '1990-01-01', 'Calle 123', 1, 1, 1, 'juan@example.com', '123456789', 1),
+  (4, '23456789', 'María', 'López', 'Femenino', 1, '1992-05-15', 'Avenida 456', 2, 2, 2, 'maria@example.com', '987654321', 1),
+  (5, '34567890', 'Pedro', 'Gómez', 'Masculino', 2, '1988-11-30', 'Calle 789', 3, 3, 1, 'pedro@example.com', '456789123', 1),
+  (6, '45678901', 'Laura', 'Rodríguez', 'Femenino', 3, '1995-08-20', 'Avenida 789', 4, 4, 3, 'laura@example.com', '321654987', 1),
+  (7, '56789012', 'Carlos', 'Fernández', 'Masculino', 4, '1993-03-10', 'Calle 456', 1, 2, 2, 'carlos@example.com', '987321654', 1);
+  
+-- Generar 5 registros para la tabla pacientes
+INSERT INTO Pacientes (Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdProvincia, IdLocalidad, CorreoElectronico, Telefono, Estado)
+VALUES
+  ('11111111', 'Ana', 'García', 'Femenino', 1, '1991-02-10', 'Calle 123', 1, 1, 'ana@example.com', '123456789', 1),
+  ('22222222', 'Luis', 'Martínez', 'Masculino', 2, '1989-07-20', 'Avenida 456', 2, 2, 'luis@example.com', '987654321', 1),
+  ('33333333', 'Mariana', 'López', 'Femenino', 1, '1994-04-15', 'Calle 789', 3, 3, 'mariana@example.com', '456789123', 1),
+  ('44444444', 'Roberto', 'Fernández', 'Masculino', 3, '1990-11-05', 'Avenida 789', 4, 4, 'roberto@example.com', '321654987', 1),
+  ('55555555', 'Carolina', 'Rodríguez', 'Femenino', 4, '1992-09-25', 'Calle 456', 1, 2, 'carolina@example.com', '987321654', 1);
+  
+  
+  -- Generar 5 registros para la tabla turnos
+INSERT INTO turnos (IdMedico, IdPaciente, FechaReserva, Observacion, IdTurnoEstado, Hora, Estado)
+VALUES
+  (1, 1, '2023-06-21 09:00:00', 'Observación 1', 2, 9, 1),
+  (2, 2, '2023-06-21 10:00:00', 'Observación 2', 2, 10, 1),
+  (3, 3, '2023-06-22 11:00:00', 'Observación 3', 2, 11, 1),
+  (4, 4, '2023-06-22 14:00:00', 'Observación 4', 2, 14, 1),
+  (5, 5, '2023-06-23 15:30:00', 'Observación 5', 2, 15, 1);
+  
+  
