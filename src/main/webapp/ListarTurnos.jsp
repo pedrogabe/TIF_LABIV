@@ -40,7 +40,7 @@
 
 	<h1 class="title">Turnos otorgados</h1>
 	
-	<a href="ABMLTurno.jsp" class="p-2 bd-highlight">
+	<a href="ServletTurno?op=add" class="p-2 bd-highlight">
 		<input class="btn btn-outline-dark" type="submit" name="btnAgregarTurno" value="Agregar Turno">
 	</a>
 	
