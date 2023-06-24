@@ -1,6 +1,7 @@
 <%@page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="entidad.Paciente"%>
+<%@ page import="entidad.Usuario" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -39,11 +40,20 @@
 	%>
 
 	<h1  class="title">Listado de pacientes</h1>
+ 
+ 	<%
+		Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
+	
+			if (usuario.getIdPerfil() != Usuario.ROL_MEDICO) {
+	%>	
 	
 	<a href="servletPaciente?op=add"class="p-2 bd-highlight">
 		<input class="btn btn-outline-dark" type="submit" name="btnAgregarPaciente" value="Agregar Paciente">
 	</a>
 	
+	<%
+		}
+	%>
 	<br><br><br>
 
 	<table border="1" id="table_id" datatable="true">
@@ -70,8 +80,15 @@
                 <td><%= paciente.getFechaNacimiento() %></td>
                 <td><%= paciente.geteMail() %></td>
                 <td><%= paciente.getDireccion() %></td>
+	<%
+	
+			if (usuario.getIdPerfil() != Usuario.ROL_MEDICO) {
+	%>	
                 <td><a href="servletPaciente?op=edit&dni=<%= paciente.getDni() %>"><i class="fa fa-edit"></i></a></td>            
             </tr>
+    <%
+		}
+	%>
           <%} %>
 	</tbody>
 
