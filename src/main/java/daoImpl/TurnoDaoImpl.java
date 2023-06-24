@@ -31,7 +31,7 @@ public class TurnoDaoImpl implements TurnoDao {
 			" INNER JOIN clinica_medica.nacionalidades np ON np.IdNacionalidad = p.IdNacionalidad " + 
 			" INNER JOIN clinica_medica.provincias pp ON pp.IdProvincia = p.IdProvincia " + 
 			" INNER JOIN clinica_medica.localidades lp ON lp.IdLocalidad = p.IdLocalidad" +  
-			" INNER JOIN clinica_medica.medicos m" + 
+			" INNER JOIN clinica_medica.medicos m ON t.IdMedico = m.Id" + 
 			" INNER JOIN clinica_medica.nacionalidades nm ON nm.IdNacionalidad = m.IdNacionalidad" + 
 			" INNER JOIN clinica_medica.provincias pm ON pm.IdProvincia = m.IdProvincia " + 
 			" INNER JOIN clinica_medica.localidades lm ON lm.IdLocalidad = m.IdLocalidad" +
