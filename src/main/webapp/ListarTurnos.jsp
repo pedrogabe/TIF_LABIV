@@ -68,7 +68,7 @@
                 <td><%= turno.getFechaReserva() %></td>                
                 <td><%= turno.getHora() %>hs</td>
                 <td><%= turno.getEstadoTurno().getDescripcion() %></td>
-                <td><a href="Turnos?op=edit&id=<%= turno.getIdTurno() %>"><i class="fa fa-edit"></i></a></td>            
+                <td><a href="ServletTurno?op=edit&id=<%= turno.getIdTurno() %>"><i class="fa fa-edit"></i></a></td>            
             </tr>
           <%} %>
 	</tbody>
