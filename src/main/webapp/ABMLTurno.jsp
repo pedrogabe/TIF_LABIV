@@ -160,8 +160,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						
 						for (EstadoTurno estadoTurno : estadoTurnos) {
 						%>
-						<option  value="<%=estadoTurno.getIdEstadoTurno()%>"  <%= estadoT == estadoTurno.getIdEstadoTurno() ? "selected" : "" %>>
-							<%=estadoTurno.getIdEstadoTurno()%>
+						<option  value="<%=estadoTurno.getDescripcion()%>"  <%= estadoT == estadoTurno.getIdEstadoTurno() ? "selected" : "" %>>
+							<%=estadoTurno.getDescripcion()%>
 						</option>
 						
 						<%
