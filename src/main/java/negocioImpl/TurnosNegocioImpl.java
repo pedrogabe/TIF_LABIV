@@ -3,6 +3,8 @@ package negocioImpl;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.sql.Date;
+
+import entidad.Jornada;
 import entidad.Medico;
 import entidad.Turno;
 import dao.TurnoDao;
@@ -74,9 +76,7 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	@SuppressWarnings("deprecation")
 	private boolean medicoAtiende(Turno turno) {
 		Date fecha = turno.getFechaReserva();
-		int d = fecha.getDay();
-        DayOfWeek dia = DayOfWeek.of(d == 0 ? 7 : d);
-        return mneg.medicoAtiende(turno.getMedico(), dia, turno.getHora());
+        return mneg.medicoAtiende(turno.getMedico(), diaSemana(fecha), turno.getHora());
 	}
 	
 	private boolean turnoTomado(Turno turno) {
@@ -99,5 +99,65 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 		return tdao.searchTurnosMedico(medico.getDni());
 	}
 	
+	@Override
+	public ArrayList<Integer> turnosDisponiblesMedicoFecha(Medico medico, Date fecha){
+		
+		ArrayList<Turno> turnosMed = readTurnosMedico(medico);
+		ArrayList<Integer> horasLibres = new ArrayList<Integer>();
+		
+		Jornada jornada = medico.getJornada();
+        DayOfWeek dia = diaSemana(fecha);
+        int inicio, fin;
+		switch (dia) {
+	        case MONDAY:
+	        	inicio = jornada.getInicioLunes();
+	        	fin = jornada.getFinLunes();
+	        	break;
+	        case TUESDAY:
+	        	inicio = jornada.getInicioMartes();
+	        	fin = jornada.getFinMartes();
+	        	break;
+	        case WEDNESDAY:
+	        	inicio = jornada.getInicioMiercoles();
+	        	fin = jornada.getFinMiercoles();
+	        	break;
+	        case THURSDAY:
+	        	inicio = jornada.getInicioJueves();
+	        	fin = jornada.getFinJueves();
+	        	break;
+	        case FRIDAY:
+	        	inicio = jornada.getInicioViernes();
+	        	fin = jornada.getFinViernes();
+	        	break;
+	        case SATURDAY:
+	        	inicio = jornada.getInicioSabado();
+	        	fin = jornada.getFinSabado();
+	        	break;
+	        case SUNDAY:
+	        	inicio = jornada.getInicioDomingo();
+	        	fin = jornada.getFinDomingo();
+	        	break;
+        	default:
+	        		inicio = fin = 0;
+		}
+		
+		for(int hora = inicio; hora<fin; hora++) {
+			horasLibres.add(hora);
+		}
+		
+		for(Turno turno : turnosMed) {
+			if(turno.getFechaReserva().equals(fecha))
+				horasLibres.remove((Integer)turno.getHora());
+		}
+		
+		return horasLibres;
+		
+	}
+	
+	@SuppressWarnings("deprecation")
+	private DayOfWeek diaSemana(Date fecha) {
+		int d = fecha.getDay();
+        return DayOfWeek.of(d == 0 ? 7 : d);
+	}
 
 }

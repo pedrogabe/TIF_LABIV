@@ -69,7 +69,7 @@ public class Turno {
 	@Override
 	public String toString() {
 		return "Turno [idTurno=" + idTurno + ", medico=" + medico.getApellido() + ", paciente=" + paciente.getApellido() + ", fechaReserva="
-				+ fechaReserva + ", observacion=" + observacion + ", EstadoTurno=" + estadoTurno.getDescripcion() + "]";
+				+ fechaReserva + ", hora= "+hora+", observacion=" + observacion + ", EstadoTurno=" + estadoTurno.getDescripcion() + "]";
 	}
 	
 }
