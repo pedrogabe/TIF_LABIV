@@ -21,6 +21,7 @@ ArrayList<Turno> turnos = (ArrayList<Turno>) request.getAttribute("turnos");
 <title>Turnos</title>
 
 <%@include file="Datatable_init.html"%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
@@ -77,6 +78,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 			<tr>
                 <td><label>Dni Paciente</label></td>
                 <td><input type="text" name="txtDniPaciente" value="<%= dniPaciente %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dniPaciente %>" ></td>
+                 <td><a><i class="fa fa-search"></i></a></td>            
             </tr>
             
 			<tr>
