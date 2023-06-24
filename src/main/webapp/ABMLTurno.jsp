@@ -73,7 +73,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 			<tr>
                 <td><label>Dni Paciente</label></td>
                 <td><input type="text" name="txtDniPaciente" value="<%= dniPaciente %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dniPaciente %>" ></td>
-                 <td><a><i class="fa fa-search"></i></a></td>            
+                <td><a><i class="fa fa-search"></i></a></td>            
             </tr>
             
 			<tr>
@@ -136,11 +136,18 @@ if (request.getSession().getAttribute("Usuario") != null) {
 			<tr>
 				<td><label>Fecha de Reserva</label></td>
 				<td><input type="date" name="txtFechaReserva" value="<%= fechaReserva %>" required></td>
+				<td><a><i class="fa fa-search"></i></a></td>            
 			</tr>
-			
+						
 			<tr>
 				<td><label>Hora</label></td>
-				<td><input type="int" name="txtHora" value="<%= hora %>" required></td>
+				<td>
+					<select name="selHora">
+						<option>1</opcion>
+						<option>2</opcion>
+						<option>3</opcion>
+					</select>
+				</td>
 			</tr>
 			
 			<tr>
