@@ -9,28 +9,28 @@
 	<title>Navegacion</title>
 </head>
 <body>
-	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 	
 	<nav class="navbar navbar-dark bg-mynav">
       <div class="container-fluid">
         <a class="navbar-brand" href="Inicio.jsp">Inicio</a> 
 		<a class="navbar-brand" href="ServletListarMedicos">Medicos</a> 
 		<a class="navbar-brand" href="PacientesListado">Pacientes</a>
-		<a class="navbar-brand" href="ServletTurno">Turnos</a>
-<form action=servletLogin method=get>
-		<li class="navbar navbar-dark bg-mynav">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ${UsuarioLogeado}
-          </a>
-          <ul class="dropdown-menu">
+		<a class="navbar-brand" href="ServletListarTurnos">Turnos</a>
+		
+	
+		<form action=servletLogin method=get>
+			<li class="navbar navbar-dark bg-mynav">
+          		<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            	${UsuarioLogeado}
+          		</a>
+          	<ul class="dropdown-menu">
             <li><input class="btn btn-outline-dark" type=submit value="Cerrar Session"></li>
-            
- </form> 
-          </ul>
-        </li>
+          	</ul>
+        	</li>           
+ 		</form> 
 		
       </div>
-
     </nav>
     
 </body>
