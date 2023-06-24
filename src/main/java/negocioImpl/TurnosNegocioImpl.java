@@ -73,16 +73,16 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	
 	@SuppressWarnings("deprecation")
 	private boolean medicoAtiende(Turno turno) {
-		Date fecha = Date.valueOf(turno.getFechaReserva());
+		Date fecha = turno.getFechaReserva();
 		int d = fecha.getDay();
         DayOfWeek dia = DayOfWeek.of(d == 0 ? 7 : d);
-        return mneg.medicoAtiende(turno.getMedico(), DayOfWeek.SATURDAY, turno.getHora());
+        return mneg.medicoAtiende(turno.getMedico(), dia, turno.getHora());
 	}
 	
 	private boolean turnoTomado(Turno turno) {
 		int dniMed = turno.getMedico().getDni();
 		int dniPac = turno.getPaciente().getDni();
-		Date fecha = Date.valueOf(turno.getFechaReserva());
+		Date fecha = turno.getFechaReserva();
 		
 		ArrayList<Turno> tsDiaHorario = tdao.searchTurnosDiaHorario(fecha, turno.getHora());
 		for(Turno tomado : tsDiaHorario) {

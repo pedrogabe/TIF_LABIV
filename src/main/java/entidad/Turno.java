@@ -1,16 +1,18 @@
 package entidad;
 
+import java.sql.Date;
+
 public class Turno {
 	
 	private int idTurno;
 	private Medico medico;
 	private Paciente paciente;
-	private String fechaReserva;
+	private Date fechaReserva;
 	private String observacion;
 	private EstadoTurno estadoTurno;
 	private int hora;
 	
-	public Turno(int idTurno, Medico medico, Paciente paciente, String fechaReserva, String observacion,
+	public Turno(int idTurno, Medico medico, Paciente paciente, Date fechaReserva, String observacion,
 			EstadoTurno estadoTurno, int hora) {
 		this.idTurno = idTurno;
 		this.medico = medico;
@@ -39,10 +41,10 @@ public class Turno {
 	public void setPaciente(Paciente paciente) {
 		this.paciente = paciente;
 	}
-	public String getFechaReserva() {
+	public Date getFechaReserva() {
 		return fechaReserva;
 	}
-	public void setFechaReserva(String fechaReserva) {
+	public void setFechaReserva(Date fechaReserva) {
 		this.fechaReserva = fechaReserva;
 	}
 	public String getObservacion() {

@@ -56,7 +56,7 @@ public class TurnoDaoImpl implements TurnoDao {
 			statement = conexion.prepareStatement(INSERT);
 			statement.setInt(1,turno.getMedico().getDni());
 			statement.setInt(2, turno.getPaciente().getDni());
-			statement.setString(3, turno.getFechaReserva());
+			statement.setDate(3, turno.getFechaReserva());
 			statement.setString(4, turno.getObservacion());
 			statement.setInt(5, turno.getEstadoTurno().getIdEstadoTurno());
 			statement.setInt(6, turno.getHora());
@@ -110,7 +110,7 @@ public class TurnoDaoImpl implements TurnoDao {
 			statement = conexion.prepareStatement(UPDATE);
 			statement.setInt(1, turno.getMedico().getDni());
 			statement.setInt(2, turno.getPaciente().getDni());
-			statement.setString(3, turno.getFechaReserva());
+			statement.setDate(3, turno.getFechaReserva());
 			statement.setString(4, turno.getObservacion());
 			statement.setInt(5, turno.getEstadoTurno().getIdEstadoTurno());
 			statement.setInt(6, turno.getHora());
@@ -178,7 +178,7 @@ public class TurnoDaoImpl implements TurnoDao {
 		int idTurno = resultSet.getInt("idTurno");
 		Medico medico = getMedico(resultSet);
 		Paciente paciente = getPaciente(resultSet);
-		String fechaReserva = resultSet.getString("FechaReserva");
+		Date fechaReserva = resultSet.getDate("FechaReserva");
 		String observacion = resultSet.getString("observacion");
 		EstadoTurno estadoTurno = new EstadoTurno(resultSet.getInt("IdTurnoEstado"), resultSet.getString("TurnoEstado"));
 		int hora = resultSet.getInt("hora");
