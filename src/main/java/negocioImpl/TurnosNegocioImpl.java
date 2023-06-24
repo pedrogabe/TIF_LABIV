@@ -13,6 +13,9 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	private TurnoDao tdao = new TurnoDaoImpl();
 	private MedicoNegocio mneg;
 	private PacienteNegocio pneg; 
+
+	public TurnosNegocioImpl() {
+	}
 	
 	public TurnosNegocioImpl(MedicoNegocio mneg, PacienteNegocio pneg) {
 		this.mneg = mneg;
