@@ -102,7 +102,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						for (Especialidad especialidad : especialidades) {
 						%>
 						<option  value="<%=especialidad.getIdEspecialidad()%>"  <%= esp == especialidad.getIdEspecialidad() ? "selected" : "" %>>
-							<%=especialidad.getIdEspecialidad()%>
+							<%=especialidad.getEspecialidad()%>
 						</option>
 						
 						<%
