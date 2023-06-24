@@ -13,7 +13,7 @@ public class Usuario {
 		Password = password;
 		IdPerfil = idPerfil;
 	}
-	
+	public final static int ROL_MEDICO=2;
 	public Usuario() {}
 	
 	public int getIdUsuario() {
