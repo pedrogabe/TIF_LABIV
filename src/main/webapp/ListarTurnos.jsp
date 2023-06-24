@@ -63,10 +63,10 @@
 		<% for(Turno turno : turnos) { %>
 	         <tr>
 	            <td><%= turno.getIdTurno() %></td>
-	           	<td><%= turno.getPaciente().getApellido() %></td>              
-	            <td><%= turno.getMedico().getApellido() %></td>  
+	           	<td><%= turno.getPaciente().getNombre() %> <%= turno.getPaciente().getApellido() %></td>              
+	            <td><%= turno.getMedico().getNombre() %> <%= turno.getMedico().getApellido() %></td>  
                 <td><%= turno.getFechaReserva() %></td>                
-                <td><%= turno.getHora() %></td>
+                <td><%= turno.getHora() %>hs</td>
                 <td><%= turno.getEstadoTurno().getDescripcion() %></td>
                 <td><a href="Turnos?op=edit&id=<%= turno.getIdTurno() %>"><i class="fa fa-edit"></i></a></td>            
             </tr>
