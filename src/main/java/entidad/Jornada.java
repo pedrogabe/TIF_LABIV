@@ -18,6 +18,9 @@ public class Jornada {
 	private int inicioDomingo;
 	private int finDomingo;
 	
+	public Jornada() {
+		
+	}
 	
 	public Jornada(int id, String descripcion, int inicioLunes, int finLunes, int inicioMartes, int finMartes,
 			int inicioMiercoles, int finMiercoles, int inicioJueves, int finJueves, int inicioViernes, int finViernes,

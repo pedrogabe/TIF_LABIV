@@ -12,12 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entidad.Localidad;
-import entidad.Nacionalidad;
-import entidad.Medico;
-import entidad.Provincia;
-import entidad.Usuario;
-import entidad.Especialidad;
+import entidad.*;
 import negocio.*;
 import negocioImpl.*;
 
@@ -43,7 +38,7 @@ public class ServletMedico extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getSession().getAttribute("Usuario") != null) {
-			String op = request.getParameter("op");
+			String op = request.getParameter("op") != null ? request.getParameter("op").toString() : "" ;
 			if (op == null && request.getAttribute("op") != null)
 				op = request.getAttribute("op").toString();
 			if (op == null || !(op.equals("add") || op.equals("edit") || op.equals("delete"))) {
@@ -263,9 +258,10 @@ public class ServletMedico extends HttpServlet {
 		}
 
 		if (valid) {
+			Jornada jornada = new Jornada();
 			medico = new Medico(idUsuario, dni, nombre, apellido, sexo,new Especialidad(idEspecia, ""), new Nacionalidad(idNac, ""), fechaNacimiento,
 					direccion, new Localidad(idLoc, "", new Provincia(idProv, "")), new Provincia(idProv, ""), eMail,
-					telefono, estado);
+					telefono, estado, jornada);
 		}
 		return medico;
 	}
