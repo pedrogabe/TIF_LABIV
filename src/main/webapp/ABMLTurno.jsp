@@ -42,20 +42,15 @@ if (request.getSession().getAttribute("Usuario") != null) {
          med = esp = estadoT = hora = 0;
 
         Turno turno = null;
-        Especialidad especialidad_aux = null;
-        Paciente paciente_aux = null;
 
         if(request.getAttribute("turno") != null || !op.equals("add")){
             try{
-                turno = (Turno)request.getAttribute("turno");
-                
+                turno = (Turno)request.getAttribute("turno");             
                 dniPaciente = String.format("%s", turno.getPaciente().getDni());
-
-                nombrePaciente = paciente_aux.getNombre();
-                apellidoPaciente = paciente_aux.getApellido();
-                
+                nombrePaciente = turno.getPaciente().getNombre();
+                apellidoPaciente = turno.getPaciente().getApellido();             
                 med = turno.getMedico().getDni();
-                esp = especialidad_aux.getIdEspecialidad();
+                esp = turno.getEstadoTurno().getIdEstadoTurno();
                 fechaReserva = turno.getFechaReserva().toString().substring(0,10);
                 observacion = turno.getObservacion();
                 estadoT = turno.getEstadoTurno().getIdEstadoTurno();
