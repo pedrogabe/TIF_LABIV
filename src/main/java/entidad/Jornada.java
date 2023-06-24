@@ -1,6 +1,7 @@
 package entidad;
 
 public class Jornada {
+	private int id;
 	private String descripcion;
 	private int inicioLunes;
 	private int finLunes;
@@ -18,6 +19,33 @@ public class Jornada {
 	private int finDomingo;
 	
 	
+	public Jornada(int id, String descripcion, int inicioLunes, int finLunes, int inicioMartes, int finMartes,
+			int inicioMiercoles, int finMiercoles, int inicioJueves, int finJueves, int inicioViernes, int finViernes,
+			int inicioSabado, int finSabado, int inicioDomingo, int finDomingo) {
+		this.id = id;
+		this.descripcion = descripcion;
+		this.inicioLunes = inicioLunes;
+		this.finLunes = finLunes;
+		this.inicioMartes = inicioMartes;
+		this.finMartes = finMartes;
+		this.inicioMiercoles = inicioMiercoles;
+		this.finMiercoles = finMiercoles;
+		this.inicioJueves = inicioJueves;
+		this.finJueves = finJueves;
+		this.inicioViernes = inicioViernes;
+		this.finViernes = finViernes;
+		this.inicioSabado = inicioSabado;
+		this.finSabado = finSabado;
+		this.inicioDomingo = inicioDomingo;
+		this.finDomingo = finDomingo;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -109,5 +137,8 @@ public class Jornada {
 		this.finDomingo = finDomingo;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return getDescripcion();
+	}
 }

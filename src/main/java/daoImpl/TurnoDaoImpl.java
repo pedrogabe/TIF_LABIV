@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import dao.TurnoDao;
 import entidad.Especialidad;
 import entidad.EstadoTurno;
+import entidad.Jornada;
 import entidad.Localidad;
 import entidad.Medico;
 import entidad.Nacionalidad;
@@ -24,7 +25,8 @@ public class TurnoDaoImpl implements TurnoDao {
 			" p.Id as IdPac, p.Dni as DniPac, p.Nombre as NombrePac, p.Apellido as ApellidoPac, p.Sexo as SexoPac, p.IdNacionalidad as IdNacionalidadPac, np.Nacionalidad as NacionalidadPac, p.FechaNacimiento as FechaNacimientoPac, p.Direccion as DireccionPac, " + 
 			" p.IdLocalidad as IdLocalidadPac, lp.Localidad as LocalidadPac, p.IdProvincia as IdProvinciaPac, pp.Provincia as ProvinciaPac, p.CorreoElectronico as CorreoElectronicoPac, p.Telefono as TelefonoPac, p.Estado as EstadoPac," + 
 			" m.Id as IdMed, m.IdUsuario as IdUsuarioMed, m.Dni as DniMed, m.Nombre as NombreMed, m.Apellido as ApellidoMed, m.Sexo as SexoMed, m.IdNacionalidad as IdNacionalidadMed, nm.Nacionalidad as NacionalidadMed, " + 
-			" m.FechaNacimiento as FechaNacimientoMed, m.Direccion as DireccionMed, m.IdLocalidad as IdLocalidadMed, lm.Localidad as LocalidadMed, m.IdProvincia as IdProvinciaMed, pm.Provincia as ProvinciaMed, m.CorreoElectronico as CorreoElectronicoMed, m.Telefono as TelefonoMed, m.Estado as EstadoMed, m.IdEspecialidad as IdEspecialidadMed, e.Descripcion as EspecialidadMed" + 
+			" m.FechaNacimiento as FechaNacimientoMed, m.Direccion as DireccionMed, m.IdLocalidad as IdLocalidadMed, lm.Localidad as LocalidadMed, m.IdProvincia as IdProvinciaMed, pm.Provincia as ProvinciaMed, m.CorreoElectronico as CorreoElectronicoMed, m.Telefono as TelefonoMed, m.Estado as EstadoMed, m.IdEspecialidad as IdEspecialidadMed, e.Descripcion as EspecialidadMed, " +
+			" m.IdJornada as IdJornada, jm.Descripcion as DescripcionJor, jm.Estado as EstadoJor, jm.InicioLunes, jm.FinLunes, jm.InicioMartes, jm.FinMartes, jm.InicioMiercoles, jm.FinMiercoles, jm.InicioJueves, jm.FinJueves, jm.InicioViernes, jm.FinViernes, jm.InicioSabado, jm.FinSabado, jm.InicioDomingo, jm.FinDomingo " +
 			" FROM clinica_medica.turnos t" + 
 			" INNER JOIN clinica_medica.estadosturno et ON t.IdTurnoEstado = et.IdEstadoTurno" + 
 			" INNER JOIN clinica_medica.pacientes p ON t.IdPaciente = p.Id" + 
@@ -35,7 +37,8 @@ public class TurnoDaoImpl implements TurnoDao {
 			" INNER JOIN clinica_medica.nacionalidades nm ON nm.IdNacionalidad = m.IdNacionalidad" + 
 			" INNER JOIN clinica_medica.provincias pm ON pm.IdProvincia = m.IdProvincia " + 
 			" INNER JOIN clinica_medica.localidades lm ON lm.IdLocalidad = m.IdLocalidad" +
-			" INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad ";
+			" INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad " +
+			" INNER JOIN clinica_medica.jornadas jm ON m.IdJornada = jm.IdJornada ";
 	private static final String UPDATE = "UPDATE clinica_medica.turnos SET "
 			+ " IdMedico = (select id from Medicos where dni = ? limit 1), IdPaciente = (select id from Pacientes where dni = ? limit 1), FechaReserva = ?, Observacion = ?, IdTurnoEstado = ?, Hora = ? "
 			+ " WHERE IdTurno = ? ";
@@ -205,8 +208,31 @@ public class TurnoDaoImpl implements TurnoDao {
 		String correoElec = resultSet.getString("CorreoElectronicoMed");
 		String telefono = resultSet.getString("TelefonoMed");
 		int estado = resultSet.getInt("EstadoMed");			
+		Jornada jornada = getJornada(resultSet);
+		
 		return new Medico(idUsuario, dni, nombre, apellido, sexo, new Especialidad(idEspecialidad,especialidad), new Nacionalidad(idNacionalidad,nacionalidad), fechaNac, direccion, 
-				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado);
+				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado, jornada);
+	}
+	
+	private Jornada getJornada(ResultSet resultSet) throws SQLException {
+		int idJornada = resultSet.getInt("IdJornada");
+		String descripcion = resultSet.getString("DescripcionJor");
+		int inicioLunes = resultSet.getInt("InicioLunes");
+		int finLunes = resultSet.getInt("FinLunes");
+		int inicioMartes = resultSet.getInt("InicioMartes");
+		int finMartes = resultSet.getInt("FinMartes");
+		int inicioMiercoles = resultSet.getInt("InicioMiercoles");
+		int finMiercoles = resultSet.getInt("FinMiercoles");
+		int inicioJueves = resultSet.getInt("InicioJueves");
+		int finJueves = resultSet.getInt("FinJueves");
+		int inicioViernes = resultSet.getInt("InicioViernes");
+		int finViernes = resultSet.getInt("FinViernes");
+		int inicioSabado = resultSet.getInt("InicioSabado");
+		int finSabado = resultSet.getInt("FinSabado");
+		int inicioDomingo = resultSet.getInt("InicioDomingo");
+		int finDomingo = resultSet.getInt("FinDomingo");
+		return new Jornada(idJornada, descripcion, inicioLunes, finLunes, inicioMartes, finMartes, inicioMiercoles, finMiercoles, inicioJueves, finJueves, inicioViernes, finViernes,
+				inicioSabado, finSabado, inicioDomingo, finDomingo);
 	}
 	
 	private Paciente getPaciente(ResultSet resultSet) throws SQLException {

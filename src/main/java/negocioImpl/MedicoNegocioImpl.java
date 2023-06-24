@@ -93,7 +93,7 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 
 	@Override
 	public boolean medicoAtiende(Medico medico, DayOfWeek dia, int hora) {
-		Jornada jornada = new Jornada(); //TODO -> Jornada jornada = medico.getJornada();
+		Jornada jornada = medico.getJornada();
 		 switch (dia) {
 	         case MONDAY:
 	             return horaEnRango(hora, jornada.getInicioLunes(), jornada.getFinLunes());
@@ -115,7 +115,7 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 	}
 		 
 	 private boolean horaEnRango(int hora, int inicio, int fin) {
-		 return hora > inicio && hora < fin;
+		 return hora >= inicio && hora < fin;
 	 }
 
 }

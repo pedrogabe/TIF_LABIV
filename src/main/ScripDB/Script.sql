@@ -94,6 +94,7 @@ CREATE TABLE medicos (
   IdProvincia int DEFAULT NULL,
   IdLocalidad int DEFAULT NULL,  
   IdEspecialidad int DEFAULT NULL,  
+  IdJornada int NOT NULL,
   CorreoElectronico varchar(50) DEFAULT NULL,
   Telefono varchar(50) DEFAULT NULL,
   Estado bit(1) NOT NULL,
@@ -102,7 +103,8 @@ CREATE TABLE medicos (
   CONSTRAINT FK_MedicoLocalidad FOREIGN KEY (IdLocalidad) REFERENCES localidades (IdLocalidad),
   CONSTRAINT FK_MedicoNacionalidad FOREIGN KEY (IdNacionalidad) REFERENCES nacionalidades (IdNacionalidad),
   CONSTRAINT FK_MedicoProvincia FOREIGN KEY (IdProvincia) REFERENCES provincias (IdProvincia),
-  CONSTRAINT FK_MedicoEspecialidad FOREIGN KEY (IdEspecialidad) REFERENCES especialidades (IdEspecialidad)  
+  CONSTRAINT FK_MedicoEspecialidad FOREIGN KEY (IdEspecialidad) REFERENCES especialidades (IdEspecialidad),
+  CONSTRAINT FK_MedicoJornada FOREIGN KEY (IdJornada) REFERENCES jornadas (IdJornada)
 ); 
 
 CREATE TABLE EstadosTurno (
@@ -215,13 +217,20 @@ VALUES
   (6,'Laura', 'Laura', 2),
   (7,'Carlos', 'Carlos', 2);  
   
-INSERT INTO medicos (IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdProvincia, IdLocalidad, IdEspecialidad, CorreoElectronico, Telefono, Estado)
+INSERT INTO clinica_medica.jornadas (IdJornada,Descripcion,Estado,InicioLunes,FinLunes,InicioMartes,FinMartes,InicioMiercoles,FinMiercoles,InicioJueves,FinJueves,InicioViernes,FinViernes,
+InicioSabado,FinSabado,InicioDomingo,FinDomingo)
 VALUES
-  (3,'12345678', 'Juan', 'Pérez', 'Masculino', 1, '1990-01-01', 'Calle 123', 1, 1, 1, 'juan@example.com', '123456789', 1),
-  (4, '23456789', 'María', 'López', 'Femenino', 1, '1992-05-15', 'Avenida 456', 2, 2, 2, 'maria@example.com', '987654321', 1),
-  (5, '34567890', 'Pedro', 'Gómez', 'Masculino', 2, '1988-11-30', 'Calle 789', 3, 3, 1, 'pedro@example.com', '456789123', 1),
-  (6, '45678901', 'Laura', 'Rodríguez', 'Femenino', 3, '1995-08-20', 'Avenida 789', 4, 4, 3, 'laura@example.com', '321654987', 1),
-  (7, '56789012', 'Carlos', 'Fernández', 'Masculino', 4, '1993-03-10', 'Calle 456', 1, 2, 2, 'carlos@example.com', '987321654', 1);
+(1,'Lunes a viernes, 8 a 12',1,8,12,8,12,8,12,8,12,8,12,0,0,0,0),
+(2,'Lunes a miercoles, 15 a 19',1,15,19,15,19,15,19,0,0,0,0,0,0,0,0),
+(3,'Viernes, sábado y domingo, 18 a 21',1,0,0,0,0,0,0,0,0,18,21,18,21,18,21);
+
+INSERT INTO medicos (IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdProvincia, IdLocalidad, IdEspecialidad, IdJornada, CorreoElectronico, Telefono, Estado)
+VALUES
+  (3,'12345678', 'Juan', 'Pérez', 'Masculino', 1, '1990-01-01', 'Calle 123', 1, 1, 1, 1, 'juan@example.com', '123456789', 1),
+  (4, '23456789', 'María', 'López', 'Femenino', 1, '1992-05-15', 'Avenida 456', 2, 2, 2, 1, 'maria@example.com', '987654321', 1),
+  (5, '34567890', 'Pedro', 'Gómez', 'Masculino', 2, '1988-11-30', 'Calle 789', 3, 3, 1, 2, 'pedro@example.com', '456789123', 1),
+  (6, '45678901', 'Laura', 'Rodríguez', 'Femenino', 3, '1995-08-20', 'Avenida 789', 4, 4, 3, 2, 'laura@example.com', '321654987', 1),
+  (7, '56789012', 'Carlos', 'Fernández', 'Masculino', 4, '1993-03-10', 'Calle 456', 1, 2, 2, 3, 'carlos@example.com', '987321654', 1);
   
 -- Generar 5 registros para la tabla pacientes
 INSERT INTO Pacientes (Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdProvincia, IdLocalidad, CorreoElectronico, Telefono, Estado)

@@ -6,7 +6,6 @@ public class Medico {
 	
 	private static final int DIAS = 7;
 	private static final int HORAS = 24;	
-	private int[][] jorandas = new int[DIAS][HORAS];	
 	
 	private int idUsuario;
 	private int dni;
@@ -20,12 +19,13 @@ public class Medico {
 	private Localidad localidad;
 	private Provincia provincia;
 	private String eMail;
-	private String telefono;	
+	private String telefono;
+	private Jornada jornada;
 	private int estado;	
 	
 	
 	public Medico(int idUsuario, int dni, String nombre, String apellido, String sexo,Especialidad especialidad, Nacionalidad nacionalidad, String fechaNacimiento,
-			String direccion, Localidad localidad, Provincia provincia, String eMail, String telefono, int estado) {
+			String direccion, Localidad localidad, Provincia provincia, String eMail, String telefono, int estado, Jornada jornada) {
 		
 		this.idUsuario = idUsuario;
 		this.dni = dni;
@@ -41,7 +41,7 @@ public class Medico {
 		this.eMail = eMail;
 		this.telefono = telefono;
 		this.estado = estado;
-		
+		this.jornada = jornada;
 	}
 	
 	public int getIdUsuario() {
@@ -130,12 +130,12 @@ public class Medico {
 		this.estado = estado;
 	}
 	
-
-	public int[][] getJorandas() {
-		return jorandas;
+	public Jornada getJornada() {
+		return jornada;
 	}
-	public void setJorandas(int[][] jorandas) {
-		this.jorandas = jorandas;
+
+	public void setJornada(Jornada jornada) {
+		this.jornada = jornada;
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class Medico {
 		return "Medico [idUsuario=" + idUsuario + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", sexo=" + sexo
 				+ ", nacionalidad=" + nacionalidad + ", especialidad=" + especialidad + ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion
 				+ ", localidad=" + localidad + ", provincia=" + provincia + ", eMail=" + eMail + ", telefono="
-				+ telefono + ", estado=" + estado + "]";
+				+ telefono + ", estado=" + estado + ", jornada=" + jornada + "]";
 	}
 
 	

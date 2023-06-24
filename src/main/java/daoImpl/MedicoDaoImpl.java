@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import dao.MedicoDao;
 import entidad.Especialidad;
+import entidad.Jornada;
 import entidad.Localidad;
 import entidad.Medico;
 import entidad.Nacionalidad;
@@ -16,26 +17,31 @@ import entidad.Provincia;
 public class MedicoDaoImpl implements MedicoDao {
 
 	private static final String INSERT = "INSERT INTO clinica_medica.medicos"
-			+ "(IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, "
-			+ "IdLocalidad,IdEspecialidad, IdProvincia, CorreoElectronico, Telefono, Estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "(IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdJornada, "
+			+ "IdLocalidad,IdEspecialidad, IdProvincia, CorreoElectronico, Telefono, Estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.medicos";
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.medicos SET Estado = ? WHERE Dni = ?";
 	private static final String UPDATE = "UPDATE clinica_medica.medicos SET IdUsuario = ?, Nombre = ?, Apellido = ?, Sexo = ?, IdNacionalidad = ?, "
-			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?, IdEspecialidad =?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ? WHERE Dni = ?";
+			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?, IdEspecialidad =?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ?, IdJornada = ? WHERE Dni = ?";
 	private static final String READALL = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, "
-			+ "m.FechaNacimiento, m.Direccion, m.IdEspecialidad, e.Descripcion, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
+			+ "m.FechaNacimiento, m.Direccion, m.IdEspecialidad, e.Descripcion, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado, "
+			+ "m.IdJornada as IdJornada, j.Descripcion as DescripcionJor, j.Estado as EstadoJor, j.InicioLunes, j.FinLunes, j.InicioMartes, j.FinMartes, j.InicioMiercoles, j.FinMiercoles, j.InicioJueves, j.FinJueves, j.InicioViernes, j.FinViernes, j.InicioSabado, j.FinSabado, j.InicioDomingo, j.FinDomingo "			
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
-			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad";
+			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad "
+			+ "INNER JOIN clinica_medica.jornadas j ON m.IdJornada = j.IdJornada";
 	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdEspecialidad, e.Descripcion, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion, "
 			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
+			+ "m.IdJornada as IdJornada, j.Descripcion as DescripcionJor, j.Estado as EstadoJor, j.InicioLunes, j.FinLunes, j.InicioMartes, j.FinMartes, j.InicioMiercoles, j.FinMiercoles, j.InicioJueves, j.FinJueves, j.InicioViernes, j.FinViernes, j.InicioSabado, j.FinSabado, j.InicioDomingo, j.FinDomingo "
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad "
 			+ "INNER JOIN clinica_medica.nacionalidades n ON n.IdNacionalidad = m.IdNacionalidad "
 			+ "INNER JOIN clinica_medica.provincias pr ON pr.IdProvincia = m.IdProvincia "
-			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad WHERE m.Dni = ?";
+			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad "
+			+ "INNER JOIN clinica_medica.jornadas j ON m.IdJornada = j.IdJornada "
+			+ "WHERE m.Dni = ?";
 
 	@Override
 	public boolean insert(Medico medico) {
@@ -52,12 +58,13 @@ public class MedicoDaoImpl implements MedicoDao {
 			statement.setInt(6, medico.getNacionalidad().getIdNacionalidad());
 			statement.setString(7, medico.getFechaNacimiento());
 			statement.setString(8, medico.getDireccion());
-			statement.setInt(9, medico.getLocalidad().getIdLocalidad());
-			statement.setInt(10, medico.getEspecialidad().getIdEspecialidad());	
-			statement.setInt(11, medico.getProvincia().getIdProvincia());
-			statement.setString(12, medico.geteMail());
-			statement.setString(13, medico.getTelefono());
-			statement.setInt(14, 1);
+			statement.setInt(9, medico.getJornada().getId());
+			statement.setInt(10, medico.getLocalidad().getIdLocalidad());
+			statement.setInt(11, medico.getEspecialidad().getIdEspecialidad());	
+			statement.setInt(12, medico.getProvincia().getIdProvincia());
+			statement.setString(13, medico.geteMail());
+			statement.setString(14, medico.getTelefono());
+			statement.setInt(15, 1);
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
@@ -125,7 +132,8 @@ public class MedicoDaoImpl implements MedicoDao {
 			statement.setString(10, medico.geteMail());
 			statement.setString(11, medico.getTelefono());
 			statement.setInt(12, medico.getEstado());
-			statement.setInt(13, medico.getDni());
+			statement.setInt(13, medico.getJornada().getId());
+			statement.setInt(14, medico.getDni());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				actualizado = true;
@@ -195,10 +203,32 @@ public class MedicoDaoImpl implements MedicoDao {
 		String provincia = resultSet.getString("Provincia");
 		String correoElec = resultSet.getString("CorreoElectronico");
 		String telefono = resultSet.getString("Telefono");
-		int estado = resultSet.getInt("Estado");				
+		int estado = resultSet.getInt("Estado");			
+		Jornada jornada = getJornada(resultSet);
 		
 		return new Medico(idUsuario, dni, nombre, apellido, sexo, new Especialidad(idEspecialidad,especialidad),new Nacionalidad(idNacionalidad,nacionalidad), fechaNac, direccion, 
-				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado);
+				new Localidad(idLocalidad, localidad, new Provincia(idProvincia, provincia)), new Provincia(idProvincia, provincia), correoElec, telefono, estado, jornada);
+	}
+	
+	private Jornada getJornada(ResultSet resultSet) throws SQLException {
+		int idJornada = resultSet.getInt("IdJornada");
+		String descripcion = resultSet.getString("DescripcionJor");
+		int inicioLunes = resultSet.getInt("InicioLunes");
+		int finLunes = resultSet.getInt("FinLunes");
+		int inicioMartes = resultSet.getInt("InicioMartes");
+		int finMartes = resultSet.getInt("FinMartes");
+		int inicioMiercoles = resultSet.getInt("InicioMiercoles");
+		int finMiercoles = resultSet.getInt("FinMiercoles");
+		int inicioJueves = resultSet.getInt("InicioJueves");
+		int finJueves = resultSet.getInt("FinJueves");
+		int inicioViernes = resultSet.getInt("InicioViernes");
+		int finViernes = resultSet.getInt("FinViernes");
+		int inicioSabado = resultSet.getInt("InicioSabado");
+		int finSabado = resultSet.getInt("FinSabado");
+		int inicioDomingo = resultSet.getInt("InicioDomingo");
+		int finDomingo = resultSet.getInt("FinDomingo");
+		return new Jornada(idJornada, descripcion, inicioLunes, finLunes, inicioMartes, finMartes, inicioMiercoles, finMiercoles, inicioJueves, finJueves, inicioViernes, finViernes,
+				inicioSabado, finSabado, inicioDomingo, finDomingo);
 	}
 	
 	@Override
