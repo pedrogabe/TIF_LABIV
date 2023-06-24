@@ -60,10 +60,7 @@ public class servletLogin extends HttpServlet {
 				rd.forward(request, response); 
 				
 				}else {
-						PrintWriter out=response.getWriter();
-						response.setContentType("text/html");
-					 out.println("<font color=red size18>Login Failed!!<br>");
-					 out.println("<a href=Login.jsp>Try Again!</a>");
+				    response.sendRedirect(request.getContextPath() + "/Error.jsp");
 				}
 			}
 		

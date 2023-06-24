@@ -50,10 +50,7 @@ public class PacientesListado extends HttpServlet {
 		rd.forward(request, response);
 		}
 		else {
-		    PrintWriter out=response.getWriter();
-		    response.setContentType("text/html");
-		     out.println("<font color=red size18>No tiene autorizacion, debe ingresar con usuario!<br>");
-		     out.println("<a href=Login.jsp>Ir al Login!</a>");
+		    response.sendRedirect(request.getContextPath() + "/Error.jsp");
 		}
 	}
 
