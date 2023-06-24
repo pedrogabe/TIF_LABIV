@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.Usuario;
 import negocio.*;
 import negocioImpl.*;
 
@@ -34,8 +35,10 @@ public class ServletListarMedicos extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		if (request.getSession().getAttribute("Usuario") != null) {
+		
+			Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
+		
+		if (request.getSession().getAttribute("Usuario") != null && usuario.getIdPerfil() != Usuario.ROL_MEDICO) {
 			response.getWriter().append("Served at: ").append(request.getContextPath());
 			try {
 				request.getSession().setAttribute("medicos", medicoNeg.readAll(1)); // Por default solo los pacientes
