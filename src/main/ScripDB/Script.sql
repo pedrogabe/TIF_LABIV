@@ -242,13 +242,23 @@ VALUES
   ('55555555', 'Carolina', 'Rodríguez', 'Femenino', 4, '1992-09-25', 'Calle 456', 1, 2, 'carolina@example.com', '987321654', 1);
   
   
-  -- Generar 5 registros para la tabla turnos
+  -- Generar 15 registros para la tabla turnos
 INSERT INTO turnos (IdMedico, IdPaciente, FechaReserva, Observacion, IdTurnoEstado, Hora, Estado)
 VALUES
-  (1, 1, '2023-06-21 09:00:00', 'Observación 1', 2, 9, 1),
-  (2, 2, '2023-06-21 10:00:00', 'Observación 2', 2, 10, 1),
-  (3, 3, '2023-06-22 11:00:00', 'Observación 3', 2, 11, 1),
-  (4, 4, '2023-06-22 14:00:00', 'Observación 4', 2, 14, 1),
-  (5, 5, '2023-06-23 15:30:00', 'Observación 5', 2, 15, 1);
+  (1, 1, '2023-06-21 09:00:00', 'Dolor de cabeza', 1, 9, 1),
+  (2, 2, '2023-06-21 10:00:00', 'Fiebre', 1, 10, 1),
+  (3, 3, '2023-06-22 11:00:00', 'Mareos', 1, 11, 1),
+  (4, 4, '2023-06-22 14:00:00', 'Consulta', 1, 14, 1),
+  (5, 5, '2023-06-23 15:00:00', 'Consulta', 1, 15, 1),
+  (1, 1, '2023-06-01 15:00:00', 'Consulta', 1, 15, 1),
+  (1, 2, '2023-06-02 16:00:00', 'Dolor de pecho', 1, 16, 1),
+  (1, 3, '2023-06-03 18:00:00', 'Fiebre', 1, 18, 1),
+  (2, 4, '2023-06-04 19:00:00', 'Cansancio', 1, 19, 1),
+  (2, 5, '2023-06-05 20:00:00', 'Dolor de cabeza', 1, 20, 1),
+  (3, 3, '2023-06-10 11:00:00', 'Mareos', 1, 11, 1),
+  (4, 4, '2023-06-11 14:00:00', 'Consulta', 1, 14, 1),
+  (5, 5, '2023-06-12 15:00:00', 'Consulta', 1, 15, 1),
+  (1, 1, '2023-06-13 15:00:00', 'Consulta', 1, 15, 1),
+  (1, 2, '2023-06-14 16:00:00', 'Dolor de pecho', 1, 16, 1);
   
   
