@@ -10,7 +10,7 @@
 <title>Reporte Especialidades</title>
 </head>
 <body>
-
+<%@include file="Nav.html"%>
 	<h1 class="title">Reporte Especialidades</h1>
 
 	<form action="ServletRepEspecialidad" method=post>
