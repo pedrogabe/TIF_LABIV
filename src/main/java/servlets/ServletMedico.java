@@ -38,16 +38,16 @@ public class ServletMedico extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getSession().getAttribute("Usuario") != null) {
-			String op = request.getParameter("op") != null ? request.getParameter("op").toString() : "" ;
+			String op = request.getParameter("op");
 			if (op == null && request.getAttribute("op") != null)
 				op = request.getAttribute("op").toString();
+			
 			if (op == null || !(op.equals("add") || op.equals("edit") || op.equals("delete"))) {
 				response.sendError(400);
 				System.out.println("op catch");
 				return;
 			}
 
-			// TODO-> llenar nacionalidades,provincias,localidades
 			NacionalidadNegocio negNac = new NacionalidadNegocioImpl();
 			ArrayList<Nacionalidad> nacionalidades = negNac.readAll();
 
@@ -70,8 +70,8 @@ public class ServletMedico extends HttpServlet {
 			request.setAttribute("jornadas", jornadas);
 			
 			if (op.equals("add")) {
-				// TODO -> return max id
-				request.setAttribute("maxIdPaciente", 1001);
+				// Obsoleto
+				//request.setAttribute("maxIdPaciente", 1001);
 
 			} else {
 				int dni;
@@ -138,16 +138,16 @@ public class ServletMedico extends HttpServlet {
 		}
 
 		if (request.getParameter("btnActualizar") != null) {
-			addMedico(request);
+			updateMedico(request);
 			return;
 		}
 
 		if (request.getParameter("btnEliminar") != null) {
-			addMedico(request);
+			deleteMedico(request);
 			return;
 		}
 
-		request.setAttribute("error", "Error en solicitud"); // TODO -> Cambiar mensaje
+		request.setAttribute("error", "Ocurrió un problema: La solicitud resulto inválida.");
 	}
 
 	private void addMedico(HttpServletRequest request) {
@@ -168,7 +168,7 @@ public class ServletMedico extends HttpServlet {
 				request.setAttribute("error", String.format("Ya existe el médico con el (Dni %s) en la base de datos.", medico.getDni()));
 
 		} else {
-			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
+			request.setAttribute("error", "Hubo un problema en la validación de los datos");
 			request.setAttribute("medico", medico);
 			request.setAttribute("usuario", usuario);
 		}
@@ -317,44 +317,39 @@ public class ServletMedico extends HttpServlet {
 		// TODO -> call negocio
 		return null;
 	}
+	
 	protected void updateMedico(HttpServletRequest request) {
 		Medico medico = fillMedico(request);
 		Usuario usuario = fillUsuario(request);
 		request.setAttribute("op", "edit");
-		 
-			if (true) { // TODO -> call negocio para guardar
-				MedicoNegocio medicoNeg = new MedicoNegocioImpl();
-				if (medicoNeg.update(medico)) {
-					request.setAttribute("success",
-							String.format("Se actualizó el medico (Dni %s)", medico.getDni()));
-				} else {
-					request.setAttribute("error",
-							String.format("No se actualizó el medico con el (Dni %s) en la base de datos.", medico.getDni()));
-				}
-			}
+ 
+		MedicoNegocio medicoNeg = new MedicoNegocioImpl();
+		if (medicoNeg.update(medico)) {
+			request.setAttribute("success",
+					String.format("Se actualizó el medico (Dni %s)", medico.getDni()));
+		} else {
+			request.setAttribute("error",
+					String.format("No se actualizó el medico con el (Dni %s) en la base de datos.", medico.getDni()));
+		}
 		
-			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
-			request.setAttribute("medico", medico);
+		request.setAttribute("medico", medico);
 		
 	}
 	
 	protected void deleteMedico(HttpServletRequest request) {
 		Medico medico = fillMedico(request);		
-		request.setAttribute("op", "edit");
+		request.setAttribute("op", "delete");
 		
-			if (true) { // TODO -> call negocio para guardar
-				MedicoNegocio medicoNeg = new MedicoNegocioImpl();
-				if (medicoNeg.delete(medico)) {
-					request.setAttribute("success",
-							String.format("Se hizo la baja del medico (Dni %s) en la base de datos.", medico.getDni()));
-				} else {
-					request.setAttribute("error",
-							String.format("No se hizo la baja del medico (Dni %s) en la base de datos.", medico.getDni()));
-				}
-			}
-		
-			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
-			request.setAttribute("medico", medico);
+		MedicoNegocio medicoNeg = new MedicoNegocioImpl();
+		if (medicoNeg.delete(medico)) {
+			request.setAttribute("success",
+					String.format("Se hizo la baja del medico (Dni %s) en la base de datos.", medico.getDni()));
+		} else {
+			request.setAttribute("error",
+					String.format("No se hizo la baja del medico (Dni %s) en la base de datos.", medico.getDni()));
+		}
+
+		request.setAttribute("medico", medico);
 		
 	}
 }

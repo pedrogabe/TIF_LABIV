@@ -21,7 +21,7 @@ public class MedicoDaoImpl implements MedicoDao {
 			+ "IdLocalidad,IdEspecialidad, IdProvincia, CorreoElectronico, Telefono, Estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String SELECT_COUNT = "SELECT COUNT(*) FROM clinica_medica.medicos";
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.medicos SET Estado = ? WHERE Dni = ?";
-	private static final String UPDATE = "UPDATE clinica_medica.medicos SET IdUsuario = ?, Nombre = ?, Apellido = ?, Sexo = ?, IdNacionalidad = ?, "
+	private static final String UPDATE = "UPDATE clinica_medica.medicos SET Nombre = ?, Apellido = ?, Sexo = ?, IdNacionalidad = ?, "
 			+ "FechaNacimiento = ?, Direccion = ?, IdLocalidad = ?, IdEspecialidad =?, IdProvincia = ?, CorreoElectronico = ?, Telefono = ?, Estado = ?, IdJornada = ? WHERE Dni = ?";
 	private static final String READALL = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdNacionalidad, n.Nacionalidad, "
 			+ "m.FechaNacimiento, m.Direccion, m.IdEspecialidad, e.Descripcion, m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado, "
@@ -119,15 +119,14 @@ public class MedicoDaoImpl implements MedicoDao {
 		boolean actualizado = false;
 		try {
 			statement = conexion.prepareStatement(UPDATE);
-			statement.setInt(1, medico.getIdUsuario());
-			statement.setString(2, medico.getNombre());
-			statement.setString(3, medico.getApellido());
-			statement.setString(4, medico.getSexo());
-			statement.setInt(5, medico.getNacionalidad().getIdNacionalidad());
-			statement.setString(6, medico.getFechaNacimiento());
-			statement.setString(7, medico.getDireccion());
-			statement.setInt(8, medico.getLocalidad().getIdLocalidad());
-			statement.setInt(10, medico.getEspecialidad().getIdEspecialidad());	
+			statement.setString(1, medico.getNombre());
+			statement.setString(2, medico.getApellido());
+			statement.setString(3, medico.getSexo());
+			statement.setInt(4, medico.getNacionalidad().getIdNacionalidad());
+			statement.setString(5, medico.getFechaNacimiento());
+			statement.setString(6, medico.getDireccion());
+			statement.setInt(7, medico.getLocalidad().getIdLocalidad());
+			statement.setInt(8, medico.getEspecialidad().getIdEspecialidad());	
 			statement.setInt(9, medico.getProvincia().getIdProvincia());
 			statement.setString(10, medico.geteMail());
 			statement.setString(11, medico.getTelefono());
@@ -137,8 +136,11 @@ public class MedicoDaoImpl implements MedicoDao {
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				actualizado = true;
+			}else {
+				conexion.rollback();
 			}
 		} catch (SQLException e) {
+			
 		}
 		return actualizado;
 	}

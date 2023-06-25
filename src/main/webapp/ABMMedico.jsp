@@ -1,3 +1,4 @@
+<%@page import="java.time.LocalDate"%>
 <%@ page import="java.util.ArrayList"%>
 <%@page import="entidad.Nacionalidad"%>
 <%@page import="entidad.Provincia"%>
@@ -71,7 +72,7 @@
 		<table>
 			<tr>
                 <td><label>DNI</label></td>
-                <td><input type="text" name="txtDni" value="<%= dni %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dni %>" ></td>
+                <td><input type="number" min=0 name="txtDni" value="<%= dni %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dni %>" ></td>
             </tr>			
 			<tr>
 				<td><label>Nombre</label></td>
@@ -151,7 +152,7 @@
 			<tr>
 				<td><label>Fecha Nacimiento</label></td>
 				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento %>"
-					required></td>
+					max="<%= LocalDate.now().toString() %>" required></td>
 			</tr>
 
 			<tr>
