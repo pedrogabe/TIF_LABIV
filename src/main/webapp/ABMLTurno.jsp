@@ -181,7 +181,9 @@ if (request.getSession().getAttribute("Usuario") != null) {
 									</opcion>
 						</select></td>
 					</tr>
-
+					<%
+					if (!op.equals("add")) {
+					%>
 					<tr>
 						<td><label>Observaciones</label></td>
 						<td><input type="text" name="txtObservacion"
@@ -210,6 +212,9 @@ if (request.getSession().getAttribute("Usuario") != null) {
 								%>
 						</select></td>
 					</tr>
+					<%
+					} // Observacion y estado solo mostrar si es edicion.
+					%>
 					<%
 					} //Paciente seleccionado
 					%>
