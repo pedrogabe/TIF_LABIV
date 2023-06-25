@@ -28,10 +28,18 @@ public class ReporteEspecialidad {
 		return this.columnas.size();
 	}	
 	
+	public int getTotalFilasPorColumnas() {
+		return this.valores.size() / this.columnas.size();
+	}	
+	
 	public ArrayList<String> getValores() {
 		return valores;
 	}
 
+	public String getValorIndex(int index) {
+		return valores.get(index);
+	}
+	
 	public void setValores(ArrayList<String> valores) {
 		this.valores = valores;
 	}
