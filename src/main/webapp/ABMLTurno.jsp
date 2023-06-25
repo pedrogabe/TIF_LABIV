@@ -85,8 +85,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
                 <td><label>Apellido </label></td>
                 <td><input type="text" name="txtApellidoPaciente" value="<%= apellidoPaciente %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= apellidoPaciente %>" ></td>
             </tr>
-			
-			<tr>
+            
+            <tr>
 				<td><label>Especialidad</label></td>
 				<td>
 					<select name="selEspecialidad">
@@ -98,18 +98,17 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						
 						for (Especialidad especialidad : especialidades) {
 						%>
-						<option  value="<%=especialidad.getIdEspecialidad()%>"  <%= esp == especialidad.getIdEspecialidad() ? "selected" : "" %>>
+						<option  value="<%=especialidad.getIdEspecialidad()%>" <%= esp == especialidad.getIdEspecialidad() ? "selected" : "" %>>
 							<%=especialidad.getEspecialidad()%>
 						</option>
-						
 						<%
 						}}
 						%>
+                        
 					</select>
 				</td>
 			</tr>
-			
-					
+								
 			<tr>
 				<td><label>Medico</label></td>
 				<td>
@@ -123,7 +122,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						for (Medico medico : medicos) {
 						%>
 						<option  value="<%=medico.getDni()%>"  <%= med == medico.getDni() ? "selected" : "" %>>
-							<%=medico.getDni()%>
+							<%=medico.getApellido()%> <%=medico.getNombre()%>
 						</option>
 						
 						<%
