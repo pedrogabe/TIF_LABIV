@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Especialidad;
 import entidad.EstadoTurno;
+import entidad.Medico;
 import entidad.Paciente;
 import entidad.Turno;
 import negocio.*;
@@ -58,6 +59,11 @@ public class ServletTurno extends HttpServlet {
 		ArrayList<EstadoTurno> estadoTurnos = etNegImp.readAll();
 		
 		request.setAttribute("estadoTurnos", estadoTurnos);
+		
+		MedicoNegocio medicoNegImp = new MedicoNegocioImpl();
+		ArrayList<Medico> medicos = medicoNegImp.readAll(1);
+		
+		request.setAttribute("medicos", medicos);
 		
 		
 		if (op.equals("add")) {
