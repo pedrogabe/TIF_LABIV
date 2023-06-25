@@ -1,5 +1,5 @@
 <%@ page import="java.util.ArrayList"%>
-
+<%@page import="java.time.LocalDate"%>
 <%@ page import="java.util.List"%>
 
 <%@page import="entidad.Nacionalidad"%>
@@ -54,7 +54,7 @@
         }
 
     %>
-	<form action="servletPaciente" method="post">
+	<form id="formPpal" action="servletPaciente" method="post">
 
 		<h2 class="title">Alta y Modificacion de Pacientes</h2>
 		<br>
@@ -65,7 +65,7 @@
 		<table>
 			<tr>
                 <td><label>DNI</label></td>
-                <td><input type="text" name="txtDni" value="<%= dni %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dni %>" ></td>
+                <td><input type="number" min=0 name="txtDni" value="<%= dni %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dni %>" ></td>
             </tr>			
 			<tr>
 				<td><label>Nombre</label></td>
@@ -106,7 +106,7 @@
 			<tr>
 				<td><label>Fecha Nacimiento</label></td>
 				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento %>"
-					required></td>
+					max="<%= LocalDate.now().toString() %>" required></td>
 			</tr>
 
 			<tr>
@@ -218,6 +218,21 @@
 
 	
 	filtrarDesplegableB(false);
+	
+	document.getElementById('formPpal').addEventListener('submit', function(event) {
+  		
+		var msg = "¿Seguro que desea continuar?";
+  		
+ 		if (event.submitter.name === 'btnGrabar') 
+	    	msg = "¿Seguro que desea crear el nuevo paciente con los datos ingresados?";
+ 		if (event.submitter.name === 'btnEliminar') 
+ 			msg = "¿Seguro que desea eliminar el paciente seleccionado?";
+ 		if (event.submitter.name === 'btnActualizar') 
+ 			msg = "¿Seguro que desea actualizar los datos del paciente seleccionado?"
+ 			
+ 		if(!confirm(msg))
+ 			event.preventDefault();
+	});
 	</script>
 	
 <%}else{
