@@ -18,8 +18,8 @@ public class Jornada {
 	private int inicioDomingo;
 	private int finDomingo;
 	
-	public Jornada() {
-		
+	public Jornada(int id) {
+		this.id = id;
 	}
 	
 	public Jornada(int id, String descripcion, int inicioLunes, int finLunes, int inicioMartes, int finMartes,

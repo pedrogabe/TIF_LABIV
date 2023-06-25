@@ -5,6 +5,7 @@
 <%@page import="entidad.Usuario"%>
 <%@page import="entidad.Especialidad"%>
 <%@page import="entidad.Localidad"%>
+<%@page import="entidad.Jornada"%>
 
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -28,8 +29,8 @@
 	String apellido, nombre, dni, eMail, fechaNacimiento, telefono, direccion, sexo, userLogin, password, confPassword;
 	apellido = nombre = dni = eMail = fechaNacimiento = telefono = direccion = sexo = userLogin = password = confPassword = "";
 
-	int maxId, loc, nacion, prov, espe;
-	maxId = loc = nacion = prov = espe = 0;
+	int maxId, loc, nacion, prov, espe, jor;
+	maxId = loc = nacion = prov = espe = jor = 0;
 
 	Medico medico = null;
 	Usuario usuario = null;
@@ -52,6 +53,7 @@
 			direccion = medico.getDireccion();
 			userLogin = usuario.getUserLogin();
 			password = usuario.getPassword();
+			jor = medico.getJornada().getId();
 		} catch (Exception e) {
 			if (request.getAttribute("error") == null)
 		request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
@@ -125,6 +127,25 @@
 						<option value="No indica" <%= sexo.equals("No indica") ? "selected" : "" %>>No indica</option>
 						<option value="Femenino" <%= sexo.equals("Femenino") ? "selected" : "" %>>Femenino</option>
 						<option value="Masculino" <%= sexo.equals("Masculino") ? "selected" : "" %>>Masculino</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label>Jornada</label></td>
+				<td><select name="selJornada">
+						<%
+						ArrayList<Jornada> jornadas = null;
+
+						if (request.getAttribute("jornadas") != null) {
+							jornadas = (ArrayList<Jornada>) request.getAttribute("jornadas");
+						
+						for (Jornada jornada : jornadas) {
+						%>
+							<option value="<%=jornada.getId()%>" <%= jor == jornada.getId() ? "selected" : "" %>>
+								<%=jornada.getDescripcion() %>
+							</option>
+						<%
+						}}
+						%>
 				</select></td>
 			</tr>
 			<tr>
