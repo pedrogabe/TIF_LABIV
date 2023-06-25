@@ -54,6 +54,17 @@ public class PacienteNegocioImpl implements PacienteNegocio{
 			update = pdao.update(paciente, true);
 		return update;
 	}
+	
+	@Override
+	public Paciente searchDni(int dni) {		
+		Paciente p = null;
+		if(dni > 0)
+		{
+		   p =	pdao.searchPaciente(dni);		  
+			 
+		}
+		return p;
+	}
 
 }
 

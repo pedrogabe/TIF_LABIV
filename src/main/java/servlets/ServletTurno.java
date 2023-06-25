@@ -25,21 +25,23 @@ import negocioImpl.*;
 @WebServlet("/ServletTurno")
 public class ServletTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletTurno() {
-        
-    	super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	public ServletTurno() {
+
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		if (request.getSession().getAttribute("Usuario") != null) {
 			String op = request.getParameter("op");
 			if (op == null && request.getAttribute("op") != null)
@@ -49,67 +51,70 @@ public class ServletTurno extends HttpServlet {
 				System.out.println("op catch");
 				return;
 			}
-		
-		EspecialidadNegocio espNegImp = new EspecialidadNegocioImpl();
-		ArrayList<Especialidad> especialidades = espNegImp.readAll();
-		
-		request.setAttribute("especialidades", especialidades);
-		
-		EstadoTurnoNegocio etNegImp = new EstadoTurnoNegocioImpl();
-		ArrayList<EstadoTurno> estadoTurnos = etNegImp.readAll();
-		
-		request.setAttribute("estadoTurnos", estadoTurnos);
-		
-		MedicoNegocio medicoNegImp = new MedicoNegocioImpl();
-		ArrayList<Medico> medicos = medicoNegImp.readAll(1);
-		
-		request.setAttribute("medicos", medicos);
-		
-		
-		if (op.equals("add")) {
 
+			EspecialidadNegocio espNegImp = new EspecialidadNegocioImpl();
+			ArrayList<Especialidad> especialidades = espNegImp.readAll();
+
+			request.setAttribute("especialidades", especialidades);
+
+			EstadoTurnoNegocio etNegImp = new EstadoTurnoNegocioImpl();
+			ArrayList<EstadoTurno> estadoTurnos = etNegImp.readAll();
+
+			request.setAttribute("estadoTurnos", estadoTurnos);
+
+			MedicoNegocio medicoNegImp = new MedicoNegocioImpl();
+			ArrayList<Medico> medicos = medicoNegImp.readAll(1);
+
+			request.setAttribute("medicos", medicos);
+
+			if (op.equals("add")) {
+
+			} else {
+				int id;
+				try {
+					if (request.getParameter("id") != null)
+						id = Integer.parseInt(request.getParameter("id"));
+					else
+						id = Integer.parseInt(request.getAttribute("id").toString());
+				} catch (Exception e) {
+					response.sendError(400);
+					System.out.println("id catch");
+					return;
+				}
+
+				try {
+					Turno turno = getTurno(request, id);
+					request.setAttribute("turno", turno);
+				} catch (Exception e) {
+					response.sendError(500);
+					return;
+				}
+			}
+
+			RequestDispatcher rd = request.getRequestDispatcher("ABMLTurno.jsp");
+			request.setAttribute("op", op);
+			rd.forward(request, response);
 		} else {
-			int id;
-			try {
-				if (request.getParameter("id") != null)
-					id = Integer.parseInt(request.getParameter("id"));
-				else
-					id = Integer.parseInt(request.getAttribute("id").toString());
-			} catch (Exception e) {
-				response.sendError(400);
-				System.out.println("id catch");
-				return;
-			}
-
-			try {
-				Turno turno = getTurno(request, id);
-				request.setAttribute("turno", turno);
-			} catch (Exception e) {
-				response.sendError(500);
-				return;
-			}
+			response.sendRedirect(request.getContextPath() + "/Error.jsp");
 		}
-
-		RequestDispatcher rd = request.getRequestDispatcher("ABMLTurno.jsp");
-		request.setAttribute("op", op);
-		rd.forward(request, response);
-	} else {
-	    response.sendRedirect(request.getContextPath() + "/Error.jsp");
-	}
 
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		postOp(request);
 		doGet(request, response);
+
 	}
-	
+
 	protected Turno getTurno(HttpServletRequest request, int id) {
 		Object ps = request.getSession().getAttribute("turnos");
-		
+
 		if (ps != null) {
 			@SuppressWarnings("unchecked")
 			List<Turno> turnos = (List<Turno>) request.getSession().getAttribute("turnos");
@@ -117,10 +122,34 @@ public class ServletTurno extends HttpServlet {
 				if (turno.getIdTurno() == id)
 					return turno;
 			}
-			request.setAttribute("error", "No se encontró el turno solicitado en la base de datos.");		
+			request.setAttribute("error", "No se encontró el turno solicitado en la base de datos.");
 		}
-		
+
 		return null;
+	}
+
+	protected void postOp(HttpServletRequest request) {
+		PacienteNegocio pacNeg = new PacienteNegocioImpl();
+
+		int dni = 0;
+
+		try {
+			dni = Integer.parseInt(request.getParameter("txtDniPaciente"));
+
+		} catch (Exception ex) {
+
+		}
+		if (request.getParameter("btnBuscarDni") != null) {
+			Paciente paciente;
+			paciente = pacNeg.searchDni(dni);
+			if (paciente != null) {
+				request.setAttribute("paciente", paciente);
+			} else {
+				request.setAttribute("error", "El DNI ingresado no existe en la base de datos.");
+			}		
+
+		}
+
 	}
 
 }

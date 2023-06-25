@@ -11,5 +11,6 @@ public interface PacienteNegocio {
 	public boolean update(Paciente paciente);
 	public ArrayList<Paciente> readAll(int estado);
 	public boolean exists(Paciente paciente);
+	public Paciente searchDni(int dni);	
 }
 
