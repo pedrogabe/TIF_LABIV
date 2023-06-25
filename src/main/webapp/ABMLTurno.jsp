@@ -148,10 +148,9 @@ if (request.getSession().getAttribute("Usuario") != null) {
 
 									for (Medico medico : medicos) {
 								%>
-								<option
-									value="<%=medico.getEspecialidad().getIdEspecialidad()%>"
+								<option value="<%=medico.getDni()%>"
 									especialidades="<%=medico.getEspecialidad().getIdEspecialidad()%>"
-									<%=med == medico.getEspecialidad().getIdEspecialidad() ? "selected" : ""%>>
+									<%=med == medico.getDni() ? "selected" : ""%>>
 									<%=medico.getApellido()%>
 									<%=medico.getNombre()%>
 								</option>
@@ -167,18 +166,30 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						<td><label>Fecha de Reserva</label></td>
 						<td><input type="date" name="txtFechaReserva"
 							value="<%=fechaReserva%>" required></td>
-						<td><a><i class="fa fa-search"></i></a></td>
+						<td><input type="submit" name="btnBuscarFecha"
+							class="fa fa-search"></input></td>
 					</tr>
 
 					<tr>
 						<td><label>Hora</label></td>
 						<td><select name="selHora">
-								<option>1
-									</opcion>
-								<option>2
-									</opcion>
-								<option>3
-									</opcion>
+
+								<%
+								ArrayList<Integer> horas = null;
+
+								if (request.getAttribute("horas") != null) {
+									horas = (ArrayList<Integer>) request.getAttribute("horas");
+
+									for (Integer h : horas) {
+								%>
+								<option value="<%=h%>" <%=h == hora ? "selected" : ""%>>
+									<%=h%>
+								</option>
+								<%
+								}
+								}
+								%>
+
 						</select></td>
 					</tr>
 					<%

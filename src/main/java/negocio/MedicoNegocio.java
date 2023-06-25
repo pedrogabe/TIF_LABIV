@@ -15,4 +15,5 @@ public interface MedicoNegocio {
 	public ArrayList<Medico> readAll(int estado);
 	public boolean exists(Medico medico);
 	public boolean medicoAtiende(Medico medico, DayOfWeek dia, int hora);
+	public Medico searchDni(int dni);
 }

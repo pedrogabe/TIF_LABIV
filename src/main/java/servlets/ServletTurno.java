@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,8 +131,12 @@ public class ServletTurno extends HttpServlet {
 
 	protected void postOp(HttpServletRequest request) {
 		PacienteNegocio pacNeg = new PacienteNegocioImpl();
+		MedicoNegocio medNeg = new MedicoNegocioImpl();
+		TurnosNegocio turnoNeg = new TurnosNegocioImpl(medNeg, pacNeg);
+		Medico medico;
 
-		int dni = 0;
+		int dni = 0, dniMedico = 0;
+		Date fechaTurno;
 
 		try {
 			dni = Integer.parseInt(request.getParameter("txtDniPaciente"));
@@ -139,14 +144,30 @@ public class ServletTurno extends HttpServlet {
 		} catch (Exception ex) {
 
 		}
-		if (request.getParameter("btnBuscarDni") != null) {
+		if (request.getParameter("btnBuscarDni") != null ||request.getParameter("btnBuscarFecha") != null) {
 			Paciente paciente;
 			paciente = pacNeg.searchDni(dni);
 			if (paciente != null) {
 				request.setAttribute("paciente", paciente);
 			} else {
 				request.setAttribute("error", "El DNI ingresado no existe en la base de datos.");
-			}		
+			}
+
+		}
+		if (request.getParameter("btnBuscarFecha") != null) {
+			try {
+				
+				dniMedico = Integer.parseInt(request.getParameter("selMedico"));
+				fechaTurno = Date.valueOf(request.getParameter("txtFechaReserva"));
+				medico = medNeg.searchDni(dniMedico);
+				if(medico!=null){
+				ArrayList<Integer> horas = turnoNeg.turnosDisponiblesMedicoFecha(medico, fechaTurno);
+				request.setAttribute("horas", horas);
+				}
+			} catch (Exception ex) {
+				request.setAttribute("error", "Error de validacion de datos.");
+
+			}
 
 		}
 

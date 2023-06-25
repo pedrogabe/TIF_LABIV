@@ -7,6 +7,7 @@ import dao.*;
 import daoImpl.*;
 import entidad.Jornada;
 import entidad.Medico;
+import entidad.Paciente;
 import entidad.Usuario;
 import negocio.*;
 
@@ -89,6 +90,17 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 				estado = true;
 		}
 		return estado;
+	}
+	
+	public Medico searchDni(int dni) {		
+		medicoDaoImpl = new MedicoDaoImpl();
+		Medico med = null;
+		if(dni > 0)
+		{
+		   med = medicoDaoImpl.searchMedico(dni);		  
+			 
+		}
+		return med;
 	}
 
 	@Override
