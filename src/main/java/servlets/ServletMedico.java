@@ -59,11 +59,16 @@ public class ServletMedico extends HttpServlet {
 			
 			EspecialidadNegocio negEspe = new EspecialidadNegocioImpl();
 			ArrayList<Especialidad> especialidades = negEspe.readAll();
+
+			JornadaNegocio negJor = new JornadaNegocioImpl();
+			ArrayList<Jornada> jornadas = negJor.readAll(1);
 			
 			request.setAttribute("especialidades", especialidades);
 			request.setAttribute("nacionalidades", nacionalidades);
 			request.setAttribute("provincias", provincias);
-			request.setAttribute("localidades", localidades);			
+			request.setAttribute("localidades", localidades);	
+			request.setAttribute("jornadas", jornadas);
+			
 			if (op.equals("add")) {
 				// TODO -> return max id
 				request.setAttribute("maxIdPaciente", 1001);
@@ -172,8 +177,8 @@ public class ServletMedico extends HttpServlet {
 	private Medico fillMedico(HttpServletRequest request) {
 		boolean valid = true;
 		Medico medico = null;
-		int idUsuario = 0, dni, estado = 1, idNac = 0, idLoc = 0, idProv = 0, idEspecia = 0;
-		String apellido, nombre, eMail, fechaNacimiento, localidad, especialidad, nacionalidad, provincia, telefono, direccion, sexo;
+		int idUsuario = 0, dni, estado = 1, idNac = 0, idLoc = 0, idProv = 0, idEspecia = 0, idJor = 0;
+		String apellido, nombre, eMail, fechaNacimiento, localidad, especialidad, nacionalidad, provincia, telefono, direccion, sexo, jornada;
 
 		try {
 			if (request.getParameter("txtDni") != null)
@@ -256,12 +261,20 @@ public class ServletMedico extends HttpServlet {
 			valid = false;
 			sexo = "";
 		}
+		
+		jornada = request.getParameter("selJornada");
+		if (jornada == null || jornada.equals("")) {
+			valid = false;
+			jornada = "";
+		}
+		else {
+			idJor = Integer.parseInt(jornada);
+		}
 
 		if (valid) {
-			Jornada jornada = new Jornada();
 			medico = new Medico(idUsuario, dni, nombre, apellido, sexo,new Especialidad(idEspecia, ""), new Nacionalidad(idNac, ""), fechaNacimiento,
 					direccion, new Localidad(idLoc, "", new Provincia(idProv, "")), new Provincia(idProv, ""), eMail,
-					telefono, estado, jornada);
+					telefono, estado, new Jornada(idJor));
 		}
 		return medico;
 	}

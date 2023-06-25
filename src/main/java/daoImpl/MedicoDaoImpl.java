@@ -33,7 +33,7 @@ public class MedicoDaoImpl implements MedicoDao {
 			+ "INNER JOIN clinica_medica.localidades l ON l.IdLocalidad = m.IdLocalidad "
 			+ "INNER JOIN clinica_medica.jornadas j ON m.IdJornada = j.IdJornada";
 	private static final String SEARCH = "SELECT m.Id, m.IdUsuario, m.Dni, m.Nombre, m.Apellido, m.Sexo, m.IdEspecialidad, e.Descripcion, m.IdNacionalidad, n.Nacionalidad, m.FechaNacimiento, m.Direccion, "
-			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado "
+			+ "m.IdLocalidad, l.Localidad, m.IdProvincia, pr.Provincia, m.CorreoElectronico, m.Telefono, m.Estado, "
 			+ "m.IdJornada as IdJornada, j.Descripcion as DescripcionJor, j.Estado as EstadoJor, j.InicioLunes, j.FinLunes, j.InicioMartes, j.FinMartes, j.InicioMiercoles, j.FinMiercoles, j.InicioJueves, j.FinJueves, j.InicioViernes, j.FinViernes, j.InicioSabado, j.FinSabado, j.InicioDomingo, j.FinDomingo "
 			+ "FROM clinica_medica.medicos m "
 			+ "INNER JOIN clinica_medica.especialidades e ON e.IdEspecialidad = m.IdEspecialidad "
