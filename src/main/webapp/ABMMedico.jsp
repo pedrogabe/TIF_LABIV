@@ -61,7 +61,7 @@
 		}
 	}
 	%>
-	<form action="ServletMedico" method="post">
+	<form id="formPpal" action="ServletMedico" method="post">
 
 		<h2 class="title">Alta y Modificacion de Medicos</h2>
 		<br>
@@ -287,6 +287,25 @@
 
 	
 	filtrarDesplegableB(false);
+	
+	
+	
+	document.getElementById('formPpal').addEventListener('submit', function(event) {
+  		
+		var msg = "¿Seguro que desea continuar?";
+  		
+ 		if (event.submitter.name === 'btnGrabar') 
+	    	msg = "¿Seguro que desea crear el nuevo medico con los datos ingresados?";
+ 		if (event.submitter.name === 'btnEliminar') 
+ 			msg = "¿Seguro que desea eliminar el medico seleccionado?";
+ 		if (event.submitter.name === 'btnActualizar') 
+ 			msg = "¿Seguro que desea actualizar los datos del medico seleccionado?"
+ 			
+ 		if(!confirm(msg))
+ 			event.preventDefault();
+	});
+
+
 	</script>
 
 <%}else{
