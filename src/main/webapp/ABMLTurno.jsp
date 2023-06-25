@@ -38,8 +38,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
         String dniPaciente, nombrePaciente, apellidoPaciente, fechaReserva, observacion;
         dniPaciente = nombrePaciente = apellidoPaciente = fechaReserva = observacion = "";
 
-        int med, pac, esp, estadoT, hora;
-         med = esp = estadoT = hora = 0;
+        int med, pac, esp, estadoT, hora,especialidad_;
+         med = esp = estadoT = hora = especialidad_ = 0;
 
         Turno turno = null;
 
@@ -89,7 +89,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
             <tr>
 				<td><label>Especialidad</label></td>
 				<td>
-					<select name="selEspecialidad">
+					<select name="selEspecialidad" Id="selEspecialidad">
 						<%
 						ArrayList<Especialidad> especialidades = null;
 
@@ -112,7 +112,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 			<tr>
 				<td><label>Medico</label></td>
 				<td>
-					<select name="selMedico">
+					<select name="selMedico" Id="selMedico">
 						<%
 						ArrayList<Medico> medicos = null;
 
@@ -121,7 +121,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						
 						for (Medico medico : medicos) {
 						%>
-						<option  value="<%=medico.getDni()%>"  <%= med == medico.getDni() ? "selected" : "" %>>
+						<option  value="<%=medico.getEspecialidad().getIdEspecialidad()%>" especialidades="<%=medico.getEspecialidad().getIdEspecialidad() %>" <%= med == medico.getEspecialidad().getIdEspecialidad() ? "selected" : "" %>>
 							<%=medico.getApellido()%> <%=medico.getNombre()%>
 						</option>
 						
@@ -209,17 +209,17 @@ if (request.getSession().getAttribute("Usuario") != null) {
 	</form>
 	<script type="text/javascript">
 	
-	const desplegableA = document.getElementById('selProvincia');
+	const desplegableA = document.getElementById('selEspecialidad');
 	desplegableA.addEventListener('change', filtrarDesplegableB);
 
 	function filtrarDesplegableB(forzarSeleccion = true) {
 	 
 	  const valorSeleccionado = desplegableA.value;
 
-	  const desplegableB = document.getElementById('selLocalidad');
+	  const desplegableB = document.getElementById('selMedico');
 	  Array.from(desplegableB.options).forEach(option => {
 		  
-	    if (option.getAttribute('provincias') === valorSeleccionado) {
+	    if (option.getAttribute('especialidades') === valorSeleccionado) {
 	      option.style.display = 'block';
 	      if(forzarSeleccion)
 	      	option.setAttribute('selected',true);
