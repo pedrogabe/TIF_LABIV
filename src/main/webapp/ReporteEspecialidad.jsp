@@ -22,12 +22,12 @@
 	<br>
 	<br>
 	<br>
-
+	<%
+	if (request.getAttribute("repEspecialidad") != null) {
+		ReporteEspecialidad repEsp = (ReporteEspecialidad) request.getAttribute("repEspecialidad");
+	%>
 	<table border="1" id="table_id">
-		<%
-		if (request.getAttribute("repEspecialidad") != null) {
-			ReporteEspecialidad repEsp = (ReporteEspecialidad) request.getAttribute("repEspecialidad");
-		%>
+
 		<thead>
 			<tr>
 				<%
@@ -58,10 +58,45 @@
 			}
 			%>
 		</tbody>
-		<%
-		}
-		%>
+
 	</table>
+	<table border="1" id="table_det">
+
+		<thead>
+			<tr>
+				<%
+				for (int numCol = 0; numCol < repEsp.getTotalColumnasDet(); numCol++) {
+				%>
+				<td><b> <%=repEsp.getColumnasDet().get(numCol)%></b></td>
+				<%
+				}
+				%>
+			</tr>
+		</thead>
+		<tbody>
+			<%
+			int indiceValorDet = 0;
+			for (int numFila = 0; numFila < repEsp.getTotalFilasPorColumnasDet(); numFila++) {
+			%>
+			<tr>
+				<%
+				for (int numVal = 0; numVal < repEsp.getTotalColumnasDet(); numVal++) {
+				%>
+				<td><%=repEsp.getValorDetIndex(indiceValorDet)%></td>
+				<%
+				indiceValorDet++;
+				}
+				%>
+			</tr>
+			<%
+			}
+			%>
+		</tbody>
+
+	</table>
+	<%
+	}
+	%>
 
 	<%
 	if (request.getAttribute("success") != null) {
