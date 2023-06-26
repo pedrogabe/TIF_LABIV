@@ -51,7 +51,16 @@
 	<%
 		}
 	%>
-	
+	<form action="ServletListarTurnos" method="post" class="p-2">
+		<label>Turnos de </label>
+		<select name="selFiltroDia" class="p-1 bd-highlight" >
+			<option value="*">Cualquier dia</option>
+			<option value="<">Ayer o anteriores</option>
+			<option value="=">Hoy</option>
+			<option value=">">Manana en adelante</option>
+		</select>
+		<input type="submit" value="Filtrar" class="p-1 bd-highlight"> 
+	</form>
 	<br><br><br>
 
 	<table border="1" id="table_id" datatable="true">
