@@ -161,8 +161,11 @@ public class ServletTurno extends HttpServlet {
 				fechaTurno = Date.valueOf(request.getParameter("txtFechaReserva"));
 				medico = medNeg.searchDni(dniMedico);
 				if(medico!=null){
-				ArrayList<Integer> horas = turnoNeg.turnosDisponiblesMedicoFecha(medico, fechaTurno);
-				request.setAttribute("horas", horas);
+					ArrayList<Integer> horas = turnoNeg.turnosDisponiblesMedicoFecha(medico, fechaTurno);
+					request.setAttribute("horas", horas);
+					request.setAttribute("medico", medico);
+				}else {
+					request.setAttribute("error", "Hubo un error al recopilar los datos del médico.");
 				}
 			} catch (Exception ex) {
 				request.setAttribute("error", "Error de validacion de datos.");
