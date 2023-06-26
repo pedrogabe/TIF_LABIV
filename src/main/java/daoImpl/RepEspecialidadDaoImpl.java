@@ -85,15 +85,15 @@ public class RepEspecialidadDaoImpl implements RepEspecialidadDao {
 			statement.setDate(1, new java.sql.Date(fecha.getTime()));
 			statement.setDate(2, new java.sql.Date(fecha.getTime()));
 			resultSet = statement.executeQuery();
-			//Columnas del Reporte a visualizar total 3
-			repoEsp.addColumna("Cantidad Turnos");
-			repoEsp.addColumna("Especialidad");
+			//Titulos de las columnas del Reporte a visualizar total 3
+			repoEsp.addColumna("Especialidad"); 
+			repoEsp.addColumna("Total Turnos");			
 			repoEsp.addColumna("Porcentaje");
 			
 			while (resultSet.next()) {
 				int cantTurno = resultSet.getInt("CantTurnos");
-				repoEsp.addValor("" + cantTurno);
 				repoEsp.addValor(resultSet.getString("Descripcion"));
+				repoEsp.addValor("" + cantTurno);				
 				repoEsp.addValor(getPorcentaje(resultSet, cantTurno));
 			}
 			
@@ -106,10 +106,13 @@ public class RepEspecialidadDaoImpl implements RepEspecialidadDao {
 	private String getPorcentaje(ResultSet resultSet, int cantTurno) throws SQLException {
 		
 		double porcentaje = 0;
+		String porc = "";
 		if (cantidadTurnosMes > 0)
-			porcentaje = cantTurno * 100 /(double) cantidadTurnosMes;		
-
-		return "" + porcentaje;
+		{
+			porcentaje = cantTurno * 100 /(double) cantidadTurnosMes;
+			porc = String.format("%.2f", porcentaje);
+		}
+		return porc + " %";
 	}
 
 }

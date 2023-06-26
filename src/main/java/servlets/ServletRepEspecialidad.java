@@ -34,9 +34,21 @@ public class ServletRepEspecialidad extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		if (request.getSession().getAttribute("Usuario") != null && usuario.getIdPerfil() != Usuario.ROL_MEDICO) {
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+			try {
+				// Cargar controles de la pagina
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("error", "Hubo un problema al intentar la lista de medicos");
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("ReporteEspecialidad.jsp");
+			rd.forward(request, response);
+		} else {
+			response.sendRedirect(request.getContextPath() + "/Error.jsp");
+		}
 	}
 
 	/**
@@ -54,7 +66,7 @@ public class ServletRepEspecialidad extends HttpServlet {
 			try {
 
 				ReporteEspecialidad report = repEsp.searchReport(anioMesEsp);
-				if (report != null && report.getTotalColumnas()>0 && report.getTotalFilasPorColumnas() > 0) {
+				if (report != null && report.getTotalColumnas() > 0 && report.getTotalFilasPorColumnas() > 0) {
 					request.setAttribute("repEspecialidad", report);
 					request.setAttribute("anioMes", anioMesEsp);
 					RequestDispatcher rd = request.getRequestDispatcher("ReporteEspecialidad.jsp");
