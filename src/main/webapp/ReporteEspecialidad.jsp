@@ -8,6 +8,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Reporte Especialidades</title>
+<link href="estilo.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#table_id').DataTable();
+		$('#table_det').DataTable();
+	});
+</script>
 </head>
 <body>
 	<%@include file="Nav.html"%>
@@ -26,74 +44,79 @@
 	if (request.getAttribute("repEspecialidad") != null) {
 		ReporteEspecialidad repEsp = (ReporteEspecialidad) request.getAttribute("repEspecialidad");
 	%>
-	<table border="1" id="table_id">
+	<div class="div_center">
+		<table border="1" id="table_id">
 
-		<thead>
-			<tr>
+			<thead>
+				<tr>
+					<%
+					for (int numCol = 0; numCol < repEsp.getTotalColumnas(); numCol++) {
+					%>
+					<td><b> <%=repEsp.getColumnas().get(numCol)%></b></td>
+					<%
+					}
+					%>
+				</tr>
+			</thead>
+			<tbody>
 				<%
-				for (int numCol = 0; numCol < repEsp.getTotalColumnas(); numCol++) {
+				int indiceValor = 0;
+				for (int numFila = 0; numFila < repEsp.getTotalFilasPorColumnas(); numFila++) {
 				%>
-				<td><b> <%=repEsp.getColumnas().get(numCol)%></b></td>
+				<tr>
+					<%
+					for (int numVal = 0; numVal < repEsp.getTotalColumnas(); numVal++) {
+					%>
+					<td><%=repEsp.getValorIndex(indiceValor)%></td>
+					<%
+					indiceValor++;
+					}
+					%>
+				</tr>
 				<%
 				}
 				%>
-			</tr>
-		</thead>
-		<tbody>
-			<%
-			int indiceValor = 0;
-			for (int numFila = 0; numFila < repEsp.getTotalFilasPorColumnas(); numFila++) {
-			%>
-			<tr>
+			</tbody>
+
+		</table>
+	</div>
+	<br>
+	<div class="div_center">
+		<table border="1" id="table_det">
+
+			<thead>
+				<tr>
+					<%
+					for (int numCol = 0; numCol < repEsp.getTotalColumnasDet(); numCol++) {
+					%>
+					<td><b> <%=repEsp.getColumnasDet().get(numCol)%></b></td>
+					<%
+					}
+					%>
+				</tr>
+			</thead>
+			<tbody>
 				<%
-				for (int numVal = 0; numVal < repEsp.getTotalColumnas(); numVal++) {
+				int indiceValorDet = 0;
+				for (int numFila = 0; numFila < repEsp.getTotalFilasPorColumnasDet(); numFila++) {
 				%>
-				<td><%=repEsp.getValorIndex(indiceValor)%></td>
+				<tr>
+					<%
+					for (int numVal = 0; numVal < repEsp.getTotalColumnasDet(); numVal++) {
+					%>
+					<td><%=repEsp.getValorDetIndex(indiceValorDet)%></td>
+					<%
+					indiceValorDet++;
+					}
+					%>
+				</tr>
 				<%
-				indiceValor++;
 				}
 				%>
-			</tr>
-			<%
-			}
-			%>
-		</tbody>
+			</tbody>
 
-	</table>
-	<table border="1" id="table_det">
-
-		<thead>
-			<tr>
-				<%
-				for (int numCol = 0; numCol < repEsp.getTotalColumnasDet(); numCol++) {
-				%>
-				<td><b> <%=repEsp.getColumnasDet().get(numCol)%></b></td>
-				<%
-				}
-				%>
-			</tr>
-		</thead>
-		<tbody>
-			<%
-			int indiceValorDet = 0;
-			for (int numFila = 0; numFila < repEsp.getTotalFilasPorColumnasDet(); numFila++) {
-			%>
-			<tr>
-				<%
-				for (int numVal = 0; numVal < repEsp.getTotalColumnasDet(); numVal++) {
-				%>
-				<td><%=repEsp.getValorDetIndex(indiceValorDet)%></td>
-				<%
-				indiceValorDet++;
-				}
-				%>
-			</tr>
-			<%
-			}
-			%>
-		</tbody>
-
-	</table>
+		</table>
+	</div>
 	<%
 	}
 	%>

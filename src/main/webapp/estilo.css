@@ -1,5 +1,12 @@
 @charset "ISO-8859-1";
 
+.div_center {
+  margin: auto;
+  width: 80%;
+  border: 1px solid #73AD21;
+  padding: 10px;
+}
+
 .success{
 	padding: 0.75rem 1.25rem;
     margin-bottom: 1rem;
@@ -59,3 +66,4 @@ td {
   flex-direction: column;
   align-items: center;
 }
+
