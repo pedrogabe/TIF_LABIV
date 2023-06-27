@@ -45,7 +45,7 @@ public class TurnoDaoImpl implements TurnoDao {
 	private static final String CAMBIA_ESTADO = "UPDATE clinica_medica.turnos SET Estado = ? WHERE IdTurno = ?";
 	private static final String INSERT = "INSERT INTO clinica_medica.turnos  " + 
 			" (IdMedico, IdPaciente, FechaReserva, Observacion, IdTurnoEstado, Hora, Estado)"
-			+ " VALUES ((select id from Medicos where dni = ? limit 1),(select id from Pacientes where dni = ? limit 1,?,?,?,?,1)";
+			+ " VALUES ((select id from Medicos where dni = ? limit 1),(select id from Pacientes where dni = ? limit 1),?,?,?,?,1)";
 	private static final String WHERE_SEARCH = " where t.IdTurno = ?";
 	private static final String WHERE_SEARCH_DIA_HORA = " where fechaReserva = ? and hora = ? and estado = 1";
 	private static final String WHERE_SEARCH_MEDICO = " where idMedico = (select id from Medicos where dni = ? limit 1) ";
