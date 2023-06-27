@@ -114,7 +114,7 @@
 					<tr>
 						<td><label>Nombre </label></td>
 						<td><input type="text" name="txtNombrePaciente"
-							value="<%=nombrePaciente%>" required
+							value="<%=nombrePaciente%>"readonly style="background-color:#eee;" required
 							<%=op.equals("add") ? "" : "disabled"%>><input
 							type="hidden" name="txtDniHide" value="<%=nombrePaciente%>"></td>
 					</tr>
@@ -122,7 +122,7 @@
 					<tr>
 						<td><label>Apellido </label></td>
 						<td><input type="text" name="txtApellidoPaciente"
-							value="<%=apellidoPaciente%>" required
+							value="<%=apellidoPaciente%>"readonly style="background-color:#eee;" required
 							<%=op.equals("add") ? "" : "disabled"%>><input
 							type="hidden" name="txtDniHide" value="<%=apellidoPaciente%>"></td>
 					</tr>
@@ -174,7 +174,9 @@
 								%>
 						</select></td>
 					</tr>
-
+						<%
+						if (request.getAttribute("paciente") != null || !op.equals("add")) {
+					%>
 					<tr>
 						<td><label>Fecha de Reserva</label></td>
 						<td><input type="date" name="txtFechaReserva"
@@ -201,6 +203,10 @@
 								<%
 									}
 											}
+								%>
+								<%
+										
+									}
 								%>
 
 						</select></td>
