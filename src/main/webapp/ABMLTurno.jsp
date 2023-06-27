@@ -211,8 +211,7 @@
 						<%
 							if (horas.size() == 0) {
 						%>
-						<td><label>No hay turnos disponibles para la fecha
-								seleccionada</label></td>
+						<td><label>No hay turnos disponibles para la fecha seleccionada</label></td>
 						<%
 							} else {
 						%>
@@ -278,10 +277,15 @@
 
 				<%
 					if (op.equals("add")) {
-				%>
-				<input class="btn btn-outline-success" type="submit"
-					name="btnGrabar" value="Grabar">
-				<%
+						if(request.getAttribute("paciente") != null &&
+							request.getAttribute("medico") != null &&
+							request.getAttribute("horas") != null &&
+							((ArrayList<Integer>)request.getAttribute("horas")).size() > 0){
+							%>
+							<input class="btn btn-outline-success" type="submit"
+					name="btnGrabar" value="Grabar">				
+						<%}
+				
 					} else {
 				%>
 				<input class="btn btn-outline-primary" type="submit"
