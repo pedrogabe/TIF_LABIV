@@ -164,6 +164,7 @@ public class ServletTurno extends HttpServlet {
 					ArrayList<Integer> horas = turnoNeg.turnosDisponiblesMedicoFecha(medico, fechaTurno);
 					request.setAttribute("horas", horas);
 					request.setAttribute("medico", medico);
+					request.setAttribute("fechaTurno", fechaTurno);
 				}else {
 					request.setAttribute("error", "Hubo un error al recopilar los datos del médico.");
 				}

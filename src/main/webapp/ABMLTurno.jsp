@@ -7,6 +7,7 @@
 <%@page import="entidad.Medico"%>
 <%@page import="entidad.Paciente"%>
 <%@page import="entidad.EstadoTurno"%>
+<%@page import="java.sql.Date"%>
 
 
 <!DOCTYPE html>
@@ -76,13 +77,23 @@
 							request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
 					}
 				}
-				
+
 				if (request.getAttribute("medico") != null) {
 					try {
-						medico = (Medico)request.getAttribute("medico");
+						medico = (Medico) request.getAttribute("medico");
 						med = medico.getDni();
 						esp = medico.getEspecialidad().getIdEspecialidad();
 
+					} catch (Exception e) {
+						if (request.getAttribute("error") == null)
+							request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+					}
+				}
+
+				if (request.getAttribute("fechaTurno") != null) {
+					try {
+						Date fecha = (Date) request.getAttribute("fechaTurno");
+						fechaReserva = fecha.toString();
 					} catch (Exception e) {
 						if (request.getAttribute("error") == null)
 							request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
@@ -114,7 +125,8 @@
 					<tr>
 						<td><label>Nombre </label></td>
 						<td><input type="text" name="txtNombrePaciente"
-							value="<%=nombrePaciente%>"readonly style="background-color:#eee;" required
+							value="<%=nombrePaciente%>" readonly
+							style="background-color: #eee;" required
 							<%=op.equals("add") ? "" : "disabled"%>><input
 							type="hidden" name="txtDniHide" value="<%=nombrePaciente%>"></td>
 					</tr>
@@ -122,7 +134,8 @@
 					<tr>
 						<td><label>Apellido </label></td>
 						<td><input type="text" name="txtApellidoPaciente"
-							value="<%=apellidoPaciente%>"readonly style="background-color:#eee;" required
+							value="<%=apellidoPaciente%>" readonly
+							style="background-color: #eee;" required
 							<%=op.equals("add") ? "" : "disabled"%>><input
 							type="hidden" name="txtDniHide" value="<%=apellidoPaciente%>"></td>
 					</tr>
@@ -156,27 +169,29 @@
 								<%
 									ArrayList<Medico> medicos = null;
 
-									if (request.getAttribute("medicos") != null) {
-										medicos = (ArrayList<Medico>) request.getAttribute("medicos");
+											if (request.getAttribute("medicos") != null) {
+												medicos = (ArrayList<Medico>) request.getAttribute("medicos");
 
-										for (Medico m : medicos) {
+												for (Medico m : medicos) {
 								%>
-												<option value="<%=m.getDni()%>"
-													especialidades="<%=m.getEspecialidad().getIdEspecialidad()%>"
-													<%=med == m.getDni() ? "selected" : ""%>>
-													<%=m.getApellido()%>
-													<%=m.getNombre()%>
-												</option>
-		
+								<option value="<%=m.getDni()%>"
+									especialidades="<%=m.getEspecialidad().getIdEspecialidad()%>"
+									jornada="<%=m.getJornada().getDescripcion()%>"
+									<%=med == m.getDni() ? "selected" : ""%>>
+									<%=m.getApellido()%>
+									<%=m.getNombre()%>
+								</option>
+
 								<%
-										}
 									}
+											}
 								%>
 						</select></td>
 					</tr>
-						<%
-						if (request.getAttribute("paciente") != null || !op.equals("add")) {
-					%>
+					<tr>
+						<td colspan="2"><label style="font-weight: bold;"
+							id="lblJornada"><b>x</b></label></td>
+					</tr>
 					<tr>
 						<td><label>Fecha de Reserva</label></td>
 						<td><input type="date" name="txtFechaReserva"
@@ -185,31 +200,39 @@
 							class="fa fa-search"></input></td>
 					</tr>
 
+					<%
+						if (request.getAttribute("horas") != null) {
+							ArrayList<Integer> horas = null;
+
+							horas = (ArrayList<Integer>) request.getAttribute("horas");
+					%>
 					<tr>
 						<td><label>Hora</label></td>
+						<%
+							if (horas.size() == 0) {
+						%>
+						<td><label>No hay turnos disponibles para la fecha
+								seleccionada</label></td>
+						<%
+							} else {
+						%>
 						<td><select name="selHora">
 
 								<%
-									ArrayList<Integer> horas = null;
-
-											if (request.getAttribute("horas") != null) {
-												horas = (ArrayList<Integer>) request.getAttribute("horas");
-
-												for (Integer h : horas) {
+									for (Integer h : horas) {
 								%>
 								<option value="<%=h%>" <%=h == hora ? "selected" : ""%>>
 									<%=h%>
 								</option>
 								<%
 									}
-											}
-								%>
-								<%
-										
-									}
 								%>
 
 						</select></td>
+						<%
+							}
+									}
+						%>
 					</tr>
 					<%
 						if (!op.equals("add")) {
@@ -291,6 +314,9 @@
 	
 	const desplegableA = document.getElementById('selEspecialidad');
 	desplegableA.addEventListener('change', filtrarDesplegableB);
+	
+	const desplegableB = document.getElementById('selMedico');
+	desplegableB.addEventListener('change', mostrarJornada);
 
 	function filtrarDesplegableB(forzarSeleccion = true) {
 	 
@@ -310,6 +336,13 @@
 	    }
 	    
 	  });
+	  
+	  mostrarJornada();
+	}
+	
+	function mostrarJornada(){
+		var descJornada = desplegableB.selectedOptions[0].getAttribute("jornada");
+		document.getElementById("lblJornada").innerText = descJornada;
 	}
 
 	
