@@ -107,7 +107,6 @@ public class ServletTurno extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		postOp(request);
 		doGet(request, response);
 
@@ -133,48 +132,104 @@ public class ServletTurno extends HttpServlet {
 		PacienteNegocio pacNeg = new PacienteNegocioImpl();
 		MedicoNegocio medNeg = new MedicoNegocioImpl();
 		TurnosNegocio turnoNeg = new TurnosNegocioImpl(medNeg, pacNeg);
-		Medico medico;
 
-		int dni = 0, dniMedico = 0;
-		Date fechaTurno;
+		if (request.getParameter("btnBuscarDni") != null) {
+			buscarPaciente(request, pacNeg);
+		}
+		if (request.getParameter("btnBuscarFecha") != null ) {
+			buscarPaciente(request, pacNeg);
+			buscarHorarios(request, medNeg, turnoNeg);
+		}
+		
+		if(request.getParameter("btnGrabar") != null) {
+			buscarPaciente(request, pacNeg);
+			buscarHorarios(request, medNeg, turnoNeg);
+			addTurno(request, turnoNeg);
+		}
 
+	}
+	protected void buscarPaciente(HttpServletRequest request, PacienteNegocio pacNeg) {
+		int dni = 0;
 		try {
 			dni = Integer.parseInt(request.getParameter("txtDniPaciente"));
-
 		} catch (Exception ex) {
-
+			
 		}
-		if (request.getParameter("btnBuscarDni") != null ||request.getParameter("btnBuscarFecha") != null) {
-			Paciente paciente;
-			paciente = pacNeg.searchDni(dni);
-			if (paciente != null) {
-				request.setAttribute("paciente", paciente);
-			} else {
-				request.setAttribute("error", "El DNI ingresado no existe en la base de datos.");
+		
+		Paciente paciente;
+		paciente = pacNeg.searchDni(dni);
+		if (paciente != null) {
+			request.setAttribute("paciente", paciente);
+		} else {
+			request.setAttribute("error", "El DNI ingresado no existe en la base de datos.");
+		}
+	}
+	
+	protected void buscarHorarios(HttpServletRequest request, MedicoNegocio medNeg, TurnosNegocio turnoNeg) {
+		try {
+			int dniMedico = Integer.parseInt(request.getParameter("selMedico"));
+			Date fechaTurno = Date.valueOf(request.getParameter("txtFechaReserva"));
+			Medico medico = medNeg.searchDni(dniMedico);
+			
+			if(medico!=null){
+				ArrayList<Integer> horas = turnoNeg.turnosDisponiblesMedicoFecha(medico, fechaTurno);
+				request.setAttribute("horas", horas);
+				request.setAttribute("medico", medico);
+				request.setAttribute("fechaTurno", fechaTurno);
+			}else {
+				request.setAttribute("error", "Hubo un error al recopilar los datos del médico.");
 			}
-
+		} catch (Exception ex) {
+			request.setAttribute("error", "Error de validacion de datos.");
 		}
-		if (request.getParameter("btnBuscarFecha") != null) {
+	}
+	
+	protected void addTurno(HttpServletRequest request, TurnosNegocio turnoNeg) {
+		Turno turno = fillTurno(request);
+		if(turno!=null) {
+			if(turnoNeg.insert(turno)) {
+				request.setAttribute("success", "Se agrego el turno.");
+			}else {
+				request.setAttribute("error", "Ocurrió un error al grabar el turno.");
+			}
+		}else {
+			request.setAttribute("error", "Error de validacion de datos.");
+		}
+	}
+	
+	protected Turno fillTurno(HttpServletRequest request) {
+		boolean valid = true;
+		Turno turno = null;
+		try {
+			Medico medico = (Medico)request.getAttribute("medico");
+			Paciente paciente = (Paciente)request.getAttribute("paciente");
+			EstadoTurno estadoTurno = new EstadoTurno(1, "Ocupado");
+			Date fechaReserva;
+			String fecha, observacion;
+			int idTurno = 0, hora;
+			
+			fecha = request.getParameter("txtFechaReserva");
 			try {
-				
-				dniMedico = Integer.parseInt(request.getParameter("selMedico"));
-				fechaTurno = Date.valueOf(request.getParameter("txtFechaReserva"));
-				medico = medNeg.searchDni(dniMedico);
-				if(medico!=null){
-					ArrayList<Integer> horas = turnoNeg.turnosDisponiblesMedicoFecha(medico, fechaTurno);
-					request.setAttribute("horas", horas);
-					request.setAttribute("medico", medico);
-					request.setAttribute("fechaTurno", fechaTurno);
-				}else {
-					request.setAttribute("error", "Hubo un error al recopilar los datos del médico.");
-				}
-			} catch (Exception ex) {
-				request.setAttribute("error", "Error de validacion de datos.");
-
+				fechaReserva = Date.valueOf(fecha);
+			}catch(Exception e) {
+				valid = false;
+				fechaReserva = null;
 			}
-
-		}
-
+			
+			observacion = "";
+			try {
+				hora = Integer.parseInt(request.getParameter("selHora"));
+			}catch(Exception e) {
+				valid = false;
+				hora = -1;
+			}
+			
+			if(valid) {
+				turno = new Turno(idTurno, medico, paciente, fechaReserva, 
+						observacion, estadoTurno, hora);				
+			}
+		}catch(Exception e) {}
+		return turno;
 	}
 
 }
