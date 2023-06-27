@@ -69,7 +69,11 @@ public class ServletTurno extends HttpServlet {
 			request.setAttribute("medicos", medicos);
 
 			if (op.equals("add")) {
-
+				if(request.getAttribute("success")!=null) {
+					RequestDispatcher rd = request.getRequestDispatcher("ServletListarTurnos");
+					rd.forward(request, response);
+					return;
+				}
 			} else {
 				int id;
 				try {
