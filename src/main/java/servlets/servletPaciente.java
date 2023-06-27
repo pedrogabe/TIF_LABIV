@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
-import entidad.Paciente;
+import entidad.*;
 import negocio.PacienteNegocio;
 import negocioImpl.PacienteNegocioImpl;
 
@@ -78,13 +77,17 @@ public class servletPaciente extends HttpServlet {
 			} else {
 				int dni;
 				try {
-					if (request.getParameter("dni") != null)
+					if (request.getParameter("dni") != null) {
+						VerificarDni.verificarDniInvalido(request.getParameter("dni"));
 						dni = Integer.parseInt(request.getParameter("dni"));
-					else
+					}
+					else {
+						VerificarDni.verificarDniInvalido(request.getAttribute("dni").toString());
 						dni = Integer.parseInt(request.getAttribute("dni").toString());
+					}
 				} catch (Exception e) {
 					response.sendError(400);
-					System.out.println("dni catch");
+					System.out.println(e.getMessage() + " dni catch");
 					return;
 				}
 
@@ -230,10 +233,14 @@ public class servletPaciente extends HttpServlet {
 		int id = 0, dni, estado = 1, idNac = 0;
 
 		try {
-			if (request.getParameter("txtDni") != null)
+			if (request.getParameter("txtDni") != null) {
+				VerificarDni.verificarDniInvalido(request.getParameter("dni"));
 				dni = Integer.parseInt(request.getParameter("txtDni"));
-			else
+			}
+			else {
+				VerificarDni.verificarDniInvalido(request.getParameter("txtDniHide"));
 				dni = Integer.parseInt(request.getParameter("txtDniHide"));// txtDniHide
+			}
 		} catch (Exception e) {
 			dni = 0;
 			valid = false;

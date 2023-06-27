@@ -41,7 +41,7 @@ public class ServletMedico extends HttpServlet {
 			String op = request.getParameter("op");
 			if (op == null && request.getAttribute("op") != null)
 				op = request.getAttribute("op").toString();
-			
+
 			if (op == null || !(op.equals("add") || op.equals("edit") || op.equals("delete"))) {
 				response.sendError(400);
 				System.out.println("op catch");
@@ -56,30 +56,33 @@ public class ServletMedico extends HttpServlet {
 
 			LocalidadNegocio negLoc = new LocalidadNegocioImpl();
 			ArrayList<Localidad> localidades = negLoc.readAll();
-			
+
 			EspecialidadNegocio negEspe = new EspecialidadNegocioImpl();
 			ArrayList<Especialidad> especialidades = negEspe.readAll();
 
 			JornadaNegocio negJor = new JornadaNegocioImpl();
 			ArrayList<Jornada> jornadas = negJor.readAll(1);
-			
+
 			request.setAttribute("especialidades", especialidades);
 			request.setAttribute("nacionalidades", nacionalidades);
 			request.setAttribute("provincias", provincias);
-			request.setAttribute("localidades", localidades);	
+			request.setAttribute("localidades", localidades);
 			request.setAttribute("jornadas", jornadas);
-			
+
 			if (op.equals("add")) {
 				// Obsoleto
-				//request.setAttribute("maxIdPaciente", 1001);
+				// request.setAttribute("maxIdPaciente", 1001);
 
 			} else {
 				int dni;
 				try {
-					if (request.getParameter("dni") != null)
+					if (request.getParameter("dni") != null) {
+						VerificarDni.verificarDniInvalido(request.getParameter("dni"));
 						dni = Integer.parseInt(request.getParameter("dni"));
-					else
+					} else {
+						VerificarDni.verificarDniInvalido(request.getAttribute("dni").toString());
 						dni = Integer.parseInt(request.getAttribute("dni").toString());
+					}
 				} catch (Exception e) {
 					response.sendError(400);
 					System.out.println("dni catch");
@@ -101,13 +104,13 @@ public class ServletMedico extends HttpServlet {
 			request.setAttribute("op", op);
 			rd.forward(request, response);
 		} else {
-		    response.sendRedirect(request.getContextPath() + "/Error.jsp");
+			response.sendRedirect(request.getContextPath() + "/Error.jsp");
 		}
 	}
 
 	private Usuario getUsuario(int idUsuario) {
 		UsuarioNegocio usuarioNegImpl = new UsuarioNegocioImpl();
-		
+
 		return usuarioNegImpl.getUsuario(idUsuario);
 	}
 
@@ -122,7 +125,8 @@ public class ServletMedico extends HttpServlet {
 
 		postOp(request);
 
-		if (request.getAttribute("op") != null && (request.getAttribute("op").toString() == "edit" || request.getAttribute("op").toString() == "add")) {
+		if (request.getAttribute("op") != null && (request.getAttribute("op").toString() == "edit"
+				|| request.getAttribute("op").toString() == "add")) {
 			MedicoNegocio medicoNeg = new MedicoNegocioImpl();
 			request.getSession().setAttribute("medicos", medicoNeg.readAll(1)); // Por default solo pacientes activos
 			RequestDispatcher rd = request.getRequestDispatcher("ListarMedicos.jsp");
@@ -165,7 +169,8 @@ public class ServletMedico extends HttpServlet {
 					request.setAttribute("error",
 							String.format("No agregó el médico con el (Dni %s)", medico.getDni()));
 			} else
-				request.setAttribute("error", String.format("Ya existe el médico con el (Dni %s) en la base de datos.", medico.getDni()));
+				request.setAttribute("error",
+						String.format("Ya existe el médico con el (Dni %s) en la base de datos.", medico.getDni()));
 
 		} else {
 			request.setAttribute("error", "Hubo un problema en la validación de los datos");
@@ -178,13 +183,17 @@ public class ServletMedico extends HttpServlet {
 		boolean valid = true;
 		Medico medico = null;
 		int idUsuario = 0, dni, estado = 1, idNac = 0, idLoc = 0, idProv = 0, idEspecia = 0, idJor = 0;
-		String apellido, nombre, eMail, fechaNacimiento, localidad, especialidad, nacionalidad, provincia, telefono, direccion, sexo, jornada;
+		String apellido, nombre, eMail, fechaNacimiento, localidad, especialidad, nacionalidad, provincia, telefono,
+				direccion, sexo, jornada;
 
 		try {
-			if (request.getParameter("txtDni") != null)
+			if (request.getParameter("txtDni") != null) {
+				VerificarDni.verificarDniInvalido(request.getParameter("txtDni"));
 				dni = Integer.parseInt(request.getParameter("txtDni"));
-			else
+			} else {
+				VerificarDni.verificarDniInvalido(request.getParameter("txtDniHide"));
 				dni = Integer.parseInt(request.getParameter("txtDniHide"));// txtDniHide
+			}
 		} catch (Exception e) {
 			dni = 0;
 			valid = false;
@@ -261,20 +270,20 @@ public class ServletMedico extends HttpServlet {
 			valid = false;
 			sexo = "";
 		}
-		
+
 		jornada = request.getParameter("selJornada");
 		if (jornada == null || jornada.equals("")) {
 			valid = false;
 			jornada = "";
-		}
-		else {
+		} else {
 			idJor = Integer.parseInt(jornada);
 		}
 
 		if (valid) {
-			medico = new Medico(idUsuario, dni, nombre, apellido, sexo,new Especialidad(idEspecia, ""), new Nacionalidad(idNac, ""), fechaNacimiento,
-					direccion, new Localidad(idLoc, "", new Provincia(idProv, "")), new Provincia(idProv, ""), eMail,
-					telefono, estado, new Jornada(idJor));
+			medico = new Medico(idUsuario, dni, nombre, apellido, sexo, new Especialidad(idEspecia, ""),
+					new Nacionalidad(idNac, ""), fechaNacimiento, direccion,
+					new Localidad(idLoc, "", new Provincia(idProv, "")), new Provincia(idProv, ""), eMail, telefono,
+					estado, new Jornada(idJor));
 		}
 		return medico;
 	}
@@ -317,29 +326,28 @@ public class ServletMedico extends HttpServlet {
 		// TODO -> call negocio
 		return null;
 	}
-	
+
 	protected void updateMedico(HttpServletRequest request) {
 		Medico medico = fillMedico(request);
 		Usuario usuario = fillUsuario(request);
 		request.setAttribute("op", "edit");
- 
+
 		MedicoNegocio medicoNeg = new MedicoNegocioImpl();
 		if (medicoNeg.update(medico)) {
-			request.setAttribute("success",
-					String.format("Se actualizó el medico (Dni %s)", medico.getDni()));
+			request.setAttribute("success", String.format("Se actualizó el medico (Dni %s)", medico.getDni()));
 		} else {
 			request.setAttribute("error",
 					String.format("No se actualizó el medico con el (Dni %s) en la base de datos.", medico.getDni()));
 		}
-		
+
 		request.setAttribute("medico", medico);
-		
+
 	}
-	
+
 	protected void deleteMedico(HttpServletRequest request) {
-		Medico medico = fillMedico(request);		
+		Medico medico = fillMedico(request);
 		request.setAttribute("op", "delete");
-		
+
 		MedicoNegocio medicoNeg = new MedicoNegocioImpl();
 		if (medicoNeg.delete(medico)) {
 			request.setAttribute("success",
@@ -350,6 +358,6 @@ public class ServletMedico extends HttpServlet {
 		}
 
 		request.setAttribute("medico", medico);
-		
+
 	}
 }
