@@ -72,15 +72,15 @@
 		<table>
 			<tr>
                 <td><label>DNI</label></td>
-                <td><input type="number" min=0 name="txtDni" value="<%= dni %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dni %>" ></td>
+                <td><input type="number" min=1000000 min=0 name="txtDni" value="<%= dni %>" required <%= op.equals("add") ? "" : "disabled" %>><input type="hidden" name="txtDniHide" value="<%= dni %>" ></td>
             </tr>			
 			<tr>
 				<td><label>Nombre</label></td>
-				<td><input type="text" name="txtNombre" value="<%= nombre %>" required></td>
+				<td><input type="text" name="txtNombre" pattern="[a-zA-Z]+" value="<%= nombre %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Apellido</label></td>
-				<td><input type="text" name="txtApellido" value="<%= apellido %>" required></td>
+				<td><input type="text" name="txtApellido"  pattern="[a-zA-Z]+" value="<%= apellido %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Especialidad</label></td>
@@ -205,7 +205,7 @@
 			</tr>
 			<tr>
 				<td><label>Telefono</label></td>
-				<td><input type="text" name="txtTelefono" value="<%= telefono %>" required></td>
+				<td><input type="number" name="txtTelefono" min=10000000 value="<%= telefono %>" required></td>
 			</tr>
 			<tr>
 				<td><label>UsuarioLogin</label></td>
