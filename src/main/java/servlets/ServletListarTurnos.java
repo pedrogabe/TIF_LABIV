@@ -48,8 +48,7 @@ public class ServletListarTurnos extends HttpServlet {
 		if (request.getSession().getAttribute("Usuario") != null) {
 			// Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
 
-			EspecialidadNegocio negEspe = new EspecialidadNegocioImpl();
-			ArrayList<Especialidad> especialidades = negEspe.readAll();
+			ArrayList<Especialidad> especialidades = especialidadesCombo();
 			request.setAttribute("especialidades", especialidades);
 
 			try {
@@ -111,6 +110,15 @@ public class ServletListarTurnos extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		doGet(request, response);
+	}
+
+	private ArrayList<Especialidad> especialidadesCombo() {
+		EspecialidadNegocio negEspe = new EspecialidadNegocioImpl();
+		ArrayList<Especialidad> especialidades = negEspe.readAll();
+
+		Especialidad especialidadTodas = new Especialidad(0, "Ver todas");
+		especialidades.add(0, especialidadTodas);
+		return especialidades;
 	}
 
 }
