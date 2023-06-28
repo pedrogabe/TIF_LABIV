@@ -17,6 +17,7 @@ import entidad.EstadoTurno;
 import entidad.Medico;
 import entidad.Paciente;
 import entidad.Turno;
+import entidad.VerificarDni;
 import negocio.*;
 import negocioImpl.*;
 
@@ -157,12 +158,14 @@ public class ServletTurno extends HttpServlet {
 		}
 
 	}
+	
 	protected void buscarPaciente(HttpServletRequest request, PacienteNegocio pacNeg) {
 		int dni = 0;
 		try {
+			VerificarDni.verificarDniInvalido(request.getParameter("txtDniPaciente"));
 			dni = Integer.parseInt(request.getParameter("txtDniPaciente"));
 		} catch (Exception ex) {
-			
+			request.setAttribute("error", ex.getMessage());
 		}
 		
 		Paciente paciente;
