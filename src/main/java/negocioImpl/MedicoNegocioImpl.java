@@ -92,6 +92,14 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 		return estado;
 	}
 	
+	public Medico searchUsuario(Usuario usuario) {
+		medicoDaoImpl = new MedicoDaoImpl();
+		Medico med = null;		
+		   med = medicoDaoImpl.searchMedicoUsuario(usuario.getIdUsuario());  
+			 		
+		return med;
+	}
+	
 	public Medico searchDni(int dni) {		
 		medicoDaoImpl = new MedicoDaoImpl();
 		Medico med = null;

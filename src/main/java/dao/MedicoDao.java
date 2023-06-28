@@ -10,4 +10,5 @@ public interface MedicoDao {
 	public ArrayList<Medico> readAll(int estado);
 	public Medico searchMedico(int dni);
 	public int selectCount(Medico medico);
+	public Medico searchMedicoUsuario(int IdUsuario);
 }

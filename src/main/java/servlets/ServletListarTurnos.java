@@ -18,6 +18,7 @@ import negocioImpl.MedicoNegocioImpl;
 import negocioImpl.TurnosNegocioImpl;
 import entidad.Turno;
 import entidad.Usuario;
+import entidad.Medico;
 import entidad.Especialidad;
 import negocio.EspecialidadNegocio;
 import negocioImpl.EspecialidadNegocioImpl;
@@ -46,13 +47,19 @@ public class ServletListarTurnos extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getSession().getAttribute("Usuario") != null) {
-			// Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
+			ArrayList<Turno> turnos;
+			Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
+			if (usuario.getIdPerfil() == Usuario.ROL_MEDICO) {
+				Medico medico = medicoNeg.searchUsuario(usuario);
+				turnos = turnoNeg.readTurnosMedico(medico);
+			} else {
+				turnos = turnoNeg.readAll(1);
+			}
 
 			ArrayList<Especialidad> especialidades = especialidadesCombo();
 			request.setAttribute("especialidades", especialidades);
 
 			try {
-				ArrayList<Turno> turnos = turnoNeg.readAll(1);
 				if (request.getSession().getAttribute("turnosSinFlitro") == null)
 					request.getSession().setAttribute("turnosSinFlitro", turnos);
 

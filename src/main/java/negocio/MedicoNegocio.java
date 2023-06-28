@@ -16,4 +16,5 @@ public interface MedicoNegocio {
 	public boolean exists(Medico medico);
 	public boolean medicoAtiende(Medico medico, DayOfWeek dia, int hora);
 	public Medico searchDni(int dni);
+	public Medico searchUsuario(Usuario usuario);
 }
