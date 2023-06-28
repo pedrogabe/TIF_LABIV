@@ -42,7 +42,7 @@ public class ServletRepEspecialidad extends HttpServlet {
 				// Cargar controles de la pagina
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("error", "Hubo un problema al intentar la lista de medicos");
+				request.setAttribute("error", "Hubo un problema al cargar la pantalla del reporte");
 			}
 			RequestDispatcher rd = request.getRequestDispatcher("ReporteEspecialidad.jsp");
 			rd.forward(request, response);
@@ -69,9 +69,13 @@ public class ServletRepEspecialidad extends HttpServlet {
 				if (report != null && report.getTotalColumnas() > 0 && report.getTotalFilasPorColumnas() > 0) {
 					request.setAttribute("repEspecialidad", report);
 					request.setAttribute("anioMes", anioMesEsp);
-					RequestDispatcher rd = request.getRequestDispatcher("ReporteEspecialidad.jsp");
-					rd.forward(request, response);
+					
 				}
+				else {
+					request.setAttribute("error", "No se encontraron datos para el reporte");
+				}
+				RequestDispatcher rd = request.getRequestDispatcher("ReporteEspecialidad.jsp");
+				rd.forward(request, response);
 
 			} catch (Exception e) {
 				response.sendRedirect(request.getContextPath() + "/Error.jsp");
