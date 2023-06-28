@@ -46,7 +46,7 @@ public class ServletListarTurnos extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getSession().getAttribute("Usuario") != null) {
-			Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
+			// Usuario usuario = (Usuario) request.getSession().getAttribute("Usuario");
 
 			EspecialidadNegocio negEspe = new EspecialidadNegocioImpl();
 			ArrayList<Especialidad> especialidades = negEspe.readAll();
@@ -82,17 +82,15 @@ public class ServletListarTurnos extends HttpServlet {
 						}
 					}
 				}
-				if(request.getParameter("selFiltroEspecialidad") != null) {
-				
+				if (request.getParameter("selFiltroEspecialidad") != null) {
+
 					String idespecilidad = request.getParameter("selFiltroEspecialidad");
-					for (Turno turno : turnosFiltrados) {
-						if (turno.getMedico().getEspecialidad().getIdEspecialidad() != Integer.parseInt(idespecilidad))
-							turnosFiltrados.remove(turno);
-					}
-					
+					if (0 != Integer.parseInt(idespecilidad))
+						turnosFiltrados.removeIf(t -> t.getMedico().getEspecialidad().getIdEspecialidad() != Integer
+								.parseInt(idespecilidad));
 				}
 				request.getSession().setAttribute("turnos", turnosFiltrados);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("error", "Hubo un problema al intentar la lista de turnos");
@@ -111,8 +109,6 @@ public class ServletListarTurnos extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-		
 
 		doGet(request, response);
 	}
