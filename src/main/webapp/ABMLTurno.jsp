@@ -15,8 +15,8 @@
 <head>
 
 <%
-	String error = (String) request.getAttribute("error");
-	ArrayList<Turno> turnos = (ArrayList<Turno>) request.getAttribute("turnos");
+String error = (String) request.getAttribute("error");
+ArrayList<Turno> turnos = (ArrayList<Turno>) request.getAttribute("turnos");
 %>
 <meta charset="ISO-8859-1">
 <title>Turnos</title>
@@ -28,88 +28,92 @@
 </head>
 
 <%
-	if (request.getSession().getAttribute("Usuario") != null) {
+if (request.getSession().getAttribute("Usuario") != null) {
 %>
 
 <body>
 	<%@include file="Nav.html"%>
 
 	<%
-		String op = request.getAttribute("op") != null ? request.getAttribute("op").toString() : "add";
+	String op = request.getAttribute("op") != null ? request.getAttribute("op").toString() : "add";
 
-			String dniPaciente, nombrePaciente, apellidoPaciente, fechaReserva, observacion;
-			dniPaciente = nombrePaciente = apellidoPaciente = fechaReserva = observacion = "";
+	String dniPaciente, nombrePaciente, apellidoPaciente, fechaReserva, observacion;
+	dniPaciente = nombrePaciente = apellidoPaciente = fechaReserva = observacion = "";
 
-			int med, pac, esp, estadoT, hora, especialidad_;
-			med = esp = estadoT = especialidad_ = 0;
-			hora = -1;
+	int med, pac, esp, estadoT, hora, especialidad_;
+	med = esp = estadoT = especialidad_ = 0;
+	hora = -1;
 
-			Turno turno = null;
-			Paciente paciente = null;
-			Medico medico = null;
+	Turno turno = null;
+	Paciente paciente = null;
+	Medico medico = null;
 
-			if (request.getAttribute("turno") != null || !op.equals("add")) {
-				try {
-					turno = (Turno) request.getAttribute("turno");
-					dniPaciente = String.format("%s", turno.getPaciente().getDni());
-					nombrePaciente = turno.getPaciente().getNombre();
-					apellidoPaciente = turno.getPaciente().getApellido();
-					med = turno.getMedico().getDni();
-					esp = turno.getMedico().getEspecialidad().getIdEspecialidad();
-					fechaReserva = turno.getFechaReserva().toString().substring(0, 10);
-					observacion = turno.getObservacion();
-					estadoT = turno.getEstadoTurno().getIdEstadoTurno();
-					hora = turno.getHora();
-				} catch (Exception e) {
-					if (request.getAttribute("error") == null)
-						request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
-				}
+	if (request.getAttribute("turno") != null || !op.equals("add")) {
+		try {
+			turno = (Turno) request.getAttribute("turno");
+			dniPaciente = String.format("%s", turno.getPaciente().getDni());
+			nombrePaciente = turno.getPaciente().getNombre();
+			apellidoPaciente = turno.getPaciente().getApellido();
+			med = turno.getMedico().getDni();
+			esp = turno.getMedico().getEspecialidad().getIdEspecialidad();
+			fechaReserva = turno.getFechaReserva().toString().substring(0, 10);
+			observacion = turno.getObservacion();
+			estadoT = turno.getEstadoTurno().getIdEstadoTurno();
+			hora = turno.getHora();
+		} catch (Exception e) {
+			if (request.getAttribute("error") == null)
+		request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+		}
+	}
+	if (op.equals("add")) {
+		if (request.getAttribute("paciente") != null) {
+			try {
+		paciente = (Paciente) request.getAttribute("paciente");
+		dniPaciente = String.format("%s", paciente.getDni());
+		nombrePaciente = paciente.getNombre();
+		apellidoPaciente = paciente.getApellido();
+
+			} catch (Exception e) {
+		if (request.getAttribute("error") == null)
+			request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
 			}
-			if (op.equals("add")) {
-				if (request.getAttribute("paciente") != null) {
-					try {
-						paciente = (Paciente) request.getAttribute("paciente");
-						dniPaciente = String.format("%s", paciente.getDni());
-						nombrePaciente = paciente.getNombre();
-						apellidoPaciente = paciente.getApellido();
+		}
 
-					} catch (Exception e) {
-						if (request.getAttribute("error") == null)
-							request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
-					}
-				}
+		if (request.getAttribute("medico") != null) {
+			try {
+		medico = (Medico) request.getAttribute("medico");
+		med = medico.getDni();
+		esp = medico.getEspecialidad().getIdEspecialidad();
 
-				if (request.getAttribute("medico") != null) {
-					try {
-						medico = (Medico) request.getAttribute("medico");
-						med = medico.getDni();
-						esp = medico.getEspecialidad().getIdEspecialidad();
-
-					} catch (Exception e) {
-						if (request.getAttribute("error") == null)
-							request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
-					}
-				}
-
-				if (request.getAttribute("fechaTurno") != null) {
-					try {
-						Date fecha = (Date) request.getAttribute("fechaTurno");
-						fechaReserva = fecha.toString();
-					} catch (Exception e) {
-						if (request.getAttribute("error") == null)
-							request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
-					}
-				}
+			} catch (Exception e) {
+		if (request.getAttribute("error") == null)
+			request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
 			}
+		}
+
+		if (request.getAttribute("fechaTurno") != null) {
+			try {
+		Date fecha = (Date) request.getAttribute("fechaTurno");
+		fechaReserva = fecha.toString();
+			} catch (Exception e) {
+		if (request.getAttribute("error") == null)
+			request.setAttribute("error", "Hubo inconvenientes al procesar los datos");
+			}
+		}
+	}
 	%>
 
 	<form action="ServletTurno?op=<%=op%>" method="post">
 		<h2 class="title">Alta y Modificacion de Turnos</h2>
 
 		<div class="formulario">
-		<% if(!op.equals("add")){ %>
-			<input type="hidden" value=<%=turno.getIdTurno() %> name="id"> 
-			<%} %>
+			<%
+			if (!op.equals("add")) {
+			%>
+			<input type="hidden" value=<%=turno.getIdTurno()%> name="id">
+			<%
+			}
+			%>
 			<div>
 				<table>
 					<tr>
@@ -118,12 +122,18 @@
 							value="<%=dniPaciente%>" required
 							<%=op.equals("add") ? "" : "disabled"%>><input
 							type="hidden" name="txtDniHide" value="<%=dniPaciente%>"></td>
+						<%
+						if (op.equals("add")) {
+						%>
 						<td><input type="submit" name="btnBuscarDni"
-							class="fa fa-search"></input></td>
+							class="fa fa-search"></td>
+						<%
+						}
+						%>
 					</tr>
 
 					<%
-						if (request.getAttribute("paciente") != null || !op.equals("add")) {
+					if (request.getAttribute("paciente") != null || !op.equals("add")) {
 					%>
 					<tr>
 						<td><label>Nombre </label></td>
@@ -145,22 +155,25 @@
 
 					<tr>
 						<td><label>Especialidad</label></td>
-						<td><select name="selEspecialidad" Id="selEspecialidad">
+
+						<td><select name="selEspecialidad" id="selEspecialidad"
+							<%=op.equals("add") ? "" : "disabled"%>
+							style="<%=op.equals("add") ? "" : "background-color: #eee;"%>">
 								<%
-									ArrayList<Especialidad> especialidades = null;
+								ArrayList<Especialidad> especialidades = null;
 
-											if (request.getAttribute("especialidades") != null) {
-												especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
+								if (request.getAttribute("especialidades") != null) {
+									especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
 
-												for (Especialidad especialidad : especialidades) {
+									for (Especialidad especialidad : especialidades) {
 								%>
 								<option value="<%=especialidad.getIdEspecialidad()%>"
 									<%=esp == especialidad.getIdEspecialidad() ? "selected" : ""%>>
 									<%=especialidad.getEspecialidad()%>
 								</option>
 								<%
-									}
-											}
+								}
+								}
 								%>
 
 						</select></td>
@@ -168,14 +181,17 @@
 
 					<tr>
 						<td><label>Medico</label></td>
-						<td><select name="selMedico" Id="selMedico">
+						<td><select name="selMedico" id="selMedico"
+							<%=op.equals("add") ? "" : "disabled"%>
+							<%=op.equals("add") ? "" : "style=\"background-color: #eee;\""%>>
+
 								<%
-									ArrayList<Medico> medicos = null;
+								ArrayList<Medico> medicos = null;
 
-											if (request.getAttribute("medicos") != null) {
-												medicos = (ArrayList<Medico>) request.getAttribute("medicos");
+								if (request.getAttribute("medicos") != null) {
+									medicos = (ArrayList<Medico>) request.getAttribute("medicos");
 
-												for (Medico m : medicos) {
+									for (Medico m : medicos) {
 								%>
 								<option value="<%=m.getDni()%>"
 									especialidades="<%=m.getEspecialidad().getIdEspecialidad()%>"
@@ -186,8 +202,8 @@
 								</option>
 
 								<%
-									}
-											}
+								}
+								}
 								%>
 						</select></td>
 					</tr>
@@ -195,53 +211,61 @@
 						<td colspan="2"><label style="font-weight: bold;"
 							id="lblJornada"><b>x</b></label></td>
 					</tr>
+
 					<tr>
 						<td><label>Fecha de Reserva</label></td>
 						<td><input type="date" name="txtFechaReserva"
-							value="<%=fechaReserva%>" min="<%= LocalDate.now().toString() %>" required></td>
+							value="<%=fechaReserva%>" min="<%=LocalDate.now().toString()%>"
+							required <%=(op.equals("add") ? "" : "readonly disabled")%>
+							style="<%=(op.equals("add") ? "" : "background-color: #eee;")%>">
+						</td>
 						<td><input type="submit" name="btnBuscarFecha"
-							class="fa fa-search"></input></td>
+							class="fa fa-search"
+							<%=(op.equals("add") ? "" : "style=\"display: none;\"")%>>
+						</td>
 					</tr>
 
-					<%
-						if (request.getAttribute("horas") != null) {
-							ArrayList<Integer> horas = null;
 
-							horas = (ArrayList<Integer>) request.getAttribute("horas");
+					<%
+					if (request.getAttribute("horas") != null) {
+						ArrayList<Integer> horas = null;
+
+						horas = (ArrayList<Integer>) request.getAttribute("horas");
 					%>
 					<tr>
 						<td><label>Hora</label></td>
 						<%
-							if (horas.size() == 0) {
+						if (horas.size() == 0) {
 						%>
-						<td><label>No hay turnos disponibles para la fecha seleccionada</label></td>
+						<td><label>No hay turnos disponibles para la fecha
+								seleccionada</label></td>
 						<%
-							} else {
+						} else {
 						%>
 						<td><select name="selHora">
 
 								<%
-									for (Integer h : horas) {
+								for (Integer h : horas) {
 								%>
 								<option value="<%=h%>" <%=h == hora ? "selected" : ""%>>
 									<%=h%>
 								</option>
 								<%
-									}
+								}
 								%>
 
 						</select></td>
 						<%
-							}
-									}
+						}
+						}
 						%>
 					</tr>
 					<%
-						if (!op.equals("add")) {
+					if (!op.equals("add")) {
 					%>
 					<tr>
 						<td><label>Hora</label></td>
-						<td><label><%= hora %></label></td>
+						<td><label><%=hora%></label></td>
 					</tr>
 					<tr>
 						<td><label>Observaciones</label></td>
@@ -253,14 +277,14 @@
 						<td><label>Estado</label></td>
 						<td><select name="selEstadoTurno">
 								<%
-									ArrayList<EstadoTurno> estadoTurnos = null;
+								ArrayList<EstadoTurno> estadoTurnos = null;
 
-												if (request.getAttribute("estadoTurnos") != null) {
-													estadoTurnos = (ArrayList<EstadoTurno>) request.getAttribute("estadoTurnos");
-													
-													for (EstadoTurno estadoTurno : estadoTurnos) {
-														if((estadoTurno.getIdEstadoTurno() != 2 && estadoTurno.getIdEstadoTurno() != 1) 
-																|| estadoTurno.getIdEstadoTurno()==estadoT){
+								if (request.getAttribute("estadoTurnos") != null) {
+									estadoTurnos = (ArrayList<EstadoTurno>) request.getAttribute("estadoTurnos");
+
+									for (EstadoTurno estadoTurno : estadoTurnos) {
+										if ((estadoTurno.getIdEstadoTurno() != 2 && estadoTurno.getIdEstadoTurno() != 1)
+										|| estadoTurno.getIdEstadoTurno() == estadoT) {
 								%>
 								<option value="<%=estadoTurno.getIdEstadoTurno()%>"
 									<%=estadoT == estadoTurno.getIdEstadoTurno() ? "selected" : ""%>>
@@ -268,17 +292,17 @@
 								</option>
 
 								<%
-														}
-														}
-												}
+								}
+								}
+								}
 								%>
 						</select></td>
 					</tr>
 					<%
-						} // Observacion y estado solo mostrar si es edicion.
+					} // Observacion y estado solo mostrar si es edicion.
 					%>
 					<%
-						} //Paciente seleccionado
+					} //Paciente seleccionado
 					%>
 				</table>
 			</div>
@@ -286,41 +310,46 @@
 			<div class="pt-4 w-25 d-flex justify-content-around">
 
 				<%
-					if (op.equals("add")) {
-						if(request.getAttribute("paciente") != null &&
-							request.getAttribute("medico") != null &&
-							request.getAttribute("horas") != null &&
-							((ArrayList<Integer>)request.getAttribute("horas")).size() > 0){
-							%>
-							<input class="btn btn-outline-success" type="submit"
-					name="btnGrabar" value="Grabar">				
-						<%}
-				
-					} else {
+				if (op.equals("add")) {
+					if (request.getAttribute("paciente") != null && request.getAttribute("medico") != null
+					&& request.getAttribute("horas") != null
+					&& ((ArrayList<Integer>) request.getAttribute("horas")).size() > 0) {
+				%>
+				<input class="btn btn-outline-success" type="submit"
+					name="btnGrabar" value="Grabar">
+				<%
+				}
+
+				} else {
 				%>
 				<input class="btn btn-outline-primary" type="submit"
-					name="btnActualizar" value="Grabar"> <input
-					class="btn btn-outline-danger" type="submit" name="btnEliminar"
-					value="Eliminar">
+					name="btnActualizar" value="Grabar">
 				<%
-					}
+				if (request.getAttribute("paciente") != null && request.getAttribute("medico") != null
+						&& request.getAttribute("horas") != null && ((ArrayList<Integer>) request.getAttribute("horas")).size() > 0) {
+				%>
+				<input class="btn btn-outline-danger" type="submit"
+					name="btnEliminar" value="Eliminar">
+				<%
+				}
+				}
 				%>
 
 			</div>
 
 			<%
-				if (request.getAttribute("success") != null) {
+			if (request.getAttribute("success") != null) {
 			%>
 			<div class="success"><%=request.getAttribute("success")%></div>
 			<%
-				}
+			}
 			%>
 			<%
-				if (request.getAttribute("error") != null) {
+			if (request.getAttribute("error") != null) {
 			%>
 			<div class="error"><%=request.getAttribute("error")%></div>
 			<%
-				}
+			}
 			%>
 		</div>
 	</form>
@@ -364,9 +393,9 @@
 	</script>
 
 	<%
-		} else {
-			response.sendRedirect("Login.jsp");
-		}
+	} else {
+	response.sendRedirect("Login.jsp");
+	}
 	%>
 </body>
 </html>
