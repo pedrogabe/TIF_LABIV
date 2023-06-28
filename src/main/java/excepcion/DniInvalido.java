@@ -1,4 +1,4 @@
-package entidad;
+package excepcion;
 
 import java.io.IOException;
 

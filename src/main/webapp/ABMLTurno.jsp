@@ -215,7 +215,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 					<tr>
 						<td><label>Fecha de Reserva</label></td>
 						<td><input type="date" name="txtFechaReserva"
-							value="<%=fechaReserva%>" min="<%=LocalDate.now().toString()%>"
+							value="<%=fechaReserva%>"
 							required <%=(op.equals("add") ? "" : "readonly disabled")%>
 							style="<%=(op.equals("add") ? "" : "background-color: #eee;")%>">
 						</td>

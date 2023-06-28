@@ -1,6 +1,10 @@
 package entidad;
 
-public class VerificarDni {
+import java.sql.Date;
+import excepcion.DniInvalido;
+import excepcion.FechaInvalida;
+
+public class Validaciones {
 
 	public static void verificarDniInvalido(String dni) throws DniInvalido {
 
@@ -17,5 +21,11 @@ public class VerificarDni {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-	}	
+	}
+	
+	public static void verificarFecha(Date fecha) throws FechaInvalida {
+		Date hoy = Date.valueOf(java.time.LocalDate.now().toString());
+		if(fecha.before(hoy))
+			throw new FechaInvalida();
+	}
 }

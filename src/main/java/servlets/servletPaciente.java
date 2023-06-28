@@ -78,11 +78,11 @@ public class servletPaciente extends HttpServlet {
 				int dni;
 				try {
 					if (request.getParameter("dni") != null) {
-						VerificarDni.verificarDniInvalido(request.getParameter("dni"));
+						Validaciones.verificarDniInvalido(request.getParameter("dni"));
 						dni = Integer.parseInt(request.getParameter("dni"));
 					}
 					else {
-						VerificarDni.verificarDniInvalido(request.getAttribute("dni").toString());
+						Validaciones.verificarDniInvalido(request.getAttribute("dni").toString());
 						dni = Integer.parseInt(request.getAttribute("dni").toString());
 					}
 				} catch (Exception e) {
@@ -234,11 +234,11 @@ public class servletPaciente extends HttpServlet {
 
 		try {
 			if (request.getParameter("txtDni") != null) {
-				VerificarDni.verificarDniInvalido(request.getParameter("dni"));
+				Validaciones.verificarDniInvalido(request.getParameter("dni"));
 				dni = Integer.parseInt(request.getParameter("txtDni"));
 			}
 			else {
-				VerificarDni.verificarDniInvalido(request.getParameter("txtDniHide"));
+				Validaciones.verificarDniInvalido(request.getParameter("txtDniHide"));
 				dni = Integer.parseInt(request.getParameter("txtDniHide"));// txtDniHide
 			}
 		} catch (Exception e) {

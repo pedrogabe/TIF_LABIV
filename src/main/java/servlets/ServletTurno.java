@@ -19,6 +19,8 @@ import entidad.Paciente;
 import entidad.Turno;
 import negocio.*;
 import negocioImpl.*;
+import entidad.Validaciones;
+import excepcion.FechaInvalida;
 
 /**
  * Servlet implementation class ServletTurno
@@ -178,6 +180,7 @@ public class ServletTurno extends HttpServlet {
 		try {
 			int dniMedico = Integer.parseInt(request.getParameter("selMedico"));
 			Date fechaTurno = Date.valueOf(request.getParameter("txtFechaReserva"));
+			Validaciones.verificarFecha(fechaTurno);
 			Medico medico = medNeg.searchDni(dniMedico);
 			
 			if(medico!=null){
@@ -188,7 +191,11 @@ public class ServletTurno extends HttpServlet {
 			}else {
 				request.setAttribute("error", "Hubo un error al recopilar los datos del médico.");
 			}
-		} catch (Exception ex) {
+		} 
+		catch(FechaInvalida fi) {
+			request.setAttribute("error", fi.getMessage());
+		}
+		catch (Exception ex) {
 			request.setAttribute("error", "Error de validacion de datos.");
 		}
 	}
@@ -203,7 +210,8 @@ public class ServletTurno extends HttpServlet {
 				request.setAttribute("error", "Ocurrió un error al grabar el turno.");
 			}
 		}else {
-			request.setAttribute("error", "Error de validacion de datos.");
+			if(request.getAttribute("error")!=null)
+				request.setAttribute("error", "Error de validacion de datos.");
 		}
 	}
 	
@@ -235,7 +243,13 @@ public class ServletTurno extends HttpServlet {
 			fecha = request.getParameter("txtFechaReserva");
 			try {
 				fechaReserva = Date.valueOf(fecha);
-			}catch(Exception e) {
+				Validaciones.verificarFecha(fechaReserva);
+			}catch(FechaInvalida fi) {
+				request.setAttribute("error", fi.getMessage());
+				valid = false;
+				fechaReserva = null;	
+			}
+			catch(Exception e) {
 				valid = false;
 				fechaReserva = null;
 			}
@@ -252,7 +266,8 @@ public class ServletTurno extends HttpServlet {
 				turno = new Turno(idTurno, medico, paciente, fechaReserva, 
 						observacion, estadoTurno, hora);				
 			}
-		}catch(Exception e) {}
+		}
+		catch(Exception e) {}
 		return turno;
 	}
 
