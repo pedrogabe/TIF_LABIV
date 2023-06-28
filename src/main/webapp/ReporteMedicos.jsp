@@ -19,6 +19,37 @@
 	<%@include file="Nav.html"%>
 	<h1 class="title">Reporte Medicos</h1>
 
+ 	<% double i =  77.3; %>
+ 	
+	<form action="ServletRepMedicos" method=post>
+		<label for="mesMedico">Seleccione un Mes:</label> 
+		<input type="month" id="mesMedico" name="mesMedico"> 
+		<input type="submit">
+	</form>
+	
+	<br>		
+	<br>		
+	
+ 	<div class="div_center">
+ 		<h2>Mes</h2>
+		<br>		
+		<div class="progress">
+  			<div class="progress-bar bg-success" role="progressbar" style="width: <%= i %>%" aria-valuenow="<%= i %>" aria-valuemin="0" aria-valuemax="100"><%= i %></div>
+		</div>
+		<br>
+		<div class="progress">
+  			<div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+		<br>
+		<div class="progress">
+  			<div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+		<br>
+		<div class="progress">
+  			<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+	
+	</div>
 
 	<%
 	if (request.getAttribute("success") != null) {
