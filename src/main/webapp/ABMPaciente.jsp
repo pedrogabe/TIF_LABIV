@@ -69,11 +69,11 @@
             </tr>			
 			<tr>
 				<td><label>Nombre</label></td>
-				<td><input type="text" name="txtNombre" pattern="[a-zA-Z]+" value="<%= nombre %>" required></td>
+				<td><input type="text" name="txtNombre" pattern="[a-z A-Z]+" value="<%= nombre %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Apellido</label></td>
-				<td><input type="text" name="txtApellido" pattern="[a-zA-Z]+" value="<%= apellido %>" required></td>
+				<td><input type="text" name="txtApellido" pattern="[a-z A-Z]+" value="<%= apellido %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Nacionalidad</label></td>
@@ -155,7 +155,7 @@
 			</tr>
 			<tr>
 				<td><label>Correo Electronico</label></td>
-				<td><input type="email" name="txtEmail" value="<%= eMail %>" required></td>
+				<td><input type="email" name="txtEmail" pattern=".{1,}@.{1,}\.com.{0,}$" value="<%= eMail %>" required></td>
 			</tr>
 			<tr>
 				<td><label>Telefono</label></td>

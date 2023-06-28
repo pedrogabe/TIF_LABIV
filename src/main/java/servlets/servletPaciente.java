@@ -47,7 +47,7 @@ public class servletPaciente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		if (request.getSession().getAttribute("Usuario") != null) {
 			String op = request.getParameter("op");
 			if (op == null && request.getAttribute("op") != null)
@@ -80,8 +80,7 @@ public class servletPaciente extends HttpServlet {
 					if (request.getParameter("dni") != null) {
 						Validaciones.verificarDniInvalido(request.getParameter("dni"));
 						dni = Integer.parseInt(request.getParameter("dni"));
-					}
-					else {
+					} else {
 						Validaciones.verificarDniInvalido(request.getAttribute("dni").toString());
 						dni = Integer.parseInt(request.getAttribute("dni").toString());
 					}
@@ -104,7 +103,7 @@ public class servletPaciente extends HttpServlet {
 			request.setAttribute("op", op);
 			rd.forward(request, response);
 		} else {
-		    response.sendRedirect(request.getContextPath() + "/Error.jsp");
+			response.sendRedirect(request.getContextPath() + "/Error.jsp");
 		}
 	}
 
@@ -119,9 +118,10 @@ public class servletPaciente extends HttpServlet {
 
 		postOp(request);
 
-		if (request.getAttribute("op") != null && (request.getAttribute("op").toString() == "edit" || request.getAttribute("op").toString() == "add")) {
+		if (request.getAttribute("op") != null && (request.getAttribute("op").toString() == "edit"
+				|| request.getAttribute("op").toString() == "add")) {
 			PacienteNegocio negocio = new PacienteNegocioImpl();
-			request.getSession().setAttribute("pacientes", negocio.readAll(1)); //Por default solo pacientes activos
+			request.getSession().setAttribute("pacientes", negocio.readAll(1)); // Por default solo pacientes activos
 			RequestDispatcher rd = request.getRequestDispatcher("ListarPacientes.jsp");
 			rd.forward(request, response);
 		}
@@ -160,13 +160,14 @@ public class servletPaciente extends HttpServlet {
 				PacienteNegocio pacienteNeg = new PacienteNegocioImpl();
 				if (!pacienteNeg.exists(paciente)) {
 					pacienteNeg.insert(paciente);
-					request.setAttribute("success", String.format("Se agregó el paciente (Dni %s) en la base de datos", paciente.getDni()));
+					request.setAttribute("success",
+							String.format("Se agregó el paciente (Dni %s) en la base de datos", paciente.getDni()));
 				} else
-					request.setAttribute("error",
-							String.format("Ya existe el paciente con el (Dni %s) en la base de datos", paciente.getDni()));
+					request.setAttribute("error", String
+							.format("Ya existe el paciente con el (Dni %s) en la base de datos", paciente.getDni()));
 			}
 		} else {
-			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
+			request.setAttribute("error", "Error de validacion de Datos "); // TODO -> cambiar mensaje
 			request.setAttribute("paciente", paciente);
 		}
 	}
@@ -181,16 +182,16 @@ public class servletPaciente extends HttpServlet {
 					request.setAttribute("success",
 							String.format("Se actualizó el paciente (Dni %s) en la base de datos.", paciente.getDni()));
 				} else {
-					request.setAttribute("error",
-							String.format("No se actualizó el paciente con el (Dni %s) en la base de datos.", paciente.getDni()));
+					request.setAttribute("error", String.format(
+							"No se actualizó el paciente con el (Dni %s) en la base de datos.", paciente.getDni()));
 				}
 			}
 		} else {
-			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
+			request.setAttribute("error", "Error de validacion de Datos"); // TODO -> cambiar mensaje
 			request.setAttribute("paciente", paciente);
 		}
 	}
-	
+
 	protected void deletePaciente(HttpServletRequest request) {
 		Paciente paciente = new Paciente();
 		request.setAttribute("op", "edit");
@@ -198,15 +199,15 @@ public class servletPaciente extends HttpServlet {
 			if (true) { // TODO -> call negocio para guardar
 				PacienteNegocio pacienteNeg = new PacienteNegocioImpl();
 				if (pacienteNeg.delete(paciente)) {
-					request.setAttribute("success",
-							String.format("Se hizo la baja del paciente (Dni %s) en la base de datos.", paciente.getDni()));
+					request.setAttribute("success", String
+							.format("Se hizo la baja del paciente (Dni %s) en la base de datos.", paciente.getDni()));
 				} else {
-					request.setAttribute("error",
-							String.format("No se hizo la baja del paciente (Dni %s) en la base de datos.", paciente.getDni()));
+					request.setAttribute("error", String.format(
+							"No se hizo la baja del paciente (Dni %s) en la base de datos.", paciente.getDni()));
 				}
 			}
 		} else {
-			request.setAttribute("error", "Datos"); // TODO -> cambiar mensaje
+			request.setAttribute("error", "Error de validacion de Datos"); // TODO -> cambiar mensaje
 			request.setAttribute("paciente", paciente);
 		}
 	}
@@ -234,10 +235,9 @@ public class servletPaciente extends HttpServlet {
 
 		try {
 			if (request.getParameter("txtDni") != null) {
-				Validaciones.verificarDniInvalido(request.getParameter("dni"));
+				Validaciones.verificarDniInvalido(request.getParameter("txtDni"));
 				dni = Integer.parseInt(request.getParameter("txtDni"));
-			}
-			else {
+			} else {
 				Validaciones.verificarDniInvalido(request.getParameter("txtDniHide"));
 				dni = Integer.parseInt(request.getParameter("txtDniHide"));// txtDniHide
 			}
@@ -329,7 +329,7 @@ public class servletPaciente extends HttpServlet {
 		}
 		paciente.setSexo(sexo);
 		paciente.setEstado(estado);
-		
+
 		return valid;
 	}
 
