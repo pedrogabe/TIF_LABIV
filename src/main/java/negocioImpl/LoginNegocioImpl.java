@@ -11,8 +11,11 @@ public class LoginNegocioImpl implements LoginNegocio {
 	@Override
 	public Usuario ValidarUsuario(String usuario, String password) {
 		LoginDao s = new LoginDaoImpl();
-		
-		return s.readUser(usuario,password);
+		Usuario user = s.readUser(usuario,password);
+		if(user != null && user.getUserLogin().equals(usuario) && user.getPassword().equals(password))
+			return s.readUser(usuario,password);
+		else
+			return null;
 	}
 	
 	
