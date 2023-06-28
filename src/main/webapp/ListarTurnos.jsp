@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="entidad.Turno"%>
 <%@ page import="entidad.Usuario" %>
+<%@ page import="entidad.Especialidad" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -59,9 +60,30 @@
 			<option value="=">Hoy</option>
 			<option value=">">Manana en adelante</option>
 		</select>
-		<input type="submit" value="Filtrar" class="p-1 bd-highlight"> 
-	</form>
+		
+	
 	<br><br><br>
+	<label>Especialidad</label></td>
+				<select name="selFiltroEspecialidad" class="p-1 bd-highlight">
+						<%
+						ArrayList<Especialidad> especialidades = null;
+
+						if (request.getAttribute("especialidades") != null) {
+							especialidades = (ArrayList<Especialidad>) request.getAttribute("especialidades");
+						
+						for (Especialidad espec : especialidades) {
+						%>
+						<option  value="<%=espec.getIdEspecialidad()%>">
+							<%=espec.getEspecialidad()%>
+						</option>
+						
+						<%
+						}}
+						%>
+				</select>
+				<input type="submit" name="btnFiltroEsp" value="Filtrar" class="p-1 bd-highlight"> 
+				</form>
+				<br><br><br>
 
 	<table border="1" id="table_id" datatable="true">
 	
@@ -69,7 +91,8 @@
 		<tr>
 			<td><b>Id</b></td>
 			<td><b>Paciente</b></td>
-			<td><b>Medico</b></td>			
+			<td><b>Medico</b></td>
+			<td><b>Especialidad</b></td>
 			<td><b>Fecha</b></td>
 			<td><b>Hora</b></td>
 			<td><b>Estado</b></td>			
@@ -81,7 +104,8 @@
 	         <tr>
 	            <td><%= turno.getIdTurno() %></td>
 	           	<td><%= turno.getPaciente().getNombre() %> <%= turno.getPaciente().getApellido() %></td>              
-	            <td><%= turno.getMedico().getNombre() %> <%= turno.getMedico().getApellido() %></td>  
+	            <td><%= turno.getMedico().getNombre() %> <%= turno.getMedico().getApellido() %></td> 
+	            <td><%= turno.getMedico().getEspecialidad().getEspecialidad()%></td>    
                 <td><%= turno.getFechaReserva() %></td>                
                 <td><%= turno.getHora() %>hs</td>
                 <td><%= turno.getEstadoTurno().getDescripcion() %></td>
