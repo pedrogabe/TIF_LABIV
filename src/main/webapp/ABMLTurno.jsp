@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList"%>
-
+<%@page import="java.time.LocalDate"%>
 <%@ page import="entidad.Turno"%>
 <%@ page import="entidad.Especialidad"%>
 <%@page import="entidad.Medico"%>
@@ -41,7 +41,8 @@
 			dniPaciente = nombrePaciente = apellidoPaciente = fechaReserva = observacion = "";
 
 			int med, pac, esp, estadoT, hora, especialidad_;
-			med = esp = estadoT = hora = especialidad_ = 0;
+			med = esp = estadoT = especialidad_ = 0;
+			hora = -1;
 
 			Turno turno = null;
 			Paciente paciente = null;
@@ -106,7 +107,9 @@
 		<h2 class="title">Alta y Modificacion de Turnos</h2>
 
 		<div class="formulario">
-
+		<% if(!op.equals("add")){ %>
+			<input type="hidden" value=<%=turno.getIdTurno() %> name="id"> 
+			<%} %>
 			<div>
 				<table>
 					<tr>
@@ -195,7 +198,7 @@
 					<tr>
 						<td><label>Fecha de Reserva</label></td>
 						<td><input type="date" name="txtFechaReserva"
-							value="<%=fechaReserva%>" required></td>
+							value="<%=fechaReserva%>" min="<%= LocalDate.now().toString() %>" required></td>
 						<td><input type="submit" name="btnBuscarFecha"
 							class="fa fa-search"></input></td>
 					</tr>
@@ -237,6 +240,10 @@
 						if (!op.equals("add")) {
 					%>
 					<tr>
+						<td><label>Hora</label></td>
+						<td><label><%= hora %></label></td>
+					</tr>
+					<tr>
 						<td><label>Observaciones</label></td>
 						<td><input type="text" name="txtObservacion"
 							value="<%=observacion%>" required></td>
@@ -250,16 +257,19 @@
 
 												if (request.getAttribute("estadoTurnos") != null) {
 													estadoTurnos = (ArrayList<EstadoTurno>) request.getAttribute("estadoTurnos");
-
+													
 													for (EstadoTurno estadoTurno : estadoTurnos) {
+														if((estadoTurno.getIdEstadoTurno() != 2 && estadoTurno.getIdEstadoTurno() != 1) 
+																|| estadoTurno.getIdEstadoTurno()==estadoT){
 								%>
-								<option value="<%=estadoTurno.getDescripcion()%>"
+								<option value="<%=estadoTurno.getIdEstadoTurno()%>"
 									<%=estadoT == estadoTurno.getIdEstadoTurno() ? "selected" : ""%>>
 									<%=estadoTurno.getDescripcion()%>
 								</option>
 
 								<%
-									}
+														}
+														}
 												}
 								%>
 						</select></td>

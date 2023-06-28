@@ -69,11 +69,7 @@ public class ServletTurno extends HttpServlet {
 			request.setAttribute("medicos", medicos);
 
 			if (op.equals("add")) {
-				if(request.getAttribute("success")!=null) {
-					RequestDispatcher rd = request.getRequestDispatcher("ServletListarTurnos");
-					rd.forward(request, response);
-					return;
-				}
+				
 			} else {
 				int id;
 				try {
@@ -96,6 +92,11 @@ public class ServletTurno extends HttpServlet {
 				}
 			}
 
+			if(request.getAttribute("success")!=null) {
+				RequestDispatcher rd = request.getRequestDispatcher("ServletListarTurnos");
+				rd.forward(request, response);
+				return;
+			}
 			RequestDispatcher rd = request.getRequestDispatcher("ABMLTurno.jsp");
 			request.setAttribute("op", op);
 			rd.forward(request, response);
@@ -150,6 +151,10 @@ public class ServletTurno extends HttpServlet {
 			buscarHorarios(request, medNeg, turnoNeg);
 			addTurno(request, turnoNeg);
 		}
+		
+		if(request.getParameter("btnActualizar") !=null) {
+			updateTurno(request, turnoNeg);
+		}
 
 	}
 	protected void buscarPaciente(HttpServletRequest request, PacienteNegocio pacNeg) {
@@ -189,10 +194,25 @@ public class ServletTurno extends HttpServlet {
 	}
 	
 	protected void addTurno(HttpServletRequest request, TurnosNegocio turnoNeg) {
+		request.setAttribute("op", "add");
 		Turno turno = fillTurno(request);
 		if(turno!=null) {
 			if(turnoNeg.insert(turno)) {
 				request.setAttribute("success", "Se agrego el turno.");
+			}else {
+				request.setAttribute("error", "Ocurrió un error al grabar el turno.");
+			}
+		}else {
+			request.setAttribute("error", "Error de validacion de datos.");
+		}
+	}
+	
+	protected void updateTurno(HttpServletRequest request, TurnosNegocio turnoNeg) {
+		request.setAttribute("op", "edit");
+		Turno turno = fillTurnoUpdate(request);
+		if(turno!=null) {
+			if(turnoNeg.update(turno)) {
+				request.setAttribute("success", "Se actualizo el turno.");
 			}else {
 				request.setAttribute("error", "Ocurrió un error al grabar el turno.");
 			}
@@ -236,4 +256,41 @@ public class ServletTurno extends HttpServlet {
 		return turno;
 	}
 
+	protected Turno fillTurnoUpdate(HttpServletRequest request) {
+		boolean valid = true;
+		int idTurno = 0, idEstado = 0;
+		String observacion, estado;
+		EstadoTurno estadoTurno = null;
+		
+		try {
+			idTurno = Integer.parseInt(request.getParameter("id"));
+		}catch(Exception ex) {
+			
+		}
+		Turno turno = getTurno(request, idTurno);
+		if(turno == null) {
+			valid = false;
+		}
+		
+		observacion = request.getParameter("txtObservacion");
+		if(observacion == null || observacion.equals("")) {
+			valid = false;
+			observacion = "";
+		}
+		
+		try {
+			idEstado = Integer.parseInt(request.getParameter("selEstadoTurno"));
+			estadoTurno = new EstadoTurno(idEstado, "");
+		}catch(Exception e) {
+			valid = false;
+		}
+		
+		if(valid) {
+			turno.setObservacion(observacion);
+			turno.setIdEstadoTurno(estadoTurno);
+			return turno;
+		}else {
+			return null;
+		}
+	}
 }
