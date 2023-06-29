@@ -38,9 +38,7 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 
 	@Override
 	public boolean update(Turno turno) {
-		if(turnoValido(turno))
-			return tdao.update(turno, false);
-		return false;
+		return tdao.update(turno, false);
 	}
 
 	@Override
