@@ -84,7 +84,7 @@
 			</tr>
 			<tr>
 				<td><label>Especialidad</label></td>
-				<td><select name="selEspecialidad">
+				<td><select name="selEspecialidad" style="width: 233px;">
 						<%
 						ArrayList<Especialidad> especialidades = null;
 
@@ -104,7 +104,7 @@
 			</tr>
 			<tr>
 				<td><label>Nacionalidad</label></td>
-				<td><select name="selNacionalidad">
+				<td><select name="selNacionalidad" style="width: 233px;">
 						<%
 						ArrayList<Nacionalidad> nacionalidades = null;
 
@@ -124,7 +124,7 @@
 			</tr>
 			<tr>
 				<td><label>Sexo</label></td>
-				<td><select name="selSexo">
+				<td><select name="selSexo" style="width: 233px;">
 						<option value="No indica" <%= sexo.equals("No indica") ? "selected" : "" %>>No indica</option>
 						<option value="Femenino" <%= sexo.equals("Femenino") ? "selected" : "" %>>Femenino</option>
 						<option value="Masculino" <%= sexo.equals("Masculino") ? "selected" : "" %>>Masculino</option>
@@ -152,12 +152,12 @@
 			<tr>
 				<td><label>Fecha Nacimiento</label></td>
 				<td><input type="date" name="txtFecNacimiento" value="<%= fechaNacimiento %>"
-					max="<%= LocalDate.now().toString() %>" required></td>
+					max="<%= LocalDate.now().toString() %>" required style="width: 233px;"></td>
 			</tr>
 
 			<tr>
 				<td><label>Provincia</label></td>
-				<td><select name="selProvincia" Id="selProvincia">
+				<td><select name="selProvincia" Id="selProvincia" style="width: 233px;">
 						<%
 						ArrayList<Provincia> provincias = null;
 
@@ -177,7 +177,7 @@
 
 			<tr>
                 <td><label>Localidad</label></td>
-                <td><select name="selLocalidad" Id="selLocalidad">
+                <td><select name="selLocalidad" Id="selLocalidad" style="width: 233px;">
                         <%
                         ArrayList<Localidad> localidades = null;
 

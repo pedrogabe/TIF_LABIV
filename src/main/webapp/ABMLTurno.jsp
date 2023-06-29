@@ -125,8 +125,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						<%
 						if (op.equals("add")) {
 						%>
-						<td><input type="submit" name="btnBuscarDni"
-							class="fa fa-search"></td>
+						<td><input type="submit" name="btnBuscarDni" value=" Buscar Dni  "
+							class="btn btn-outline-success"></td>
 						<%
 						}
 						%>
@@ -156,7 +156,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 					<tr>
 						<td><label>Especialidad</label></td>
 
-						<td><select name="selEspecialidad" id="selEspecialidad"
+						<td><select name="selEspecialidad" id="selEspecialidad" style="width: 233px;"
 							<%=op.equals("add") ? "" : "disabled"%>
 							style="<%=op.equals("add") ? "" : "background-color: #eee;"%>">
 								<%
@@ -181,7 +181,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 
 					<tr>
 						<td><label>Medico</label></td>
-						<td><select name="selMedico" id="selMedico"
+						<td><select name="selMedico" id="selMedico" style="width: 233px;"
 							<%=op.equals("add") ? "" : "disabled"%>
 							<%=op.equals("add") ? "" : "style=\"background-color: #eee;\""%>>
 
@@ -216,12 +216,12 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						<td><label>Fecha de Reserva</label></td>
 						<td><input type="date" name="txtFechaReserva"
 							value="<%=fechaReserva%>"
-							required <%=(op.equals("add") ? "" : "readonly disabled")%>
+							required style="width: 233px;"<%=(op.equals("add") ? "" : "readonly disabled")%>
 							style="<%=(op.equals("add") ? "" : "background-color: #eee;")%>">
 						</td>
 						<td><input type="submit" name="btnBuscarFecha"
-							class="fa fa-search"
-							<%=(op.equals("add") ? "" : "style=\"display: none;\"")%>>
+							class="btn btn-outline-primary" value="Buscar Fecha"
+							<%=(op.equals("add") ? "" : "style=\"display: none;\"")%>>							
 						</td>
 					</tr>
 
@@ -269,7 +269,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 					</tr>
 					<tr>
 						<td><label>Observaciones</label></td>
-						<td><input type="text" name="txtObservacion"
+						<td><input type="text" name="txtObservacion" style="width: 233px;"
 							value="<%=observacion%>" required></td>
 					</tr>
 

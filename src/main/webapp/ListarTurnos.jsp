@@ -47,14 +47,15 @@
 			if (usuario.getIdPerfil() != Usuario.ROL_MEDICO) {
 	%>
 	<a href="ServletTurno?op=add" class="p-2 bd-highlight">
-		<input class="btn btn-outline-dark" type="submit" name="btnAgregarTurno" value="Agregar Turno">
+		<input class="btn btn-outline-dark" type="submit" name="btnAgregarTurno" value="Agregar Turno" style="margin-left: 730px;">
 	</a>
 	<%
 		}
 	%>
+	<br><br>	
 	<form action="ServletListarTurnos" method="post" class="p-2">
-		<label>Turnos de </label>
-		<select name="selFiltroDia" class="p-1 bd-highlight" >
+		<label style="margin-left: 400px;">Turnos de </label>
+		<select name="selFiltroDia" class="p-1 bd-highlight" style="margin-left: 50px;">
 			<option value="*">Cualquier dia</option>
 			<option value="<">Ayer o anteriores</option>
 			<option value="=">Hoy</option>
@@ -62,9 +63,9 @@
 		</select>
 		
 	
-	<br><br><br>
+	
 	<label>Especialidad</label></td>
-				<select name="selFiltroEspecialidad" class="p-1 bd-highlight">
+				<select name="selFiltroEspecialidad" class="p-1 bd-highlight" style="margin-left: 50px;">
 						<%
 						ArrayList<Especialidad> especialidades = null;
 
@@ -81,7 +82,7 @@
 						}}
 						%>
 				</select>
-				<input type="submit" name="btnFiltroEsp" value="Filtrar" class="p-1 bd-highlight"> 
+				<input type="submit" name="btnFiltroEsp" value="Filtrar" class="btn btn-outline-primary"> 
 				</form>
 				<br><br><br>
 
