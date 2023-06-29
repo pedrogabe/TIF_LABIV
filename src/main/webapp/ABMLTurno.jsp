@@ -269,8 +269,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
 					</tr>
 					<tr>
 						<td><label>Observaciones</label></td>
-						<td><input type="text" name="txtObservacion" style="width: 233px;"
-							value="<%=observacion%>" required></td>
+						<td><textarea type="text" name="txtObservacion" style="width: 233px;"
+							value="<%=observacion%>" required maxlength="1000"><%=observacion%></textarea></td>
 					</tr>
 
 					<tr>
