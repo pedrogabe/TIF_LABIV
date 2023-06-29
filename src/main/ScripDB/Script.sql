@@ -273,25 +273,35 @@ VALUES
   
   
   -- Generar 15 registros para la tabla turnos
-INSERT INTO turnos (IdMedico, IdPaciente, FechaReserva, Observacion, IdTurnoEstado, Hora, Estado)
-VALUES
-  (1, 1, '2023-06-21 09:00:00', 'Dolor de cabeza', 1, 9, 1),
-  (2, 2, '2023-06-21 10:00:00', 'Fiebre', 1, 10, 1),
-  (3, 3, '2023-06-22 11:00:00', 'Mareos', 1, 11, 1),
-  (4, 4, '2023-06-22 14:00:00', 'Consulta', 1, 14, 1),
-  (5, 5, '2023-06-23 15:00:00', 'Consulta', 1, 15, 1),
-  (1, 1, '2023-06-01 15:00:00', 'Consulta', 1, 15, 1),
-  (1, 2, '2023-06-02 16:00:00', 'Dolor de pecho', 1, 16, 1),
-  (1, 3, '2023-06-03 18:00:00', 'Fiebre', 1, 18, 1),
-  (2, 4, '2023-06-04 19:00:00', 'Cansancio', 1, 19, 1),
-  (2, 5, '2023-06-05 20:00:00', 'Dolor de cabeza', 1, 20, 1),
-  (3, 3, '2023-06-10 11:00:00', 'Mareos', 1, 11, 1),
-  (4, 4, '2023-06-11 14:00:00', 'Consulta', 1, 14, 1),
-  (5, 5, '2023-06-12 15:00:00', 'Consulta', 1, 15, 1),
-  (1, 1, '2023-06-13 15:00:00', 'Consulta', 1, 15, 1),
-  (1, 2, '2023-06-14 16:00:00', 'Dolor de pecho', 1, 16, 1),
-  (1, 2, '2023-05-21 10:00:00', 'Control', 1, 10, 1),
-  (2, 3, '2023-05-22 11:00:00', 'Mareos', 1, 11, 1),
-  (4, 4, '2023-05-22 14:00:00', 'Consulta', 1, 14, 1),
-  (4, 4, '2023-07-22 14:00:00', 'Consulta', 1, 14, 1);
-  
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (1,1,1,'2023-06-21 09:00:00','Dolor de cabeza',1,9,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (2,2,2,'2023-06-21 10:00:00','Fiebre',1,10,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (3,3,3,'2023-06-22 11:00:00','Mareos',1,11,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (4,4,4,'2023-06-22 14:00:00','Consulta',1,14,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (5,5,5,'2023-06-23 15:00:00','Consulta',1,15,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (6,1,1,'2023-06-01 15:00:00','Consulta',1,15,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (7,1,2,'2023-06-02 16:00:00','Dolor de pecho',1,16,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (8,1,3,'2023-06-03 18:00:00','Fiebre',1,18,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (9,2,4,'2023-06-04 19:00:00','Cansancio',1,19,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (10,2,5,'2023-06-05 20:00:00','Dolor de cabeza',1,20,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (11,3,3,'2023-06-10 11:00:00','Mareos',1,11,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (12,4,4,'2023-06-11 14:00:00','Consulta',1,14,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (13,5,5,'2023-06-12 15:00:00','Consulta',1,15,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (14,1,1,'2023-06-13 15:00:00','Consulta',1,15,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (15,1,2,'2023-06-14 16:00:00','Dolor de pecho',1,16,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (16,1,2,'2023-05-21 10:00:00','Control',1,10,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (17,2,3,'2023-05-22 11:00:00','Mareos',1,11,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (18,4,4,'2023-05-22 14:00:00','Consulta',1,14,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (19,4,4,'2023-07-22 14:00:00','Consulta',1,14,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (20,1,9,'2023-07-10 00:00:00','',1,9,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (21,6,8,'2023-07-16 00:00:00','',1,20,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (22,10,7,'2023-07-19 00:00:00','',1,8,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (23,12,6,'2023-07-15 00:00:00','',1,20,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (24,5,5,'2023-07-08 00:00:00','',1,18,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (25,3,4,'2023-07-26 00:00:00','',1,16,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (26,4,3,'2023-07-19 00:00:00','',1,17,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (27,4,2,'2023-07-19 00:00:00','',1,15,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (28,9,1,'2023-07-22 00:00:00','',1,20,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (29,13,1,'2023-06-29 00:00:00','',1,11,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (30,1,2,'2023-06-29 00:00:00','',1,10,'1');
+INSERT INTO turnos (IdTurno,IdMedico,IdPaciente,FechaReserva,Observacion,IdTurnoEstado,Hora,Estado) VALUES (31,10,3,'2023-06-29 00:00:00','',1,10,'1');
+
