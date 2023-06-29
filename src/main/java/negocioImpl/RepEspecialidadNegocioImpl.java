@@ -16,7 +16,7 @@ public class RepEspecialidadNegocioImpl implements RepEspecialidadNegocio {
 	@Override
 	public ReporteEspecialidad searchReport(String anioMes) {
 		RepEspecialidadDao repoEspDaoImpl = new RepEspecialidadDaoImpl();
-		String sAnio = anioMes.substring(0, 4);
+		//String sAnio = anioMes.substring(0, 4);
 		String sMes = anioMes.substring(6);
 		int mes = 1;
 		try {
