@@ -1,6 +1,6 @@
 <%@page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="entidad.ReporteEspecialidad"%>
+<%@ page import="entidad.ReporteMedico"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,39 +17,75 @@
 </head>
 <body>
 	<%@include file="Nav.html"%>
+		
 	<h1 class="title">Reporte Medicos</h1>
-
- 	<% double i =  77.3; %>
  	
 	<form action="ServletRepMedicos" method=post>
 		<label for="mesMedico">Seleccione un Mes:</label> 
-		<input type="month" id="mesMedico" name="mesMedico"> 
+		<input type="month" id="mesMedico" name="mesMedico" required> 
 		<input type="submit">
 	</form>
 	
 	<br>		
-	<br>		
+	<br>	
 	
- 	<div class="div_center">
- 		<h2>Mes</h2>
-		<br>		
-		<div class="progress">
-  			<div class="progress-bar bg-success" role="progressbar" style="width: <%= i %>%" aria-valuenow="<%= i %>" aria-valuemin="0" aria-valuemax="100"><%= i %></div>
-		</div>
-		<br>
-		<div class="progress">
-  			<div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-		<br>
-		<div class="progress">
-  			<div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-		<br>
-		<div class="progress">
-  			<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
+ 
+ 		<%
+ 		String anioMes = "";
+
+		if (request.getAttribute("anioMes") != null){
+			  anioMes =(request.getAttribute("anioMes").toString()).substring(5);		 
+		}
+
+		%>
+			
+		<%					
+			ArrayList<ReporteMedico> reporte = null;
+
+			if (request.getAttribute("reporte") != null) {
+			
+				%>
+				<div class="div_center">
+				
+				<%	
+			
+		
+			reporte = (ArrayList<ReporteMedico>) request.getAttribute("reporte");
+			
+				if(reporte.isEmpty()) {
+			%>
+				<br>
+				<text><center>No hay registros para mostrar</center></text>
+				<br>
+				
+			<%			
+				
+				
+				} else {
+			%>		
+				<text><center>Mes <%= anioMes %></center></text>
+				<br>	
+			<%					
+				for (ReporteMedico registro : reporte) {
+					
+				%>
 	
-	</div>
+					<h3> <%= registro.getMedico().getNombre() %> <%= registro.getMedico().getApellido() %></h3>	
+					<h6> <%= registro.getMedico().getEspecialidad().getEspecialidad() %></h6>
+					<div class="progress">
+		  				<div class="progress-bar bg-success" role="progressbar" style="width: <%= registro.getProcentaje_por_medico() %>%" aria-valuenow="<%= registro.getTotal_por_medico() %>" aria-valuemin="0" aria-valuemax="100">
+		  				<%= registro.getTotal_por_medico() %>
+		  				</div>
+					</div>
+					<br>			
+				<%
+			    }
+			  }
+			%>				
+			</div>
+			<%
+			} 
+		%>
 
 	<%
 	if (request.getAttribute("success") != null) {

@@ -33,7 +33,7 @@
 
 	<form action="ServletRepEspecialidad" method=post>
 		<label for="mesEspecialidad">Seleccione un Mes:</label> <input
-			type="month" id="mesEspecialidad" name="mesEspecialidad"> <input
+			type="month" id="mesEspecialidad" name="mesEspecialidad" required> <input
 			type="submit">
 	</form>
 
