@@ -21,7 +21,7 @@
 	<h1 class="title">Reporte Medicos</h1>
  	
 	<form action="ServletRepMedicos" method=post>
-		<label for="mesMedico" style="margin-left: 570px;">Seleccione un Mes:</label> 
+		<label for="mesMedico">Seleccione un Mes:</label> 
 		<input type="month" id="mesMedico" name="mesMedico" required> 
 		<input type="submit">
 	</form>
@@ -72,9 +72,10 @@
 	
 					<h3> <%= registro.getMedico().getNombre() %> <%= registro.getMedico().getApellido() %></h3>	
 					<h6> <%= registro.getMedico().getEspecialidad().getEspecialidad() %></h6>
+					<h6> Total por medico :<%= registro.getTotal_por_medico() %> </h6>
 					<div class="progress">
 		  				<div class="progress-bar bg-success" role="progressbar" style="width: <%= registro.getProcentaje_por_medico() %>%" aria-valuenow="<%= registro.getTotal_por_medico() %>" aria-valuemin="0" aria-valuemax="100">
-		  				<%= registro.getTotal_por_medico() %>
+		  				<%= registro.getProcentaje_por_medico() %>%
 		  				</div>
 					</div>
 					<br>			
