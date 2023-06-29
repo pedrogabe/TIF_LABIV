@@ -29,10 +29,10 @@
 </head>
 <body>
 	<%@include file="Nav.html"%>
-	<h1 class="title">Reporte Especialidades</h1>
+	<h1 class="title" >Reporte Especialidades</h1>
 
 	<form action="ServletRepEspecialidad" method=post>
-		<label for="mesEspecialidad">Seleccione un Mes:</label> <input
+		<label for="mesEspecialidad" style="margin-left: 570px;">Seleccione un Mes:</label> <input
 			type="month" id="mesEspecialidad" name="mesEspecialidad" required> <input
 			type="submit">
 	</form>

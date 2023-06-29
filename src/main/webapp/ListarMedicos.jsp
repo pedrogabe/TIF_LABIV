@@ -50,7 +50,7 @@
 	<h1 class="title">Listado de medicos</h1>
 
 	<a href="ServletMedico?op=add" class="p-2 bd-highlight">
-		<input class="btn btn-outline-dark" type="submit" name="btnAgregarMedico" value="Agregar Medico">
+		<input class="btn btn-outline-dark" type="submit" name="btnAgregarMedico" value="Agregar Medico" style="margin-left: 730px;">
 	</a>
 
 	<br>

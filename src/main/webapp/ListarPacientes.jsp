@@ -48,7 +48,7 @@
 	%>	
 	
 	<a href="servletPaciente?op=add"class="p-2 bd-highlight">
-		<input class="btn btn-outline-dark" type="submit" name="btnAgregarPaciente" value="Agregar Paciente">
+		<input class="btn btn-outline-dark" type="submit" name="btnAgregarPaciente" value="Agregar Paciente" style="margin-left: 730px;">
 	</a>
 	
 	<%
