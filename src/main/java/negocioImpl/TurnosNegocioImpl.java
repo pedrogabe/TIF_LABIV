@@ -26,7 +26,7 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 	
 	@Override
 	public boolean insert(Turno turno) {
-		if(turnoValido(turno))
+		if(turnoValido(turno) && !turnoTomado(turno))
 			return tdao.insert(turno);
 		return false;
 	}
@@ -68,8 +68,7 @@ public class TurnosNegocioImpl implements TurnosNegocio {
 			return false;
 		if(!medicoAtiende(turno))
 			return false;
-		if(turnoTomado(turno))
-			return false;
+		
 		return true;
 	}
 	

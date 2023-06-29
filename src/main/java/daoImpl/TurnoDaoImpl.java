@@ -47,7 +47,7 @@ public class TurnoDaoImpl implements TurnoDao {
 			" (IdMedico, IdPaciente, FechaReserva, Observacion, IdTurnoEstado, Hora, Estado)"
 			+ " VALUES ((select id from Medicos where dni = ? limit 1),(select id from Pacientes where dni = ? limit 1),?,?,?,?,1)";
 	private static final String WHERE_SEARCH = " where t.IdTurno = ?";
-	private static final String WHERE_SEARCH_DIA_HORA = " where fechaReserva = ? and hora = ? and estado = 1";
+	private static final String WHERE_SEARCH_DIA_HORA = " where t.fechaReserva = ? and t.hora = ? and t.estado = 1";
 	private static final String WHERE_SEARCH_MEDICO = " where idMedico = (select id from Medicos where dni = ? limit 1) ";
 
 	@Override
