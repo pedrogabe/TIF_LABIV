@@ -120,8 +120,8 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						<td><label>Dni Paciente</label></td>
 						<td><input type="text" name="txtDniPaciente"
 							value="<%=dniPaciente%>" required
-							<%=op.equals("add") ? "" : "disabled"%>><input
-							type="hidden" name="txtDniHide" value="<%=dniPaciente%>"></td>
+							<%=op.equals("add") && request.getAttribute("paciente")==null ? "" : "disabled"%>><input
+							type="hidden" name="txtDniPaciente" value="<%=dniPaciente%>"></td>
 						<%
 						if (op.equals("add")) {
 						%>
