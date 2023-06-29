@@ -14,7 +14,7 @@ import entidad.ReporteMedico;
 public class RepMedicoDaoImpl implements RepMedicoDao {
 	
 	private final String TOTAL_TURNOS_X_MES = "SELECT COUNT(*) as CantidadTurnos FROM turnos Where MONTH(FechaReserva) = ?";
-	private final String TOTAL_TURNOS_X_MEDICOS = "SELECT m.Dni, COUNT(t.IdTurno) as CantidadTurnos FROM turnos t"
+	private final String TOTAL_TURNOS_X_MEDICOS = "SELECT m.Dni, COUNT(t.IdTurno) as CantidadTurnos FROM turnos t "
 												+ "INNER JOIN medicos m ON t.IdMedico = m.Id Where MONTH(t.FechaReserva)= ? GROUP BY m.dni";
 	
 	private int cantidadTurnosMes;
@@ -33,11 +33,11 @@ public class RepMedicoDaoImpl implements RepMedicoDao {
 
 		PreparedStatement statement;
 		ResultSet resultSet;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
+		Conexion conexion = Conexion.getConexion();
 
 		try {
 
-			statement = conexion.prepareStatement(TOTAL_TURNOS_X_MES);
+			statement = conexion.getSQLConexion().prepareStatement(TOTAL_TURNOS_X_MES);
 			statement.setInt(1,mes);
 			
 			resultSet = statement.executeQuery();
@@ -68,6 +68,7 @@ public class RepMedicoDaoImpl implements RepMedicoDao {
 			
 			while (resultSet.next()) {
 				reporteMedicos.add(getRepMedico(resultSet));
+
 			}
 
 		} catch (SQLException e) {
