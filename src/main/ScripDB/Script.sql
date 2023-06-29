@@ -211,11 +211,20 @@ INSERT INTO EstadosTurno (IdEstadoTurno, Descripcion) VALUES
 
 INSERT INTO usuarios (IdUsuario, UserLogin, Password, IdPerfil)
 VALUES
-  (3,'Juan', 'Juan', 2),
-  (4,'Maria', 'Maria', 2),
-  (5,'Pedro', 'Pedro', 2),
-  (6,'Laura', 'Laura', 2),
-  (7,'Carlos', 'Carlos', 2);  
+  (3, 'Juan', 'Juan', 2),
+  (4, 'Maria', 'Maria', 2),
+  (5, 'Pedro', 'Pedro', 2),
+  (6, 'Laura', 'Laura', 2),
+  (7, 'Carlos', 'Carlos', 2), 
+  (8, 'Ana', 'Ana', 2),
+  (9, 'Luis', 'Luis', 2),
+  (10, 'Mariana', 'Mariana', 2),
+  (11, 'Roberto', 'Roberto', 2),
+  (12, 'Carolina', 'Carolina', 2),
+  (13, 'Pedro', 'Pedro', 2),
+  (14, 'Maria', 'Maria', 2),
+  (15, 'Juan', 'Juan', 2),
+  (16, 'Sofia', 'Sofia', 2); 
   
 INSERT INTO clinica_medica.jornadas (IdJornada,Descripcion,Estado,InicioLunes,FinLunes,InicioMartes,FinMartes,InicioMiercoles,FinMiercoles,InicioJueves,FinJueves,InicioViernes,FinViernes,
 InicioSabado,FinSabado,InicioDomingo,FinDomingo)
@@ -226,20 +235,41 @@ VALUES
 
 INSERT INTO medicos (IdUsuario, Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdProvincia, IdLocalidad, IdEspecialidad, IdJornada, CorreoElectronico, Telefono, Estado)
 VALUES
-  (3,'12345678', 'Juan', 'Pérez', 'Masculino', 1, '1990-01-01', 'Calle 123', 1, 1, 1, 1, 'juan@example.com', '123456789', 1),
-  (4, '23456789', 'María', 'López', 'Femenino', 1, '1992-05-15', 'Avenida 456', 2, 2, 2, 1, 'maria@example.com', '987654321', 1),
-  (5, '34567890', 'Pedro', 'Gómez', 'Masculino', 2, '1988-11-30', 'Calle 789', 3, 3, 1, 2, 'pedro@example.com', '456789123', 1),
-  (6, '45678901', 'Laura', 'Rodríguez', 'Femenino', 3, '1995-08-20', 'Avenida 789', 4, 4, 3, 2, 'laura@example.com', '321654987', 1),
-  (7, '56789012', 'Carlos', 'Fernández', 'Masculino', 4, '1993-03-10', 'Calle 456', 1, 2, 2, 3, 'carlos@example.com', '987321654', 1);
-  
--- Generar 5 registros para la tabla pacientes
+  (3, '12345678', 'Juan', 'Perez', 'Masculino', 1, '1990-01-01', 'Calle 123', 1, 1, 1, 1, 'juan@example.com', '123456789', 1),
+  (4, '23456789', 'Maria', 'Lopez', 'Femenino', 1, '1992-05-15', 'Avenida 456', 2, 2, 2, 1, 'maria@example.com', '987654321', 1),
+  (5, '34567890', 'Pedro', 'Gomez', 'Masculino', 2, '1988-11-30', 'Calle 789', 3, 3, 1, 2, 'pedro@example.com', '456789123', 1),
+  (6, '45678901', 'Laura', 'Rodriguez', 'Femenino', 3, '1995-08-20', 'Avenida 789', 4, 4, 3, 2, 'laura@example.com', '321654987', 1),
+  (7, '56789012', 'Carlos', 'Fernandez', 'Masculino', 4, '1993-03-10', 'Calle 456', 1, 2, 2, 3, 'carlos@example.com', '987321654', 1), 
+  (8, '67890123', 'Ana', 'Garcia', 'Femenino', 1, '1991-02-10', 'Avenida 123', 2, 3, 3, 3, 'ana@example.com', '654987321', 1),
+  (9, '78901234', 'Luis', 'Martinez', 'Masculino', 2, '1989-07-20', 'Calle 456', 3, 4, 1, 1, 'luis@example.com', '321789456', 1),
+  (10, '89012345', 'Mariana', 'Lopez', 'Femenino', 1, '1994-04-15', 'Avenida 789', 4, 1, 2, 2, 'mariana@example.com', '789456123', 1),
+  (11, '90123456', 'Roberto', 'Fernández', 'Masculino', 3, '1990-11-05', 'Calle 123', 1, 2, 3, 3, 'roberto@example.com', '123789456', 1),
+  (12, '01234567', 'Carolina', 'Rodriguez', 'Femenino', 4, '1992-09-25', 'Avenida 456', 2, 3, 1, 1, 'carolina@example.com', '456123789', 1),
+  (13, '12345098', 'Pedro', 'Fernandez', 'Masculino', 4, '1991-09-02', 'Calle 123', 1, 2, 2, 2, 'pedro@example.com', '321654987', 1),
+  (14, '23456709', 'Maria', 'Perez', 'Femenino', 1, '1994-11-11', 'Avenida 456', 2, 3, 3, 3, 'maria@example.com', '987123654', 1),
+  (15, '34567810', 'Juan', 'Gonzalez', 'Masculino', 2, '1989-12-18', 'Calle 789', 3, 4, 1, 1, 'juan@example.com', '456789123', 1),
+  (16, '45678921', 'Sofia', 'Martinez', 'Femenino', 3, '1993-05-08', 'Avenida 123', 4, 1, 2, 2, 'sofia@example.com', '789321654', 1);
+
+-- Generar 15 registros para la tabla pacientes
 INSERT INTO Pacientes (Dni, Nombre, Apellido, Sexo, IdNacionalidad, FechaNacimiento, Direccion, IdProvincia, IdLocalidad, CorreoElectronico, Telefono, Estado)
 VALUES
-  ('11111111', 'Ana', 'García', 'Femenino', 1, '1991-02-10', 'Calle 123', 1, 1, 'ana@example.com', '123456789', 1),
-  ('22222222', 'Luis', 'Martínez', 'Masculino', 2, '1989-07-20', 'Avenida 456', 2, 2, 'luis@example.com', '987654321', 1),
-  ('33333333', 'Mariana', 'López', 'Femenino', 1, '1994-04-15', 'Calle 789', 3, 3, 'mariana@example.com', '456789123', 1),
-  ('44444444', 'Roberto', 'Fernández', 'Masculino', 3, '1990-11-05', 'Avenida 789', 4, 4, 'roberto@example.com', '321654987', 1),
-  ('55555555', 'Carolina', 'Rodríguez', 'Femenino', 4, '1992-09-25', 'Calle 456', 1, 2, 'carolina@example.com', '987321654', 1);
+  ('11111111', 'Ana', 'Garcia', 'Femenino', 1, '1991-02-10', 'Calle 123', 1, 1, 'ana@example.com', '123456789', 1),
+  ('22222222', 'Luis', 'Martinez', 'Masculino', 2, '1989-07-20', 'Avenida 456', 2, 2, 'luis@example.com', '987654321', 1),
+  ('33333333', 'Mariana', 'Lopez', 'Femenino', 1, '1994-04-15', 'Calle 789', 3, 3, 'mariana@example.com', '456789123', 1),
+  ('44444444', 'Roberto', 'Fernandez', 'Masculino', 3, '1990-11-05', 'Avenida 789', 4, 4, 'roberto@example.com', '321654987', 1),
+  ('55555555', 'Carolina', 'Rodriguez', 'Femenino', 4, '1992-09-25', 'Calle 456', 1, 2, 'carolina@example.com', '987321654', 1),
+  ('66666666', 'Juan', 'Perez', 'Masculino', 2, '1995-06-12', 'Avenida 789', 2, 1, 'juan@example.com', '456123789', 1),
+  ('77777777', 'Maria', 'Lopez', 'Femenino', 1, '1993-08-29', 'Calle 789', 3, 3, 'maria@example.com', '789456123', 1),
+  ('88888888', 'Andres', 'Gonzalez', 'Masculino', 3, '1987-11-17', 'Avenida 456', 4, 4, 'andres@example.com', '123789456', 1),
+  ('99999999', 'Laura', 'Fernandez', 'Femenino', 4, '1990-04-05', 'Calle 123', 1, 2, 'laura@example.com', '987456321', 1),
+  ('12345678', 'Carlos', 'Martínez', 'Masculino', 1, '1992-10-20', 'Avenida 123', 2, 3, 'carlos@example.com', '321789456', 1),
+  ('23456789', 'Ana', 'Lopez', 'Femenino', 2, '1988-07-15', 'Calle 456', 3, 4, 'ana@example.com', '654987321', 1),
+  ('34567890', 'Luisa', 'Gonzalez', 'Femenino', 3, '1996-03-25', 'Avenida 789', 4, 1, 'luisa@example.com', '789654123', 1),
+  ('45678901', 'Pedro', 'Fernandez', 'Masculino', 4, '1991-09-02', 'Calle 123', 1, 2, 'pedro@example.com', '321654987', 1),
+  ('56789012', 'María', 'Pérez', 'Femenino', 1, '1994-11-11', 'Avenida 456', 2, 3, 'maria@example.com', '987123654', 1),
+  ('67890123', 'Juan', 'González', 'Masculino', 2, '1989-12-18', 'Calle 789', 3, 4, 'juan@example.com', '456789123', 1),
+  ('78901234', 'Sofia', 'Martinez', 'Femenino', 3, '1993-05-08', 'Avenida 123', 4, 1, 'sofia@example.com', '789321654', 1);
+
   
   
   -- Generar 15 registros para la tabla turnos
@@ -264,5 +294,4 @@ VALUES
   (2, 3, '2023-05-22 11:00:00', 'Mareos', 1, 11, 1),
   (4, 4, '2023-05-22 14:00:00', 'Consulta', 1, 14, 1),
   (4, 4, '2023-07-22 14:00:00', 'Consulta', 1, 14, 1);
-  
   
