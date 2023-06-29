@@ -105,7 +105,8 @@ private ReporteMedico getRepMedico(ResultSet resultSet) throws SQLException {
 		String porc = "";
 		if (cantidadTurnosMes > 0) {
 			porcentaje = cantTurno * 100 / (double) cantidadTurnosMes;
-			porc = String.format("%.2f", porcentaje);
+			porc = (String.format("%.2f", porcentaje)).replace(",", ".");
+			
 		}
 		return porc;
 	}

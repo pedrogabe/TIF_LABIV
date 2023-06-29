@@ -21,7 +21,7 @@
 	<h1 class="title">Reporte Medicos</h1>
  	
 	<form action="ServletRepMedicos" method=post>
-		<label for="mesMedico">Seleccione un Mes:</label> 
+		<label for="mesMedico" style="margin-left: 570px;">Seleccione un Mes:</label> 
 		<input type="month" id="mesMedico" name="mesMedico" required> 
 		<input type="submit">
 	</form>
