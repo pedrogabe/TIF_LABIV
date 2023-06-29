@@ -65,7 +65,7 @@
 				<td><b>Nombre</b></td>
 				<td><b>Apellido</b></td>
 				<td><b>Sexo</b></td>
-				<td><b>Fecha Nacimiento </b></td>
+				<td><b>Especialidad </b></td>
 				<td><b>Correo Electronico</b></td>
 				<td><b>Direccion</b></td>
 				<td><b></b></td>
@@ -80,7 +80,7 @@
 				<td><%=medico.getNombre()%></td>
 				<td><%=medico.getApellido()%></td>
 				<td><%=medico.getSexo()%></td>
-				<td><%=medico.getFechaNacimiento()%></td>
+				<td><%=medico.getEspecialidad().getEspecialidad() %></td>
 				<td><%=medico.geteMail()%></td>
 				<td><%=medico.getDireccion()%></td>
 				<td><a href="ServletMedico?op=edit&dni=<%=medico.getDni()%>"><i
