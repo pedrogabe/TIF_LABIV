@@ -237,8 +237,7 @@ if (request.getSession().getAttribute("Usuario") != null) {
 						<%
 						if (horas.size() == 0) {
 						%>
-						<td><label>No hay turnos disponibles para la fecha
-								seleccionada</label></td>
+						<td><label>No hay turnos disponibles <br>para la fecha seleccionada</label></td>
 						<%
 						} else {
 						%>
